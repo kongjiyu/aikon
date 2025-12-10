@@ -3,6 +3,13 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Aikon Brand Colors */
+  --brand-dark: #2B4242;
+  --brand-light-blue: #93A4AB;
+  --brand-light-grey: #C3C6C3;
+  --brand-sage: #7D8F8B;
+  --brand-teal: #6B8784;
 }
 
 @theme inline {
@@ -10,6 +17,12 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-brand-dark: var(--brand-dark);
+  --color-brand-light-blue: var(--brand-light-blue);
+  --color-brand-light-grey: var(--brand-light-grey);
+  --color-brand-sage: var(--brand-sage);
+  --color-brand-teal: var(--brand-teal);
 }
 
 @media (prefers-color-scheme: dark) {
