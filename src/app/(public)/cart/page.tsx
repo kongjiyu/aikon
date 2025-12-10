@@ -1,8 +1,215 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+import { Trash2, Heart, Eye, ArrowRight, Ticket } from 'lucide-react';
+import { mockProducts } from '@/lib/mockData';
+
+// Mock Cart Data based on the mockProducts
+const initialCart = [
+  {
+    id: 'cart-1',
+    productId: 'PROD001',
+    variant: 'Orange',
+    storage: '250GB',
+    qty: 2,
+    checked: false
+  },
+  {
+    id: 'cart-2',
+    productId: 'PROD002',
+    variant: 'Space Gray',
+    storage: '32GB | 1 TB',
+    qty: 1,
+    checked: false
+  }
+];
+
 export default function CartPage() {
+  const [cartItems, setCartItems] = useState(initialCart);
+
+  const toggleCheck = (id: string) => {
+    setCartItems(cartItems.map(item =>
+      item.id === id ? { ...item, checked: !item.checked } : item
+    ));
+  };
+
+  const removeItem = (id: string) => {
+    setCartItems(cartItems.filter(item => item.id !== id));
+  };
+
+  // Calculate Totals
+  const selectedItems = cartItems.filter(item => item.checked);
+  // In a real app, price would come from DB. Here we find it in mockProducts
+  const calculateTotal = () => {
+    return cartItems.reduce((acc, item) => {
+      // Logic would typically include "checked" check for checkout, but design shows total of all items or just display
+      // Design "Total Price" column is per row. "Total (0 item)" suggests only Checked items count towards bottom total.
+      if (!item.checked) return acc;
+
+      const product = mockProducts.find(p => p.id === item.productId);
+      return acc + (product ? product.price * item.qty : 0);
+    }, 0);
+  };
+
+  const totalAmount = calculateTotal();
+  const checkedCount = cartItems.filter(i => i.checked).length;
+
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">(public)/cart</h1>
-      <p>This is the (public)/cart page.</p>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+      {/* Page Title */}
+      <div>
+        <h1 className="text-2xl font-bold text-gray-900">My Cart</h1>
+      </div>
+
+      {/* Cart Table */}
+      <div className="space-y-4">
+        {/* Header */}
+        <div className="grid grid-cols-12 gap-4 bg-[#6B8E88] text-white py-4 px-6 rounded-t-lg text-sm font-medium uppercase text-center">
+          <div className="col-span-5 text-left pl-2">Product</div>
+          <div className="col-span-2">Unit Price</div>
+          <div className="col-span-2">Quantity</div>
+          <div className="col-span-3">Total Price</div>
+        </div>
+
+        {/* Items */}
+        <div className="bg-white rounded-b-lg shadow-sm border border-gray-100 divide-y divide-gray-100">
+          {cartItems.map((item) => {
+            const product = mockProducts.find(p => p.id === item.productId);
+            if (!product) return null;
+
+            const lineTotal = product.price * item.qty;
+
+            return (
+              <div key={item.id} className="grid grid-cols-12 gap-4 p-6 items-center text-center group">
+                <div className="col-span-5 text-left flex items-center gap-4">
+                  <input
+                    type="checkbox"
+                    checked={item.checked}
+                    onChange={() => toggleCheck(item.id)}
+                    className="w-5 h-5 rounded border-gray-300 text-brand-teal focus:ring-brand-teal"
+                  />
+                  <div className="w-16 h-16 bg-[#FDF6F0] rounded-lg p-2 flex-shrink-0">
+                    <img src={product.images?.[0] || product.image} alt={product.name} className="w-full h-full object-contain mix-blend-multiply" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-gray-900 text-lg leading-tight">{product.name}</h3>
+                    <div className="text-gray-500 text-sm mt-1 flex items-center gap-2">
+                      <span>{item.variant}</span>
+                      {item.storage && (
+                        <>
+                          <span className="w-px h-3 bg-gray-300"></span>
+                          <span>{item.storage}</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-2">
+                  <div className="flex flex-col items-center">
+                    <span className="text-gray-400 line-through text-xs">RM {(product.price * 1.2).toFixed(2)}</span>
+                    <span className="text-gray-900 font-medium">RM {product.price.toFixed(2)}</span>
+                  </div>
+                </div>
+                <div className="col-span-2 flex justify-center">
+                  <span className="font-medium text-gray-900">{item.qty}</span>
+                </div>
+                <div className="col-span-3 flex items-center justify-between pl-8 pr-4">
+                  <span className="font-bold text-gray-900">RM {lineTotal.toFixed(2)}</span>
+                  <button onClick={() => removeItem(item.id)} className="text-red-500 font-medium text-sm hover:underline hover:text-red-600">Delete</button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Voucher & Total */}
+        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 space-y-4">
+          <div className="flex items-center gap-2 text-green-600 text-sm font-medium">
+            <Ticket size={16} />
+            <span>Up to 10% off voucher available</span>
+          </div>
+          <div className="flex items-center gap-2 text-green-600 text-sm font-medium border-b border-gray-100 pb-4">
+            <Truck size={16} />
+            <span>Up to RM5.00 off shipping for orders over RM30.00</span>
+          </div>
+
+          <div className="flex flex-col sm:flex-row justify-end items-end sm:items-center gap-4 pt-2">
+            <div className="flex items-center gap-2 text-gray-500 text-sm">
+              <Ticket size={16} />
+              <span>Voucher / Discount</span>
+            </div>
+            <div className="text-right">
+              <span className="text-gray-500 text-sm mr-2">Total ({checkedCount} item):</span>
+              <span className="text-2xl font-bold text-gray-900">RM {totalAmount.toFixed(0)}.00</span>
+            </div>
+            <button className={`px-8 py-3 rounded text-white font-medium transition-colors ${checkedCount > 0 ? 'bg-brand-dark hover:bg-gray-800' : 'bg-gray-300 cursor-not-allowed'}`}>
+              Check Out
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Related Items */}
+      <div className="space-y-6">
+        <div className="flex items-center gap-2">
+          <div className="w-1.5 h-6 bg-brand-dark rounded-full"></div>
+          <h2 className="text-lg font-bold text-gray-900">Related Item</h2>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {mockProducts.slice(0, 4).map((product) => (
+            <div key={product.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 group relative">
+              {/* Badge */}
+              <span className="absolute top-4 left-4 bg-gray-500 text-white text-[10px] font-bold px-2 py-1 rounded">-30%</span>
+
+              {/* Actions */}
+              <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button className="p-1.5 bg-white rounded-full shadow text-gray-400 hover:text-red-500"><Heart size={16} /></button>
+                <button className="p-1.5 bg-white rounded-full shadow text-gray-400 hover:text-brand-teal"><Eye size={16} /></button>
+              </div>
+
+              {/* Image */}
+              <div className="aspect-square bg-gray-50 rounded-lg p-4 mb-4 flex items-center justify-center">
+                <img src={product.images?.[0] || product.image} alt={product.name} className="w-full h-full object-contain mix-blend-multiply" />
+              </div>
+
+              {/* Content */}
+              <div>
+                <h3 className="font-bold text-gray-900 text-sm mb-1 truncate">{product.name}</h3>
+                <div className="flex items-center gap-2 text-xs mb-2">
+                  <span className="text-red-500 font-bold">RM {product.price}</span>
+                  <span className="text-gray-400 line-through">RM {(product.price * 1.3).toFixed(0)}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <div className="flex text-yellow-400 text-[10px]">
+                    {[1, 2, 3, 4, 5].map(s => <span key={s}>★</span>)}
+                  </div>
+                  <span className="text-gray-400 text-[10px]">(88)</span>
+                </div>
+              </div>
+
+              {/* Hover Button */}
+              <button className="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all bg-black text-white text-xs font-medium px-4 py-2 rounded-full shadow-lg whitespace-nowrap">
+                Add To Cart
+              </button>
+            </div>
+          ))}
+
+          <div className="flex items-center justify-center">
+            <button className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:bg-gray-50 hover:text-brand-dark transition-colors">
+              <ArrowRight size={20} />
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
+}
+
+function Truck({ size }: { size: number }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 17h4V5H2v12h3" /><path d="M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5" /><path d="M14 17h1" /><circle cx="7.5" cy="17.5" r="2.5" /><circle cx="17.5" cy="17.5" r="2.5" /></svg>
+  )
 }

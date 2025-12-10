@@ -11,6 +11,7 @@ import {
     Filter,
     AlertCircle
 } from 'lucide-react';
+import ReviewsBarChart from '@/components/admin/charts/ReviewsBarChart';
 
 export default function ProductReviewsPage() {
     return (
@@ -35,23 +36,11 @@ export default function ProductReviewsPage() {
 
                 <div className="md:col-span-3 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                     <h3 className="text-sm font-semibold text-gray-900 mb-4">Rating Breakdown</h3>
-                    <div className="space-y-3">
-                        {[5, 4, 3, 2, 1].map((stars) => (
-                            <div key={stars} className="flex items-center gap-4">
-                                <div className="flex items-center gap-1 w-12 text-sm font-medium text-gray-600">
-                                    {stars} <Star size={12} className="text-gray-400" />
-                                </div>
-                                <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
-                                    <div
-                                        className={`h-full rounded-full ${stars >= 4 ? 'bg-green-500' : stars === 3 ? 'bg-yellow-400' : 'bg-red-500'}`}
-                                        style={{ width: stars === 5 ? '70%' : stars === 4 ? '20%' : '5%' }}
-                                    ></div>
-                                </div>
-                                <div className="w-12 text-right text-xs text-gray-400">
-                                    {stars === 5 ? '2.1k' : stars === 4 ? '450' : '50'}
-                                </div>
-                            </div>
-                        ))}
+                    <div className="h-40">
+                        <ReviewsBarChart
+                            data={[70, 20, 5, 2, 3]}
+                            colors={['#22c55e', '#22c55e', '#facc15', '#ef4444', '#ef4444']}
+                        />
                     </div>
                 </div>
             </div>
