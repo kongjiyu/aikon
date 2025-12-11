@@ -736,12 +736,18 @@ export const laptopModels: ComparisonProduct[] = [
           '1,000,000:1 contrast ratio',
         ],
       },
+      processor: {
+        name: 'Apple M3 Max chip',
+        cores: '16-core CPU (12 performance + 4 efficiency cores)',
+        speed: '3.7 GHz base, up to 4.05 GHz boost',
+      },
       chip: {
         name: 'Apple M3 Max chip',
         cpu: '16-core CPU (12 performance, 4 efficiency)',
         gpu: 'Up to 40-core GPU',
         neuralEngine: '16-core Neural Engine',
       },
+      graphics: 'Apple M3 Max GPU (40-core) with hardware-accelerated ray tracing',
       memory: 'Up to 128GB unified memory',
       storage: ['512GB', '1TB', '2TB', '4TB', '8TB'],
       battery: {
@@ -801,11 +807,17 @@ export const laptopModels: ComparisonProduct[] = [
         type: 'Liquid Retina display',
         resolution: '2880 x 1864 pixels (224 ppi)',
         brightness: '500 nits brightness',
+        refreshRate: '60Hz',
         features: [
           'P3 wide color gamut',
           'True Tone technology',
           '1 billion colors',
         ],
+      },
+      processor: {
+        name: 'Apple M3 chip',
+        cores: '8-core CPU (4 performance + 4 efficiency cores)',
+        speed: '3.5 GHz base, up to 4.05 GHz boost',
       },
       chip: {
         name: 'Apple M3 chip',
@@ -813,6 +825,7 @@ export const laptopModels: ComparisonProduct[] = [
         gpu: 'Up to 10-core GPU',
         neuralEngine: '16-core Neural Engine',
       },
+      graphics: 'Apple M3 GPU (10-core) with hardware-accelerated ray tracing',
       memory: 'Up to 24GB unified memory',
       storage: ['256GB', '512GB', '1TB', '2TB'],
       battery: {

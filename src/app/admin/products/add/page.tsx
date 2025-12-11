@@ -6,6 +6,13 @@ import {
   DollarSign, 
   Image as ImageIcon 
 } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function AddProductPage() {
   return (
@@ -159,25 +166,34 @@ export default function AddProductPage() {
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                <select className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal">
-                  <option>Select Category</option>
-                  <option>Smartphones</option>
-                  <option>Laptops</option>
-                  <option>Tablets</option>
-                  <option>Audio</option>
-                  <option>Wearables</option>
-                  <option>Gaming</option>
-                  <option>Cameras</option>
-                  <option>Accessories</option>
-                </select>
+                <Select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select Category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="smartphones">Smartphones</SelectItem>
+                    <SelectItem value="laptops">Laptops</SelectItem>
+                    <SelectItem value="tablets">Tablets</SelectItem>
+                    <SelectItem value="audio">Audio</SelectItem>
+                    <SelectItem value="wearables">Wearables</SelectItem>
+                    <SelectItem value="gaming">Gaming</SelectItem>
+                    <SelectItem value="cameras">Cameras</SelectItem>
+                    <SelectItem value="accessories">Accessories</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Status</label>
-                <select className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal">
-                  <option>Published</option>
-                  <option>Draft</option>
-                  <option>Scheduled</option>
-                </select>
+                <Select defaultValue="published">
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="published">Published</SelectItem>
+                    <SelectItem value="draft">Draft</SelectItem>
+                    <SelectItem value="scheduled">Scheduled</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Tags</label>

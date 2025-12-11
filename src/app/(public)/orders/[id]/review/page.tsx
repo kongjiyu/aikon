@@ -127,7 +127,7 @@ export default function OrderReviewPage() {
               <div className="flex items-center gap-2 font-roboto text-sm text-green-600 font-bold">
                 Delivered
                 <Image 
-                  src="/images/delivered.png" 
+                  src="/images/delivered.svg" 
                   alt="Delivered" 
                   width={20} 
                   height={20}

@@ -3,15 +3,17 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function Navbar() {
-  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState('English');
-
-  const handleLanguageSelect = (language: string) => {
-    setSelectedLanguage(language);
-    setShowLanguageDropdown(false);
-  };
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
 
   return (
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
@@ -20,52 +22,39 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-10 text-sm">
             {/* Language Selector */}
-            <div className="relative">
+            <div className="flex items-center gap-1">
               <button 
-                onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
-                className="flex items-center gap-2 text-gray-700 hover:text-gray-900"
+                onClick={() => setIsLanguageOpen(!isLanguageOpen)}
+                className="flex items-center cursor-pointer hover:opacity-80 transition-opacity"
               >
                 <Image 
-                  src="/images/language.png" 
+                  src="/images/language.svg" 
                   alt="Language" 
                   width={20} 
                   height={20}
-                  className="object-contain self-center"
+                  className="object-contain"
                 />
-                <span className="leading-none self-center">{selectedLanguage}</span>
-                <svg className="w-3 h-3 self-center" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
               </button>
-
-              {/* Language Dropdown */}
-              {showLanguageDropdown && (
-                <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg py-1 min-w-[150px] z-50">
-                  <button
-                    onClick={() => handleLanguageSelect('English')}
-                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    English
-                  </button>
-                  <button
-                    onClick={() => handleLanguageSelect('Bahasa Melayu')}
-                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Bahasa Melayu
-                  </button>
-                  <button
-                    onClick={() => handleLanguageSelect('Mandarin')}
-                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Mandarin
-                  </button>
-                </div>
-              )}
+              <Select 
+                value={selectedLanguage} 
+                onValueChange={setSelectedLanguage}
+                open={isLanguageOpen}
+                onOpenChange={setIsLanguageOpen}
+              >
+                <SelectTrigger className="w-[130px] h-8 border-none shadow-none focus:ring-0">
+                  <SelectValue placeholder="Select language" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="English">English</SelectItem>
+                  <SelectItem value="Bahasa Melayu">Bahasa Melayu</SelectItem>
+                  <SelectItem value="Mandarin">Mandarin</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             {/* My Account & My Cart */}
             <div className="flex items-center gap-6">
-              <button className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
+              <Link href="/profile" className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
@@ -73,9 +62,9 @@ export default function Navbar() {
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
-              </button>
+              </Link>
 
-              <button className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
+              <Link href="/cart" className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
@@ -83,7 +72,7 @@ export default function Navbar() {
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -138,26 +127,26 @@ export default function Navbar() {
               Compare
             </Link>
             
-            <div className="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-medium text-sm cursor-pointer">
+            <Link href="/recommendations" className="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-medium text-sm">
               <span>AI Assistant</span>
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
-            </div>
+            </Link>
 
-            <div className="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-medium text-sm cursor-pointer">
+            <Link href="/products" className="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-medium text-sm">
               <span>Products</span>
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
-            </div>
+            </Link>
 
-            <div className="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-medium text-sm cursor-pointer">
+            <Link href="/products" className="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-medium text-sm">
               <span>All Categories</span>
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
-            </div>
+            </Link>
           </div>
 
           {/* Track Order */}

@@ -123,7 +123,7 @@ export default function OrderDetailsPage() {
               <div className="flex items-center gap-2 font-roboto text-sm text-green-600 font-bold">
                 {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                 <Image 
-                  src="/images/delivered.png" 
+                  src="/images/delivered.svg" 
                   alt="Delivered" 
                   width={20} 
                   height={20}
@@ -171,16 +171,18 @@ export default function OrderDetailsPage() {
                   67800 Kuala Ipoh
                 </p>
               </div>
-              <div>
+                <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Payment</h3>
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-gray-600">Visa ***50</span>
-                  <svg className="w-8 h-5" viewBox="0 0 48 32" fill="none">
-                    <rect width="48" height="32" rx="4" fill="#1434CB"/>
-                    <path d="M19.5 22h-3.2l-2-7.7c-.1-.4-.3-.7-.7-.9-.6-.3-1.4-.6-2.1-.8l.1-.3h3.6c.5 0 .9.3 1 .8l.9 4.8 2.2-5.6h3.1l-4.6 9.7h1.7zm6.1 0h-3l1.9-9.7h3l-1.9 9.7zm8.1-9.7l-3.5 9.7h-3.1l-1.7-6.5c.7.4 1.5.9 2 1.5.5.6.8 1.2.9 1.8l1.5 3.2 3.9-9.7h-3-3zm6.8 6.6c0-.9-.5-1.6-1.6-2.2-.7-.4-1.1-.6-1.1-1 0-.4.4-.7 1.3-.7.7 0 1.3.1 1.8.3l.2.1.3-1.9c-.6-.2-1.5-.4-2.7-.4-3 0-5.1 1.6-5.1 3.8 0 1.7 1.5 2.6 2.6 3.1 1.1.6 1.5.9 1.5 1.4 0 .7-.9 1.1-1.7 1.1-.9 0-1.8-.2-2.5-.5l-.3-.2-.3 2c.7.3 2 .6 3.4.6 3.2 0 5.2-1.6 5.2-4z" fill="white"/>
-                  </svg>
+                  <Image 
+                  src="/images/visa.svg" 
+                  alt="Visa" 
+                  width={32} 
+                  height={20}
+                  />
                 </div>
-              </div>
+                </div>
             </div>
 
             <hr className="border-gray-200" />

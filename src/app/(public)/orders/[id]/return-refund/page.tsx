@@ -4,6 +4,13 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { mockOrders } from '@/data/mockData';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function ReturnRefundPage() {
   const params = useParams();
@@ -122,7 +129,7 @@ export default function ReturnRefundPage() {
                 <div className="flex items-center gap-2 font-roboto text-sm text-green-600 font-bold">
                   Delivered
                   <Image 
-                    src="/images/delivered.png" 
+                    src="/images/delivered.svg" 
                     alt="Delivered" 
                     width={20} 
                     height={20}
@@ -171,18 +178,16 @@ export default function ReturnRefundPage() {
               <label htmlFor="reason" className="block text-sm font-semibold text-gray-900 mb-3">
                 Reason for {returnType === 'return' ? 'Return' : 'Refund'} <span className="text-red-500">*</span>
               </label>
-              <select
-                id="reason"
-                value={reason}
-                onChange={(e) => setReason(e.target.value)}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-400 focus:border-transparent outline-none text-sm text-gray-900"
-              >
-                <option value="">Select a reason</option>
-                {returnReasons.map((r) => (
-                  <option key={r} value={r}>{r}</option>
-                ))}
-              </select>
+              <Select value={reason} onValueChange={setReason} required>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a reason" />
+                </SelectTrigger>
+                <SelectContent>
+                  {returnReasons.map((r) => (
+                    <SelectItem key={r} value={r}>{r}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             {/* Method */}
@@ -190,18 +195,16 @@ export default function ReturnRefundPage() {
               <label htmlFor="method" className="block text-sm font-semibold text-gray-900 mb-3">
                 {returnType === 'return' ? 'Return Method' : 'Refund Method'} <span className="text-red-500">*</span>
               </label>
-              <select
-                id="method"
-                value={method}
-                onChange={(e) => setMethod(e.target.value)}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-400 focus:border-transparent outline-none text-sm text-gray-900"
-              >
-                <option value="">Select a method</option>
-                {(returnType === 'return' ? returnMethods : refundMethods).map((m) => (
-                  <option key={m} value={m}>{m}</option>
-                ))}
-              </select>
+              <Select value={method} onValueChange={setMethod} required>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a method" />
+                </SelectTrigger>
+                <SelectContent>
+                  {(returnType === 'return' ? returnMethods : refundMethods).map((m) => (
+                    <SelectItem key={m} value={m}>{m}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             {/* Additional Information */}

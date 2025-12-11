@@ -4,6 +4,13 @@ import Link from 'next/link';
 import { ChevronRight, Save, Image as ImageIcon, Upload, Trash2, Plus, X } from 'lucide-react';
 import { mockProducts } from '@/lib/mockData';
 import { useState, use, useRef } from 'react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function ProductEditPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -197,18 +204,20 @@ export default function ProductEditPage({ params }: { params: Promise<{ id: stri
             <h3 className="font-semibold text-gray-900 border-b border-gray-100 pb-4">Category</h3>
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">Product Category</label>
-              <select
-                defaultValue={product.category}
-                className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal appearance-none"
-              >
-                <option>Smartphones</option>
-                <option>Laptops</option>
-                <option>Tablets</option>
-                <option>Audio</option>
-                <option>Wearables</option>
-                <option>Accessories</option>
-                <option>Gaming</option>
-              </select>
+              <Select defaultValue={product.category.toLowerCase()}>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="smartphones">Smartphones</SelectItem>
+                  <SelectItem value="laptops">Laptops</SelectItem>
+                  <SelectItem value="tablets">Tablets</SelectItem>
+                  <SelectItem value="audio">Audio</SelectItem>
+                  <SelectItem value="wearables">Wearables</SelectItem>
+                  <SelectItem value="accessories">Accessories</SelectItem>
+                  <SelectItem value="gaming">Gaming</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">Product Tags</label>

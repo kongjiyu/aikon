@@ -40,7 +40,7 @@ export default function OrdersPage() {
       case 'delivered':
         return (
           <Image 
-            src="/images/delivered.png" 
+            src="/images/delivered.svg" 
             alt="Delivered" 
             width={16} 
             height={16}
@@ -50,7 +50,7 @@ export default function OrdersPage() {
       case 'cancelled':
         return (
           <Image 
-            src="/images/cancelled.png" 
+            src="/images/cancelled.svg" 
             alt="Cancelled" 
             width={16} 
             height={16}
@@ -60,7 +60,7 @@ export default function OrdersPage() {
       case 'pending':
         return (
           <Image 
-            src="/images/pending.png" 
+            src="/images/pending.svg" 
             alt="Pending" 
             width={16} 
             height={16}
@@ -195,17 +195,22 @@ export default function OrdersPage() {
                 </div>
                 <div>
                   <h3 className="font-medium text-gray-900">{order.productName}</h3>
-                  <div className="flex items-center gap-2 mt-1">
-                    <div className={`w-3 h-3 rounded-full ${
-                      order.color === 'Space Gray' ? 'bg-gray-500' :
-                      order.color === 'Pure Green' ? 'bg-green-500' :
-                      order.color === 'Pure Black' ? 'bg-black' :
-                      order.color === 'Orange' ? 'bg-orange-500' :
-                      order.color === 'Light Green' ? 'bg-green-400' : 'bg-gray-300'
-                    }`}></div>
-                    <span className="text-sm text-gray-600">{order.color}</span>
+                  <div className="flex items-center mt-1">
+                    <div className="flex items-center gap-2 min-w-[100px]">
+                      <div className={`w-3 h-3 rounded-full ${
+                        order.color === 'Space Gray' ? 'bg-gray-500' :
+                        order.color === 'Pure Green' ? 'bg-green-500' :
+                        order.color === 'Pure Black' ? 'bg-black' :
+                        order.color === 'Orange' ? 'bg-orange-500' :
+                        order.color === 'Light Green' ? 'bg-green-400' : 'bg-gray-300'
+                      }`}></div>
+                      <span className="text-sm text-gray-600">{order.color}</span>
+                    </div>
                     {order.storage && (
-                      <span className="text-sm text-gray-400">| {order.storage}</span>
+                      <>
+                        <span className="w-px h-4 bg-gray-300 mx-2"></span>
+                        <span className="text-sm text-gray-600 min-w-[100px]">{order.storage}</span>
+                      </>
                     )}
                   </div>
                 </div>
@@ -213,7 +218,7 @@ export default function OrdersPage() {
 
               {/* Price */}
               <div className="col-span-2 text-center">
-                <span className="font-semibold text-gray-900">RM {order.price.toFixed(2)}</span>
+                <span className="text-gray-900">RM {order.price.toFixed(2)}</span>
               </div>
 
               {/* Quantity */}
