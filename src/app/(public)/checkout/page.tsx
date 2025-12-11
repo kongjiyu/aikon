@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { MapPin, Ticket, X, Tag } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { MapPin, Ticket, X, Tag, CheckCircle2 } from 'lucide-react';
 import { mockProducts, initialCartItems, CartItem } from '@/lib/mockData';
 
 // Mock addresses
@@ -75,6 +76,7 @@ const banks = [
 ];
 
 export default function CheckoutPage() {
+  const router = useRouter();
   const [selectedPayment, setSelectedPayment] = useState('Online Banking');
   const [protectionStates, setProtectionStates] = useState<{[key: string]: boolean}>({});
   const [showAddressModal, setShowAddressModal] = useState(false);
@@ -94,6 +96,7 @@ export default function CheckoutPage() {
   const [cvv, setCvv] = useState('');
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   // Load checked items from localStorage on mount
   useEffect(() => {
@@ -111,6 +114,20 @@ export default function CheckoutPage() {
       ...prev,
       [itemId]: !prev[itemId]
     }));
+  };
+
+  // Handle place order
+  const handlePlaceOrder = () => {
+    setShowSuccessModal(true);
+  };
+
+  // Handle success modal close and redirect
+  const handleSuccessClose = () => {
+    setShowSuccessModal(false);
+    // Clear cart items from localStorage
+    localStorage.removeItem('checkoutItems');
+    // Redirect to orders page
+    router.push('/orders');
   };
 
   // Calculate totals
@@ -918,10 +935,61 @@ export default function CheckoutPage() {
           </div>
         </div>
 
-        <button className="w-full mt-6 bg-[#6B8784] hover:bg-[#5a726f] text-white font-semibold py-3.5 rounded-lg transition-colors">
+        <button 
+          onClick={handlePlaceOrder}
+          className="w-full mt-6 bg-[#6B8784] hover:bg-[#5a726f] text-white font-semibold py-3.5 rounded-lg transition-colors"
+        >
           Place Order
         </button>
       </div>
+
+      {/* Success Purchase Modal */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 backdrop-blur-md z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-in fade-in zoom-in duration-300">
+            {/* Modal Content */}
+            <div className="p-8 text-center">
+              {/* Success Icon */}
+              <div className="flex justify-center mb-6">
+                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center">
+                  <CheckCircle2 size={48} className="text-green-600" />
+                </div>
+              </div>
+
+              {/* Success Message */}
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">
+                Purchase Successful!
+              </h2>
+              <p className="text-gray-600 mb-2">
+                Thank you for your order!
+              </p>
+              <p className="text-gray-600 mb-8">
+                Your order has been placed successfully and is being processed.
+              </p>
+
+              {/* Order Details */}
+              <div className="bg-gray-50 rounded-lg p-4 mb-6 text-left">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm text-gray-600">Order Total:</span>
+                  <span className="text-lg font-bold text-gray-900">RM {totalPayment.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Payment Method:</span>
+                  <span className="text-sm font-medium text-gray-900">{selectedPayment}</span>
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <button
+                onClick={handleSuccessClose}
+                className="w-full bg-[#6B8784] hover:bg-[#5a726f] text-white font-semibold py-3.5 rounded-lg transition-colors"
+              >
+                View My Orders
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

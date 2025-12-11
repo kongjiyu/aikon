@@ -189,7 +189,7 @@ export default function Navbar() {
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem className="text-red-600 focus:text-red-600">
-                    <Link href="/logout" className="flex items-center w-full">
+                    <Link href="/login" className="flex items-center w-full">
                       <LogOut className="mr-2 h-4 w-4" />
                       <span>Logout</span>
                     </Link>
