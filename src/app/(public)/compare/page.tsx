@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { X, Pin, PinOff } from 'lucide-react';
@@ -12,10 +12,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+// ... imports
 
 type CategoryType = 'phone' | 'laptop' | null;
 
+
+
 export default function ComparePage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ComparePageContent />
+    </Suspense>
+  );
+}
+
+function ComparePageContent() {
   const searchParams = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>(null);
   const [selectedProducts, setSelectedProducts] = useState<(ComparisonProduct | null)[]>([null, null, null]);
@@ -27,11 +38,11 @@ export default function ComparePage() {
     const productsParam = searchParams.get('products');
     if (productsParam) {
       const productIds = productsParam.split(',');
-      
+
       // Determine category from first product ID
       let category: CategoryType = null;
       let products: ComparisonProduct[] = [];
-      
+
       if (productIds[0]?.startsWith('iphone')) {
         category = 'phone';
         products = iPhoneModels;
@@ -39,11 +50,11 @@ export default function ComparePage() {
         category = 'laptop';
         products = laptopModels;
       }
-      
+
       if (category) {
         setSelectedCategory(category);
         setAvailableProducts(products);
-        
+
         // Pre-select the products
         const preSelected: (ComparisonProduct | null)[] = [null, null, null];
         productIds.forEach((id, index) => {
@@ -62,7 +73,7 @@ export default function ComparePage() {
   const handleCategorySelect = (category: CategoryType) => {
     setSelectedCategory(category);
     setSelectedProducts([null, null, null]);
-    
+
     if (category === 'phone') {
       setAvailableProducts(iPhoneModels);
     } else if (category === 'laptop') {
@@ -116,18 +127,17 @@ export default function ComparePage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-6">Compare Products</h1>
-          
+
           {/* Category Selection */}
           <div className="flex items-center gap-4 mb-6">
             <span className="text-sm font-semibold text-gray-700">Select Category:</span>
             <div className="flex gap-3">
               <button
                 onClick={() => handleCategorySelect('phone')}
-                className={`px-6 py-2 rounded-lg font-medium text-sm transition-colors ${
-                  selectedCategory === 'phone'
-                    ? 'bg-[#6B8784] text-white'
-                    : 'bg-white text-gray-700 border border-gray-300 hover:border-[#6B8784]'
-                }`}
+                className={`px-6 py-2 rounded-lg font-medium text-sm transition-colors ${selectedCategory === 'phone'
+                  ? 'bg-[#6B8784] text-white'
+                  : 'bg-white text-gray-700 border border-gray-300 hover:border-[#6B8784]'
+                  }`}
               >
                 <div className="flex items-center gap-2">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -138,11 +148,10 @@ export default function ComparePage() {
               </button>
               <button
                 onClick={() => handleCategorySelect('laptop')}
-                className={`px-6 py-2 rounded-lg font-medium text-sm transition-colors ${
-                  selectedCategory === 'laptop'
-                    ? 'bg-[#6B8784] text-white'
-                    : 'bg-white text-gray-700 border border-gray-300 hover:border-[#6B8784]'
-                }`}
+                className={`px-6 py-2 rounded-lg font-medium text-sm transition-colors ${selectedCategory === 'laptop'
+                  ? 'bg-[#6B8784] text-white'
+                  : 'bg-white text-gray-700 border border-gray-300 hover:border-[#6B8784]'
+                  }`}
               >
                 <div className="flex items-center gap-2">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -162,91 +171,90 @@ export default function ComparePage() {
         {/* Product Selection Cards */}
         {selectedCategory && (
           <>
-          {/* Pin Toggle Button */}
-          {selectedProducts.some(p => p !== null) && (
-            <div className="flex justify-end mb-3">
-              <button
-                onClick={() => setIsPinned(!isPinned)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-colors ${
-                  isPinned
+            {/* Pin Toggle Button */}
+            {selectedProducts.some(p => p !== null) && (
+              <div className="flex justify-end mb-3">
+                <button
+                  onClick={() => setIsPinned(!isPinned)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-colors ${isPinned
                     ? 'bg-[#6B8784] text-white'
                     : 'bg-white text-gray-700 border border-gray-300 hover:border-[#6B8784]'
-                }`}
-              >
-                {isPinned ? (
-                  <>
-                    <PinOff className="w-4 h-4" />
-                    Unpin Products
-                  </>
-                ) : (
-                  <>
-                    <Pin className="w-4 h-4" />
-                    Pin Products
-                  </>
-                )}
-              </button>
-            </div>
-          )}
-
-          <div className={`bg-white rounded-lg shadow-sm border border-gray-200 mb-8 ${isPinned ? 'sticky top-40 z-40' : ''}`}>
-          <div className="grid grid-cols-4">
-            {/* Labels Column */}
-            <div className="p-6 bg-gray-50 border-r border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Select Models</h3>
-              <p className="text-sm text-gray-600">Choose up to 3 products to compare</p>
-            </div>
-
-            {/* Product Selection Slots */}
-            {[0, 1, 2].map((index) => (
-              <div key={index} className="p-6 border-r border-gray-200 last:border-r-0">
-                {selectedProducts[index] ? (
-                  <div className="text-center">
-                    <div className="relative mb-4">
-                      <button
-                        onClick={() => handleRemoveProduct(index)}
-                        className="absolute -top-2 -right-2 text-gray-400 hover:text-red-500 transition-colors cursor-pointer z-10"
-                        aria-label="Remove product"
-                      >
-                        <X className="w-5 h-5" />
-                      </button>
-                      <div className="w-32 h-32 mx-auto mb-3 flex items-center justify-center">
-                        <Image
-                          src={selectedProducts[index]!.image}
-                          alt={selectedProducts[index]!.name}
-                          width={128}
-                          height={128}
-                          className="object-contain"
-                        />
-                      </div>
-                    </div>
-                    <h4 className="font-semibold text-gray-900 text-sm mb-1">
-                      {selectedProducts[index]!.name}
-                    </h4>
-                    <p className="text-[#6B8784] font-bold">
-                      RM {selectedProducts[index]!.price.toFixed(2)}
-                    </p>
-                  </div>
-                ) : (
-                  <div>
-                    <Select onValueChange={(value) => handleProductSelect(index, value)}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select a model" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {availableProducts.map((product) => (
-                          <SelectItem key={product.id} value={product.id}>
-                            {product.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                )}
+                    }`}
+                >
+                  {isPinned ? (
+                    <>
+                      <PinOff className="w-4 h-4" />
+                      Unpin Products
+                    </>
+                  ) : (
+                    <>
+                      <Pin className="w-4 h-4" />
+                      Pin Products
+                    </>
+                  )}
+                </button>
               </div>
-            ))}
-          </div>
-        </div>
-        </>
+            )}
+
+            <div className={`bg-white rounded-lg shadow-sm border border-gray-200 mb-8 ${isPinned ? 'sticky top-40 z-40' : ''}`}>
+              <div className="grid grid-cols-4">
+                {/* Labels Column */}
+                <div className="p-6 bg-gray-50 border-r border-gray-200">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Select Models</h3>
+                  <p className="text-sm text-gray-600">Choose up to 3 products to compare</p>
+                </div>
+
+                {/* Product Selection Slots */}
+                {[0, 1, 2].map((index) => (
+                  <div key={index} className="p-6 border-r border-gray-200 last:border-r-0">
+                    {selectedProducts[index] ? (
+                      <div className="text-center">
+                        <div className="relative mb-4">
+                          <button
+                            onClick={() => handleRemoveProduct(index)}
+                            className="absolute -top-2 -right-2 text-gray-400 hover:text-red-500 transition-colors cursor-pointer z-10"
+                            aria-label="Remove product"
+                          >
+                            <X className="w-5 h-5" />
+                          </button>
+                          <div className="w-32 h-32 mx-auto mb-3 flex items-center justify-center">
+                            <Image
+                              src={selectedProducts[index]!.image}
+                              alt={selectedProducts[index]!.name}
+                              width={128}
+                              height={128}
+                              className="object-contain"
+                            />
+                          </div>
+                        </div>
+                        <h4 className="font-semibold text-gray-900 text-sm mb-1">
+                          {selectedProducts[index]!.name}
+                        </h4>
+                        <p className="text-[#6B8784] font-bold">
+                          RM {selectedProducts[index]!.price.toFixed(2)}
+                        </p>
+                      </div>
+                    ) : (
+                      <div>
+                        <Select onValueChange={(value) => handleProductSelect(index, value)}>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select a model" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {availableProducts.map((product) => (
+                              <SelectItem key={product.id} value={product.id}>
+                                {product.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
         )}
 
         {/* Specifications Comparison Table */}
@@ -332,10 +340,10 @@ export default function ComparePage() {
               <div className="p-4 bg-gray-100">
                 <h3 className="font-bold text-gray-900">Physical Dimensions</h3>
               </div>
-              {renderSpecificationRow('Dimensions (H × W × D)', (p) => 
-                p.specifications.dimensions ? 
-                `${p.specifications.dimensions.height} × ${p.specifications.dimensions.width} × ${p.specifications.dimensions.depth}` : 
-                undefined
+              {renderSpecificationRow('Dimensions (H × W × D)', (p) =>
+                p.specifications.dimensions ?
+                  `${p.specifications.dimensions.height} × ${p.specifications.dimensions.width} × ${p.specifications.dimensions.depth}` :
+                  undefined
               )}
               {renderSpecificationRow('Weight', (p) => p.specifications.dimensions?.weight)}
 
