@@ -86,6 +86,14 @@ export default function CheckoutPage() {
   const [tempSelectedVoucher, setTempSelectedVoucher] = useState<typeof availableVouchers[0] | null>(null);
   const [voucherCode, setVoucherCode] = useState('');
   const [selectedBank, setSelectedBank] = useState<string | null>(null);
+  const [showAddCardModal, setShowAddCardModal] = useState(false);
+  const [selectedCard, setSelectedCard] = useState<string | null>('saved-card-1');
+  const [cardNumber, setCardNumber] = useState('');
+  const [cardName, setCardName] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
+  const [cvv, setCvv] = useState('');
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
 
   // Load checked items from localStorage on mount
   useEffect(() => {
@@ -197,25 +205,33 @@ export default function CheckoutPage() {
             </div>
 
             {/* Modal Footer with Buttons */}
-            <div className="border-t border-gray-200 px-6 py-4 flex gap-3 justify-end bg-white">
-              <button
-                onClick={() => {
-                  setShowAddressModal(false);
-                  setTempSelectedAddress(selectedAddress);
-                }}
-                className="px-6 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+            <div className="border-t border-gray-200 px-6 py-4 flex gap-3 justify-between bg-white">
+              <Link
+                href="/address-book"
+                className="px-6 py-2.5 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium hover:bg-gray-50 transition-colors"
               >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  setSelectedAddress(tempSelectedAddress);
-                  setShowAddressModal(false);
-                }}
-                className="px-6 py-2.5 rounded-lg bg-[#6B8784] text-white font-medium hover:bg-[#5a726f] transition-colors"
-              >
-                Confirm
-              </button>
+                Add Address
+              </Link>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    setShowAddressModal(false);
+                    setTempSelectedAddress(selectedAddress);
+                  }}
+                  className="px-6 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    setSelectedAddress(tempSelectedAddress);
+                    setShowAddressModal(false);
+                  }}
+                  className="px-6 py-2.5 rounded-lg bg-[#6B8784] text-white font-medium hover:bg-[#5a726f] transition-colors"
+                >
+                  Confirm
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -248,7 +264,7 @@ export default function CheckoutPage() {
                   {/* Main Product Row */}
                   <div className="grid grid-cols-10 gap-4 items-start mb-4">
                     <div className="col-span-5 flex items-start gap-4">
-                      <div className="w-20 h-20 bg-[#FFF5EB] rounded-lg flex-shrink-0 flex items-center justify-center p-2">
+                      <div className="w-20 h-20 rounded-lg flex-shrink-0 flex items-center justify-center p-2">
                         <img 
                           src={product.images?.[0] || product.image} 
                           alt={product.name} 
@@ -345,10 +361,10 @@ export default function CheckoutPage() {
             <Ticket size={18} className="text-gray-700" />
             <span className="font-medium text-gray-900">Voucher / Discount</span>
             {selectedVoucher && (
-              <div className="flex items-center gap-2 text-sm text-gray-600">
+              <div className="flex items-center gap-2 text-sm text-green-600">
                 <span>•</span>
                 <span>{selectedVoucher.type}</span>
-                <span className="text-gray-400">({selectedVoucher.code})</span>
+                <span className="text-green-600">({selectedVoucher.code})</span>
               </div>
             )}
           </div>
@@ -367,7 +383,7 @@ export default function CheckoutPage() {
       {/* Voucher Selection Modal */}
       {showVoucherModal && (
         <div className="fixed inset-0 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[85vh] flex flex-col shadow-xl">
+          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[85vh] flex flex-col shadow-xl overflow-hidden">
             <div className="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
               <h3 className="text-xl font-semibold text-gray-900">Select Voucher / Discount</h3>
               <button 
@@ -401,42 +417,69 @@ export default function CheckoutPage() {
               </div>
 
               {/* Available Vouchers */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-4">
                 {/* None Option */}
                 <div
                   onClick={() => setTempSelectedVoucher(null)}
-                  className={`border-2 rounded-lg p-2 cursor-pointer transition-all ${
+                  className={`border-2 rounded-lg p-1 cursor-pointer transition-all ${
                     tempSelectedVoucher === null
                       ? 'border-green-500'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
                 >
-                  <div className="flex items-center justify-center h-32">
-                    <div className="text-center">
-                      <X size={32} className="text-gray-400 mx-auto mb-2" />
-                      <span className="text-sm font-medium text-gray-900">None</span>
+                  <div className="flex items-center justify-center h-6">
+                    <div className="flex items-center gap-1">
+                      <X size={16} className="text-gray-400" />
+                      <span className="text-xs font-medium text-gray-900">None</span>
                     </div>
                   </div>
                 </div>
 
-                {availableVouchers.map((voucher, index) => (
-                  <div
-                    key={voucher.id}
-                    onClick={() => setTempSelectedVoucher(voucher)}
-                    className={`border-2 rounded-lg overflow-hidden cursor-pointer transition-all ${
-                      tempSelectedVoucher?.id === voucher.id
-                        ? 'border-green-500'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
+                {/* Vouchers in a row */}
+                <div className="grid grid-cols-2 gap-4">
+                  {availableVouchers.map((voucher, index) => (
+                    <div
+                      key={voucher.id}
+                      onClick={() => setTempSelectedVoucher(voucher)}
+                      className={`border-2 rounded-lg overflow-hidden cursor-pointer transition-all ${
+                        tempSelectedVoucher?.id === voucher.id
+                          ? 'border-green-500'
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
+                      {/* Voucher Image Only */}
+                      <img 
+                        src={`/images/voucher${index + 1}.svg`}
+                        alt={`Voucher ${index + 1}`}
+                        className="w-full h-44 object-contain"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Terms and Conditions Checkbox */}
+              <div className="mt-6 flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="terms"
+                  checked={termsAccepted}
+                  onChange={(e) => setTermsAccepted(e.target.checked)}
+                  className="w-4 h-4 text-[#6B8784] border-gray-300 rounded focus:ring-[#6B8784]"
+                />
+                <label htmlFor="terms" className="text-sm text-gray-700">
+                  I agree to the{' '}
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowTermsModal(true);
+                    }}
+                    className="text-blue-600 hover:underline font-medium"
                   >
-                    {/* Voucher Image Only */}
-                    <img 
-                      src={`/images/voucher${index + 1}.svg`}
-                      alt={`Voucher ${index + 1}`}
-                      className="w-full h-auto object-cover"
-                    />
-                  </div>
-                ))}
+                    Terms and Conditions
+                  </button>
+                </label>
               </div>
             </div>
 
@@ -447,6 +490,7 @@ export default function CheckoutPage() {
                   setShowVoucherModal(false);
                   setTempSelectedVoucher(selectedVoucher);
                   setVoucherCode('');
+                  setTermsAccepted(false);
                 }}
                 className="px-6 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors"
               >
@@ -457,10 +501,288 @@ export default function CheckoutPage() {
                   setSelectedVoucher(tempSelectedVoucher);
                   setShowVoucherModal(false);
                   setVoucherCode('');
+                  setTermsAccepted(false);
+                }}
+                disabled={tempSelectedVoucher !== null && !termsAccepted}
+                className={`px-6 py-2.5 rounded-lg font-medium transition-colors ${
+                  (tempSelectedVoucher !== null && !termsAccepted)
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-[#6B8784] text-white hover:bg-[#5a726f] cursor-pointer'
+                }`}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Terms and Conditions Modal */}
+      {showTermsModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/30 backdrop-blur-md" 
+            onClick={() => setShowTermsModal(false)}
+          />
+          
+          {/* Modal Content */}
+          <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden">
+            {/* Modal Header */}
+            <div className="border-b border-gray-200 px-6 py-4 bg-white">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-gray-900">Voucher Terms and Conditions</h3>
+                <button
+                  onClick={() => setShowTermsModal(false)}
+                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body - Scrollable */}
+            <div className="p-6 max-h-[70vh] overflow-y-auto">
+              <div className="space-y-8">
+                {/* 10% Discount */}
+                <div>
+                  <h4 className="font-bold text-gray-900 text-lg mb-2">10% Discount</h4>
+                  <p className="text-sm font-semibold text-gray-700 mb-3">WELCOME VOUCHER FOR FIRST PURCHASE</p>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li>• Valid for first-time customers only.</li>
+                    <li>• Applicable for a single transaction per user.</li>
+                    <li>• Minimum spend of RM 888.</li>
+                    <li>• Not stackable with other vouchers or promotions.</li>
+                    <li>• Non-transferable and non-exchangeable for cash.</li>
+                  </ul>
+                </div>
+
+                {/* RM 150 Rebate */}
+                <div>
+                  <h4 className="font-bold text-gray-900 text-lg mb-2">RM 150 Rebate</h4>
+                  <p className="text-sm font-semibold text-gray-700 mb-3">BIRTHDAY VOUCHER DURING BIRTHDAY MONTH</p>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li>• Only valid during the customer's birthday month.</li>
+                    <li>• Each customer is entitled to 1 birthday voucher per year.</li>
+                    <li>• Minimum spend of RM 1000.</li>
+                    <li>• Cannot be combined with other vouchers.</li>
+                    <li>• Account must have a verified birth date before redemption.</li>
+                  </ul>
+                </div>
+
+                {/* RM 50 Discount For Both */}
+                <div>
+                  <h4 className="font-bold text-gray-900 text-lg mb-2">RM 50 Discount For Both</h4>
+                  <p className="text-sm font-semibold text-gray-700 mb-3">REFER 1 FRIEND, BENEFITS 2 PEOPLE</p>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li>• Referrer and referee both receive the voucher after the referee completes their first order.</li>
+                    <li>• Voucher is not valid if the referee cancels or refunds the order.</li>
+                    <li>• Each successful referral earns 1 voucher only.</li>
+                    <li>• Non-transferable and cannot be sold.</li>
+                  </ul>
+                </div>
+
+                {/* RM 10 Discount */}
+                <div>
+                  <h4 className="font-bold text-gray-900 text-lg mb-2">RM 10 Discount</h4>
+                  <p className="text-sm font-semibold text-gray-700 mb-3">1 REVIEW, 1 VOUCHER</p>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li>• Customer must submit a genuine review with photo or video.</li>
+                    <li>• Review must be approved by the system/admin.</li>
+                    <li>• One voucher per order review only.</li>
+                    <li>• Cannot be used with other review-related rewards.</li>
+                  </ul>
+                </div>
+
+                {/* 10% Discount within 24 Hour */}
+                <div>
+                  <h4 className="font-bold text-gray-900 text-lg mb-2">10% Discount within 24 Hour</h4>
+                  <p className="text-sm font-semibold text-gray-700 mb-3">ENCOURAGEMENT TO PROCEED</p>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li>• Issued only to customers who abandon their cart.</li>
+                    <li>• Valid for a limited time (within 24 hours).</li>
+                    <li>• Not combinable with other vouchers.</li>
+                  </ul>
+                </div>
+
+                {/* RM 30 Extra Discount */}
+                <div>
+                  <h4 className="font-bold text-gray-900 text-lg mb-2">RM 30 Extra Discount</h4>
+                  <p className="text-sm font-semibold text-gray-700 mb-3">DO NOT FORGET YOUR ACCESSORIES</p>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li>• Only applicable when purchasing selected smartphones/laptops.</li>
+                    <li>• Voucher can only be used to purchase accessories.</li>
+                    <li>• Valid for one transaction only.</li>
+                    <li>• Cannot be stacked with storewide promo codes.</li>
+                  </ul>
+                </div>
+
+                {/* RM 350 Loyalty Rebate */}
+                <div>
+                  <h4 className="font-bold text-gray-900 text-lg mb-2">RM 350 Loyalty Rebate</h4>
+                  <p className="text-sm font-semibold text-gray-700 mb-3">AN APPRECIATION GIFT SPECIAL FOR YOU</p>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li>• Rewarded when total spending reaches the RM 3,500.</li>
+                    <li>• Automatically issued once spending threshold is met.</li>
+                    <li>• One voucher per milestone level.</li>
+                    <li>• No minimum spend unless stated.</li>
+                  </ul>
+                </div>
+
+                {/* Free Accessory worth RM 50 */}
+                <div>
+                  <h4 className="font-bold text-gray-900 text-lg mb-2">Free Accessory worth RM 50</h4>
+                  <p className="text-sm font-semibold text-gray-700 mb-3">A NEW YEAR, A NEW ACCESSORY</p>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li>• Only available during festive periods (CNY, Raya, Christmas).</li>
+                    <li>• Valid for limited time stated on the voucher.</li>
+                    <li>• Minimum spend may apply.</li>
+                    <li>• Not applicable for bundled items or clearance products.</li>
+                  </ul>
+                </div>
+
+                {/* 18% Discount */}
+                <div>
+                  <h4 className="font-bold text-gray-900 text-lg mb-2">18% Discount</h4>
+                  <p className="text-sm font-semibold text-gray-700 mb-3">DISCOUNT FOR NEWLY DEBUT PRODUCT</p>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li>• Applicable for early shoppers during product launches/campaigns.</li>
+                    <li>• Valid only within the promo period.</li>
+                    <li>• Limited to one redemption per user.</li>
+                    <li>• Cannot be stacked with pre-order discounts or launch bundles.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="border-t border-gray-200 px-6 py-4 flex justify-end bg-white">
+              <button
+                onClick={() => setShowTermsModal(false)}
+                className="px-6 py-2.5 rounded-lg bg-[#6B8784] text-white font-medium hover:bg-[#5a726f] transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Card Modal */}
+      {showAddCardModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/30 backdrop-blur-md" 
+            onClick={() => setShowAddCardModal(false)}
+          />
+          
+          {/* Modal Content */}
+          <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
+            {/* Modal Header */}
+            <div className="border-b border-gray-200 px-6 py-4 bg-white">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-gray-900">Add New Card</h3>
+                <button
+                  onClick={() => setShowAddCardModal(false)}
+                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6 max-h-96 overflow-y-auto">
+              <div className="space-y-4">
+                {/* Card Number */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Card Number
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="1234 5678 9012 3456"
+                    value={cardNumber}
+                    onChange={(e) => setCardNumber(e.target.value)}
+                    maxLength={19}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6B8784] focus:border-transparent"
+                  />
+                </div>
+
+                {/* Cardholder Name */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Cardholder Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="JOHN DOE"
+                    value={cardName}
+                    onChange={(e) => setCardName(e.target.value)}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6B8784] focus:border-transparent"
+                  />
+                </div>
+
+                {/* Expiry Date and CVV */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Expiry Date
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="MM/YY"
+                      value={expiryDate}
+                      onChange={(e) => setExpiryDate(e.target.value)}
+                      maxLength={5}
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6B8784] focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      CVV
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="123"
+                      value={cvv}
+                      onChange={(e) => setCvv(e.target.value)}
+                      maxLength={3}
+                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6B8784] focus:border-transparent"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="border-t border-gray-200 px-6 py-4 flex gap-3 justify-end bg-white">
+              <button
+                onClick={() => {
+                  setShowAddCardModal(false);
+                  setCardNumber('');
+                  setCardName('');
+                  setExpiryDate('');
+                  setCvv('');
+                }}
+                className="px-6 py-2.5 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  // Save card logic here
+                  setSelectedCard('saved-card-1');
+                  setShowAddCardModal(false);
+                  setCardNumber('');
+                  setCardName('');
+                  setExpiryDate('');
+                  setCvv('');
                 }}
                 className="px-6 py-2.5 rounded-lg bg-[#6B8784] text-white font-medium hover:bg-[#5a726f] transition-colors"
               >
-                Confirm
+                Add Card
               </button>
             </div>
           </div>
@@ -517,16 +839,54 @@ export default function CheckoutPage() {
                   onClick={() => setSelectedBank(bank.id)}
                   className={`flex items-center gap-3 p-3 rounded-lg border transition-all ${
                     selectedBank === bank.id
-                      ? 'border-[#6B8784] bg-[#6B8784] bg-opacity-5'
+                      ? 'border-[#6B8784] bg-[#6B8784] bg-opacity-100'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
                 >
                   <div className="w-10 h-10 flex items-center justify-center text-2xl">
                     {bank.logo}
                   </div>
-                  <span className="text-sm font-medium text-gray-900">{bank.name}</span>
+                  <span className={`text-sm font-medium ${
+                    selectedBank === bank.id ? 'text-white' : 'text-gray-900'
+                  }`}>{bank.name}</span>
                 </button>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* Card Selection - Show when Credit / Debit Card is selected */}
+        {selectedPayment === 'Credit / Debit Card' && (
+          <div>
+            <h3 className="font-semibold text-gray-900 mb-4">Select Card:</h3>
+            <div className="space-y-3">
+              {/* Default Saved Card */}
+              <button
+                onClick={() => setSelectedCard('saved-card-1')}
+                className={`flex items-center gap-3 p-3 rounded-lg border transition-all ${
+                  selectedCard === 'saved-card-1'
+                    ? 'border-[#6B8784] bg-[#6B8784] bg-opacity-100'
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                <img 
+                  src="/images/visa.svg"
+                  alt="Visa"
+                  className="w-10 h-8 object-contain"
+                />
+                <span className={`text-sm font-medium ${
+                  selectedCard === 'saved-card-1' ? 'text-white' : 'text-gray-900'
+                }`}>PUBLIC BANK BERHAD **** 4007</span>
+              </button>
+              
+              {/* Add Card Button */}
+              <button
+                onClick={() => setShowAddCardModal(true)}
+                className="px-4 py-2 rounded-lg border-2 border-dashed border-gray-300 hover:border-gray-400 transition-all text-gray-700 text-sm font-medium flex items-center gap-2 w-fit"
+              >
+                <span className="text-lg">⊕</span>
+                <span>Add New Card</span>
+              </button>
             </div>
           </div>
         )}
