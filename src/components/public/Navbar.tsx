@@ -1,101 +1,177 @@
+'use client';
+
 import Link from 'next/link';
-import {
-  Search,
-  ShoppingCart,
-  User,
-  MapPin,
-  ChevronDown,
-  Heart,
-  Menu,
-  Mic,
-  ScanLine
-} from 'lucide-react';
+import Image from 'next/image';
+import { useState } from 'react';
 
 export default function Navbar() {
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState('English');
+
+  const handleLanguageSelect = (language: string) => {
+    setSelectedLanguage(language);
+    setShowLanguageDropdown(false);
+  };
+
   return (
-    <header className="bg-white z-50">
-      {/* Top Bar */}
-      <div className="border-b border-gray-100 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex justify-between items-center text-xs text-gray-600">
-          <div className="flex items-center gap-2 truncate max-w-xl">
-            <MapPin size={14} className="flex-shrink-0" />
-            <span className="truncate">Plaza Low Yat is 7, Jalan Bintang, Off Jalan Bukit Bintang, Bukit Bintang Central, 55100 Kuala Lumpur, Malaysia</span>
-          </div>
-          <div className="flex items-center gap-6 flex-shrink-0">
-            <Link href="/profile" className="flex items-center gap-1 hover:text-brand-dark">
-              <User size={14} /> My Account <ChevronDown size={12} />
-            </Link>
-            <Link href="/cart" className="flex items-center gap-1 hover:text-brand-dark">
-              <ShoppingCart size={14} /> My Cart
-            </Link>
+    <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
+      {/* Top Bar - Language and Account/Cart */}
+      <div className="bg-gray-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-10 text-sm">
+            {/* Language Selector */}
+            <div className="relative">
+              <button 
+                onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
+                className="flex items-center gap-2 text-gray-700 hover:text-gray-900"
+              >
+                <Image 
+                  src="/images/language.png" 
+                  alt="Language" 
+                  width={20} 
+                  height={20}
+                  className="object-contain self-center"
+                />
+                <span className="leading-none self-center">{selectedLanguage}</span>
+                <svg className="w-3 h-3 self-center" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {/* Language Dropdown */}
+              {showLanguageDropdown && (
+                <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg py-1 min-w-[150px] z-50">
+                  <button
+                    onClick={() => handleLanguageSelect('English')}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    English
+                  </button>
+                  <button
+                    onClick={() => handleLanguageSelect('Bahasa Melayu')}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Bahasa Melayu
+                  </button>
+                  <button
+                    onClick={() => handleLanguageSelect('Mandarin')}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Mandarin
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* My Account & My Cart */}
+            <div className="flex items-center gap-6">
+              <button className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span>My Account</span>
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              <button className="flex items-center gap-2 text-gray-700 hover:text-gray-900">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <span>My Cart</span>
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Main Header */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="flex items-center justify-between gap-8">
+      {/* Main Header - Logo and Search */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center py-4 gap-2">
           {/* Logo */}
-          <Link href="/" className="flex flex-col items-start group">
-            <span className="text-3xl font-bold text-brand-dark tracking-widest leading-none">AIKON</span>
-            <span className="text-[10px] tracking-[0.2em] text-gray-500 group-hover:text-brand-teal transition-colors">CONNECT SMART</span>
+          <Link href="/" className="flex-shrink-0">
+            <Image 
+              src="/images/headerPic.png" 
+              alt="AIKON - Connect Smart" 
+              width={120} 
+              height={60}
+              className="object-contain"
+            />
           </Link>
 
-          {/* Search Bar */}
-          <div className="flex-1 max-w-3xl relative hidden md:block">
-            <div className="relative flex items-center bg-gray-100 rounded-full px-4 py-2.5 focus-within:ring-2 focus-within:ring-brand-teal/20 transition-all">
-              <Search className="text-gray-400" size={18} />
+          {/* Search Bar - Extended to ~2/3 of screen */}
+          <div className="flex-1 max-w-5xl">
+            <div className="relative">
               <input
                 type="text"
-                placeholder="Search for gadgets..."
-                className="flex-1 bg-transparent border-none focus:ring-0 text-sm px-3 placeholder-gray-400"
+                placeholder="Search for..."
+                className="w-full pl-10 pr-20 py-3 bg-gray-50 border border-gray-300 rounded-[38px] text-sm focus:ring-2 focus:ring-gray-300 focus:border-transparent outline-none"
               />
-              <div className="flex items-center gap-3 border-l border-gray-300 pl-3">
-                <button className="text-gray-400 hover:text-brand-dark transition-colors">
-                  <Mic size={18} />
-                </button>
-                <button className="text-gray-400 hover:text-brand-dark transition-colors">
-                  <ScanLine size={18} />
-                </button>
-              </div>
+              <svg className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              {/* Voice Search Icon */}
+              <button className="absolute right-12 top-3.5 text-gray-400 hover:text-gray-600">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z" />
+                  <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z" />
+                </svg>
+              </button>
+              {/* Image Search Icon */}
+              <button className="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation Links */}
+        <div className="flex items-center justify-between py-3 border-t border-gray-100">
+          <div className="flex items-center gap-8">
+            <Link href="/compare" className="text-gray-700 hover:text-gray-900 font-medium text-sm">
+              Compare
+            </Link>
+            
+            <div className="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-medium text-sm cursor-pointer">
+              <span>AI Assistant</span>
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+
+            <div className="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-medium text-sm cursor-pointer">
+              <span>Products</span>
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+
+            <div className="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-medium text-sm cursor-pointer">
+              <span>All Categories</span>
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
             </div>
           </div>
 
-          {/* Mobile Cart/Menu (Visible on mobile only) */}
-          <div className="flex items-center gap-4 md:hidden">
-            <Link href="/cart" className="text-gray-600">
-              <ShoppingCart size={24} />
-            </Link>
-            <button className="text-gray-600">
-              <Menu size={24} />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Navigation Bar */}
-      <div className="bg-gray-50/50 border-t border-b border-gray-100 hidden md:block">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-12 flex items-center justify-between text-sm font-medium">
-          <div className="flex items-center gap-8">
-            <Link href="/compare" className="text-gray-600 hover:text-brand-dark transition-colors">
-              Compare
-            </Link>
-            <Link href="/ai-assistant" className="text-gray-600 hover:text-brand-dark transition-colors flex items-center gap-1">
-              AI Assistant <ChevronDown size={14} />
-            </Link>
-            <Link href="/products" className="text-gray-600 hover:text-brand-dark transition-colors flex items-center gap-1">
-              Products <ChevronDown size={14} />
-            </Link>
-            <Link href="/categories" className="text-gray-600 hover:text-brand-dark transition-colors flex items-center gap-1">
-              All Categories <ChevronDown size={14} />
-            </Link>
-          </div>
-
-          <Link href="/track-order" className="flex items-center gap-2 text-gray-500 hover:text-brand-dark transition-colors">
-            <ScanLine size={16} /> Track Order
+          {/* Track Order */}
+          <Link href="/orders" className="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-medium text-sm">
+            <Image 
+              src="/images/trackOrder.png" 
+              alt="Track Order" 
+              width={16} 
+              height={16}
+            />
+            <span>Track Order</span>
           </Link>
         </div>
       </div>
-    </header>
+    </nav>
   );
 }
