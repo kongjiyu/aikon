@@ -40,7 +40,7 @@ const options = {
             displayColors: false,
             callbacks: {
                 label: function (context: any) {
-                    return context.parsed.y + 'k';
+                    return 'RM ' + context.parsed.y + 'k';
                 }
             }
         },
@@ -70,7 +70,7 @@ const options = {
                     size: 11
                 },
                 callback: function (value: any) {
-                    return value + 'k';
+                    return 'RM ' + value + 'k';
                 }
             },
             border: {

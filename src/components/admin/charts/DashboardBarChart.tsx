@@ -75,7 +75,8 @@ const data = {
     datasets: [
         {
             data: mockData.map(d => d.val),
-            backgroundColor: mockData.map(d => d.color),
+            backgroundColor: '#E5E7EB',
+            hoverBackgroundColor: '#2B4242',
             borderRadius: 2,
             barThickness: 'flex' as const,
             maxBarThickness: 12,

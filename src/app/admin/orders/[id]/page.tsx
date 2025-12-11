@@ -81,56 +81,82 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                       <p className="text-sm text-gray-500">{product.category}</p>
                     </div>
                     <div className="text-right">
-                      <p className="font-medium text-gray-900">${(item.price * item.qty).toLocaleString()}</p>
-                      <p className="text-sm text-gray-500">{item.qty} x ${item.price.toLocaleString()}</p>
+                      <p className="font-medium text-gray-900">RM {(item.price * item.qty).toLocaleString()}</p>
+                      <p className="text-sm text-gray-500">{item.qty} x RM {item.price.toLocaleString()}</p>
                     </div>
                   </div>
                 );
               })}
             </div>
-            <div className="p-6 bg-gray-50 space-y-3">
+            <div className="p-6 bg-white border-t border-gray-100 space-y-4">
+              <h4 className="font-bold text-gray-900 text-lg">Order Summary</h4>
               <div className="flex justify-between text-sm text-gray-600">
-                <span>Subtotal</span>
-                <span>${order.total.toLocaleString()}</span>
+                <span>Discount</span>
+                <span>(20%) - RM 719.80</span>
               </div>
               <div className="flex justify-between text-sm text-gray-600">
-                <span>Tax (0%)</span>
-                <span>$0.00</span>
+                <span>Delivery</span>
+                <span>RM 20.00</span>
               </div>
               <div className="flex justify-between text-sm text-gray-600">
-                <span>Shipping</span>
-                <span>$0.00</span>
+                <span>Tax</span>
+                <span>+ RM 575.84</span>
               </div>
-              <div className="pt-3 border-t border-gray-200 flex justify-between font-bold text-gray-900 text-lg">
-                <span>Total</span>
-                <span>${order.total.toLocaleString()}</span>
+              <div className="pt-4 border-t border-gray-100 border-dashed flex justify-between items-baseline">
+                <span className="text-gray-600 font-medium">Total</span>
+                <span className="text-gray-900 font-bold text-xl">RM 3475.04</span>
               </div>
             </div>
           </div>
 
-          {/* Order Timeline */}
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-            <h3 className="font-semibold text-gray-900 mb-6">Order Status</h3>
-            <div className="relative pl-4 border-l-2 border-gray-100 space-y-8">
+          {/* Order Timeline Horizontal */}
+          <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 overflow-x-auto">
+            <div className="min-w-[600px] px-4">
               <div className="relative">
-                <div className={`absolute -left-[21px] top-1 w-4 h-4 rounded-full border-2 border-white shadow-sm flex items-center justify-center
-                        ${order.status === 'Delivered' ? 'bg-green-500' : 'bg-gray-300'}`}>
+                {/* Connecting Line */}
+                <div className="absolute left-0 top-5 w-full h-1 bg-gray-100 rounded-full -z-0"></div>
+                <div
+                  className="absolute left-0 top-5 h-1 bg-brand-teal rounded-full -z-0 transition-all duration-500"
+                  style={{ width: order.status === 'Delivered' ? '100%' : '50%' }}
+                ></div>
+
+                <div className="flex justify-between items-start relative z-10">
+                  {/* Step 1 */}
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="text-sm font-medium text-gray-400 mb-2">Order Confirmed</div>
+                    <div className="w-10 h-10 rounded-full bg-brand-sage border-4 border-white shadow-sm flex items-center justify-center">
+                      <div className="w-4 h-4 rounded-full bg-white"></div>
+                    </div>
+                    <div className="text-xs text-gray-500 font-medium mt-1">2025 Mon 1st</div>
+                  </div>
+
+                  {/* Step 2 */}
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="text-sm font-medium text-gray-400 mb-2">Shipped</div>
+                    <div className="w-10 h-10 rounded-full bg-brand-sage border-4 border-white shadow-sm flex items-center justify-center">
+                      <div className="w-4 h-4 rounded-full bg-white"></div>
+                    </div>
+                    <div className="text-xs text-gray-500 font-medium mt-1">2025 Wed 11th</div>
+                  </div>
+
+                  {/* Step 3 */}
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="text-sm font-medium text-gray-400 mb-2">Out of Delivery</div>
+                    <div className="w-10 h-10 rounded-full bg-brand-sage border-4 border-white shadow-sm flex items-center justify-center">
+                      <div className="w-4 h-4 rounded-full bg-white"></div>
+                    </div>
+                    <div className="text-xs text-gray-500 font-medium mt-1">2025 Fri 13th</div>
+                  </div>
+
+                  {/* Step 4 (Active/Delivered) */}
+                  <div className="flex flex-col items-center gap-2">
+                    <div className={`text-sm font-medium mb-2 ${order.status === 'Delivered' ? 'text-brand-teal' : 'text-gray-400'}`}>Delivered</div>
+                    <div className={`w-10 h-10 rounded-full border-4 border-white shadow-sm flex items-center justify-center ${order.status === 'Delivered' ? 'bg-brand-teal' : 'bg-gray-200'}`}>
+                      {order.status === 'Delivered' && <CheckCircle2 size={20} className="text-white" />}
+                    </div>
+                    <div className={`text-xs font-medium mt-1 ${order.status === 'Delivered' ? 'text-brand-teal' : 'text-gray-500'}`}>2025 Mon 16th</div>
+                  </div>
                 </div>
-                <h4 className="font-medium text-gray-900">Order Delivered</h4>
-                <p className="text-sm text-gray-500 mt-1">Expected: {order.date}</p>
-              </div>
-              <div className="relative">
-                <div className={`absolute -left-[21px] top-1 w-4 h-4 rounded-full border-2 border-white shadow-sm flex items-center justify-center
-                        ${order.status === 'Shipped' ? 'bg-blue-600' :
-                    order.status === 'Delivered' ? 'bg-gray-300' : 'bg-gray-300'}`}>
-                </div>
-                <h4 className="font-medium text-gray-900">Shipped</h4>
-                {order.status === 'Shipped' && <p className="text-sm text-gray-500 mt-1">In Transit</p>}
-              </div>
-              <div className="relative">
-                <div className="absolute -left-[21px] top-1 w-4 h-4 rounded-full bg-brand-teal border-2 border-white shadow-sm"></div>
-                <h4 className="font-medium text-gray-900">Order Confirmed</h4>
-                <p className="text-sm text-gray-500 mt-1">{order.date}</p>
               </div>
             </div>
           </div>

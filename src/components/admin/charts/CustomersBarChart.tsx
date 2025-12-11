@@ -70,19 +70,28 @@ const options = {
 
 const labels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-// Mock data to match the visual style
-const data = {
-    labels,
-    datasets: [
-        {
-            data: [40, 60, 45, 70, 50, 80, 65],
-            backgroundColor: '#0D9488', // Teal-ish color matching design
-            borderRadius: 4,
-            borderSkipped: false,
-        },
-    ],
+// Mock data for different time ranges
+const dataMap = {
+    'thisWeek': [40, 60, 45, 70, 50, 80, 65],
+    'lastWeek': [55, 40, 60, 50, 75, 55, 45]
 };
 
-export default function CustomersBarChart() {
+export default function CustomersBarChart({ timeRange = 'thisWeek' }: { timeRange?: 'thisWeek' | 'lastWeek' }) {
+    const data = {
+        labels,
+        datasets: [
+            {
+                data: dataMap[timeRange] || dataMap['thisWeek'],
+                backgroundColor: '#E5E7EB',
+                hoverBackgroundColor: '#2B4242',
+                borderRadius: 4,
+                barThickness: 'flex' as const,
+                maxBarThickness: 40,
+                barPercentage: 0.7,
+                borderSkipped: false,
+            },
+        ],
+    };
+
     return <Bar options={options} data={data} />;
 }

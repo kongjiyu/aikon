@@ -7,7 +7,7 @@ import {
     MoreVertical,
     ChevronLeft,
     ChevronRight,
-    MessageSquare,
+    Mail,
     Trash2,
     Users,
     UserPlus,
@@ -19,6 +19,13 @@ import Link from 'next/link';
 import CustomersBarChart from '@/components/admin/charts/CustomersBarChart';
 
 export default function AdminCustomersPage() {
+    const [timeRange, setTimeRange] = React.useState<'thisWeek' | 'lastWeek'>('thisWeek');
+    const [activeMenu, setActiveMenu] = React.useState<string | null>(null);
+
+    const toggleMenu = (menu: string) => {
+        setActiveMenu(activeMenu === menu ? null : menu);
+    };
+
     const customers = [
         { id: '#CUST001', name: 'John Doe', phone: '+1234567890', orders: 25, spend: '3,450.00', status: 'Active' },
         { id: '#CUST002', name: 'Jane Smith', phone: '+1234567890', orders: 5, spend: '250.00', status: 'Inactive' },
@@ -31,18 +38,11 @@ export default function AdminCustomersPage() {
     ];
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6" onClick={() => setActiveMenu(null)}>
             {/* Header */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <h1 className="text-2xl font-bold text-gray-800">Customers</h1>
-                <div className="relative w-full sm:w-64">
-                    <input
-                        type="text"
-                        placeholder="Search data, users, or reports"
-                        className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
-                    />
-                    <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
-                </div>
+                {/* Search removed as requested */}
             </div>
 
             {/* Stats & Chart Section */}
@@ -53,7 +53,6 @@ export default function AdminCustomersPage() {
                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                         <div className="flex justify-between items-start mb-2">
                             <h3 className="text-sm font-medium text-gray-600">Total Customers</h3>
-                            <button className="text-gray-400 hover:text-gray-600"><MoreVertical size={16} /></button>
                         </div>
                         <div className="flex items-baseline gap-2">
                             <span className="text-2xl font-bold text-gray-900">11,040</span>
@@ -68,7 +67,6 @@ export default function AdminCustomersPage() {
                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                         <div className="flex justify-between items-start mb-2">
                             <h3 className="text-sm font-medium text-gray-600">New Customers</h3>
-                            <button className="text-gray-400 hover:text-gray-600"><MoreVertical size={16} /></button>
                         </div>
                         <div className="flex items-baseline gap-2">
                             <span className="text-2xl font-bold text-gray-900">2,370</span>
@@ -83,7 +81,6 @@ export default function AdminCustomersPage() {
                     <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                         <div className="flex justify-between items-start mb-2">
                             <h3 className="text-sm font-medium text-gray-600">Visitor</h3>
-                            <button className="text-gray-400 hover:text-gray-600"><MoreVertical size={16} /></button>
                         </div>
                         <div className="flex items-baseline gap-2">
                             <span className="text-2xl font-bold text-gray-900">250k</span>
@@ -95,14 +92,24 @@ export default function AdminCustomersPage() {
                     </div>
                 </div>
 
-                {/* Right Column: Chart Placeholder */}
+                {/* Right Column: Chart */}
                 <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col">
                     <div className="flex justify-between items-center mb-6">
                         <h3 className="font-semibold text-gray-800">Customer Overview</h3>
                         <div className="flex items-center gap-2">
-                            <button className="px-3 py-1 text-xs font-medium bg-white border border-gray-200 rounded-md text-gray-600 hover:bg-gray-50">This week</button>
-                            <button className="px-3 py-1 text-xs font-medium bg-brand-dark text-white rounded-md">Last week</button>
-                            <button className="text-gray-400 hover:text-gray-600"><MoreVertical size={16} /></button>
+                            <button
+                                onClick={(e) => { e.stopPropagation(); setTimeRange('thisWeek'); }}
+                                className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${timeRange === 'thisWeek' ? 'bg-[#2B3433] text-white' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}`}
+                            >
+                                This week
+                            </button>
+                            <button
+                                onClick={(e) => { e.stopPropagation(); setTimeRange('lastWeek'); }}
+                                className={`px-3 py-1 text-xs font-medium rounded-md transition-colors ${timeRange === 'lastWeek' ? 'bg-[#2B3433] text-white' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}`}
+                            >
+                                Last week
+                            </button>
+                            {/* Removed MoreVertical button */}
                         </div>
                     </div>
 
@@ -127,7 +134,7 @@ export default function AdminCustomersPage() {
 
                     {/* Chart Area with Chart.js */}
                     <div className="flex-1 bg-white relative min-h-[250px] w-full">
-                        <CustomersBarChart />
+                        <CustomersBarChart timeRange={timeRange} />
                     </div>
                 </div>
             </div>
@@ -159,7 +166,7 @@ export default function AdminCustomersPage() {
                                         <td className="px-4 py-4 text-gray-600">{customer.name}</td>
                                         <td className="px-4 py-4 text-gray-600">{customer.phone}</td>
                                         <td className="px-4 py-4 text-center text-gray-600">{customer.orders}</td>
-                                        <td className="px-4 py-4 text-right text-gray-900 font-medium">${customer.spend}</td>
+                                        <td className="px-4 py-4 text-right text-gray-900 font-medium">RM {customer.spend}</td>
                                         <td className="px-4 py-4 text-center">
                                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
                                         ${customer.status === 'Active' ? 'bg-green-100 text-green-800' :
@@ -175,7 +182,7 @@ export default function AdminCustomersPage() {
                                         <td className="px-4 py-4">
                                             <div className="flex items-center justify-center gap-2">
                                                 <button className="p-1 text-gray-400 hover:text-brand-teal transition-colors">
-                                                    <MessageSquare size={16} />
+                                                    <Mail size={16} />
                                                 </button>
                                                 <button className="p-1 text-gray-400 hover:text-red-500 transition-colors">
                                                     <Trash2 size={16} />

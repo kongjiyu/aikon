@@ -39,6 +39,7 @@ export interface Product {
         dimensions?: string;
     };
     icon?: any;
+    sales?: number; // Total units sold
 }
 
 export interface Order {
@@ -91,7 +92,8 @@ export const mockProducts: Product[] = [
             weight: '221g',
             dimensions: '159.9 x 76.7 x 8.25 mm'
         },
-        icon: Smartphone
+        icon: Smartphone,
+        sales: 577
     },
     {
         id: 'PROD002',
