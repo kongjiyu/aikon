@@ -8,16 +8,55 @@ import {
     Gamepad2
 } from 'lucide-react';
 
+export interface ProductVariant {
+    color: string;
+    colorHex: string;
+    storage?: string;
+    ram?: string;
+    price: number;
+    stock: number;
+}
+
+export interface ProductSpecs {
+    ram?: string;
+    storage?: string;
+    processor?: string;
+    display?: string;
+    camera?: string;
+    battery?: string;
+    os?: string;
+    weight?: string;
+    dimensions?: string;
+    connectivity?: string;
+    features?: string;
+}
+
+export interface Review {
+    id: string;
+    productId: string;
+    customerId: string;
+    customerName: string;
+    rating: number;
+    comment: string;
+    date: string;
+}
+
+// Product Types
 export interface Product {
     id: string;
     name: string;
     description: string;
     category: string;
     price: number;
+    originalPrice?: number;
     stock: number;
+    rating?: number;
+    reviewsCount?: number;
+    sales?: number;
+    isSale?: boolean;
     image: string; // Primary thumbnail
-    images: string[]; // Gallery
-    colors: string[]; // Hex codes
+    images?: string[]; // Gallery
+    colors?: string[]; // Hex codes
     colorNames?: string[]; // Color names corresponding to hex codes
     variants?: {
         color: string;
@@ -37,9 +76,11 @@ export interface Product {
         os?: string;
         weight?: string;
         dimensions?: string;
+        connectivity?: string;
+        features?: string;
     };
     icon?: any;
-    sales?: number; // Total units sold
+    reviews?: Review[];
 }
 
 export interface Order {
@@ -181,14 +222,14 @@ export const mockProducts: Product[] = [
             { color: 'Silver', colorHex: '#C0C0C0', storage: '128GB', ram: '8GB', price: 1099.00, stock: 3 },
         ],
         specifications: {
-            ram: '8GB / 16GB',
-            storage: '128GB / 256GB / 512GB / 1TB / 2TB',
+            ram: '8GB / 16GB unified memory',
+            storage: '128GB / 256GB / 512GB / 1TB / 2TB SSD',
             processor: 'Apple M2 chip (8-core CPU, 10-core GPU)',
             display: '12.9" Liquid Retina XDR display (2732 x 2048)',
-            camera: '12MP Wide | 10MP Ultra Wide | 12MP TrueDepth front',
-            battery: 'Up to 10 hours battery life',
-            os: 'iPadOS 17',
-            weight: '682g (Wi-Fi model)',
+            camera: '12MP Wide, 10MP Ultra Wide',
+            battery: 'Up to 10 hours of surfing the web on Wi‑Fi or watching video',
+            os: 'iPadOS',
+            weight: '682g (Wi-Fi)',
             dimensions: '280.6 x 214.9 x 6.4 mm'
         },
         icon: Tablet
@@ -196,40 +237,38 @@ export const mockProducts: Product[] = [
     {
         id: 'PROD005',
         name: 'Sony WH-1000XM5',
-        description: 'Industry-leading noise cancellation, exceptional sound quality, and crystal-clear calls.',
+        description: 'Industry-leading noise canceling headphones with magnificent sound and call quality.',
         category: 'Audio',
-        price: 350.00,
-        stock: 50,
-        image: 'https://cdn.dummyjson.com/products/images/mobile-accessories/Apple%20Airpods/1.png',
+        price: 349.00,
+        stock: 60,
+        image: 'https://cdn.dummyjson.com/products/images/mobile-accessories/Apple%20Airpods%20Pro/1.png',
         images: [
-            'https://cdn.dummyjson.com/products/images/mobile-accessories/Apple%20Airpods/1.png',
-            'https://cdn.dummyjson.com/products/images/mobile-accessories/Apple%20Airpods/2.png'
+            'https://cdn.dummyjson.com/products/images/mobile-accessories/Apple%20Airpods%20Pro/1.png'
         ],
-        colors: ['#000000', '#F5F5DC'],
+        colors: ['#2C2C2C', '#E0E0E0'],
         colorNames: ['Black', 'Silver'],
         variants: [
-            { color: 'Black', colorHex: '#000000', price: 350.00, stock: 30 },
-            { color: 'Silver', colorHex: '#F5F5DC', price: 350.00, stock: 20 },
+            { color: 'Black', colorHex: '#2C2C2C', price: 349.00, stock: 40 },
+            { color: 'Silver', colorHex: '#E0E0E0', price: 349.00, stock: 20 },
         ],
         specifications: {
-            processor: 'Integrated Processor V1',
-            battery: 'Up to 30 hours with ANC on, 40 hours with ANC off',
+            battery: 'Up to 30 hours with ANC, 40 hours without ANC',
             weight: '250g',
-            dimensions: 'Folded: 165 x 254 x 80 mm'
+            connectivity: 'Bluetooth 5.2',
+            features: 'Active Noise Cancellation, Ambient Sound Mode, Speak-to-Chat'
         },
         icon: Headphones
     },
     {
         id: 'PROD006',
         name: 'Apple Watch Ultra 2',
-        description: 'The most rugged and capable Apple Watch. Designed for outdoor adventure and supercharged workouts.',
+        description: 'The most rugged and capable Apple Watch, designed for outdoor adventures and extreme workouts.',
         category: 'Wearables',
         price: 799.00,
-        stock: 12,
-        image: 'https://cdn.dummyjson.com/products/images/mens-watches/Rolex%20Submariner%20Watch/1.png',
+        stock: 50,
+        image: 'https://cdn.dummyjson.com/products/images/wearables/Apple%20Watch%20Ultra/1.png',
         images: [
-            'https://cdn.dummyjson.com/products/images/mens-watches/Rolex%20Submariner%20Watch/1.png',
-            'https://cdn.dummyjson.com/products/images/mens-watches/Rolex%20Submariner%20Watch/2.png'
+            'https://cdn.dummyjson.com/products/images/wearables/Apple%20Watch%20Ultra/1.png'
         ],
         colors: ['#C0C0C0'],
         colorNames: ['Titanium'],
