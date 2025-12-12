@@ -5,6 +5,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { MapPin, Ticket, X, Tag, CheckCircle2 } from 'lucide-react';
 import { mockProducts, initialCartItems, CartItem } from '@/lib/mockData';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 // Mock addresses
 const availableAddresses = [
@@ -97,6 +104,16 @@ export default function CheckoutPage() {
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showNewAddressModal, setShowNewAddressModal] = useState(false);
+  const [newAddressForm, setNewAddressForm] = useState({
+    firstName: '',
+    lastName: '',
+    phoneCode: '+60',
+    phone: '',
+    email: '',
+    address: '',
+    stateArea: ''
+  });
 
   // Load checked items from localStorage on mount
   useEffect(() => {
@@ -223,12 +240,15 @@ export default function CheckoutPage() {
 
             {/* Modal Footer with Buttons */}
             <div className="border-t border-gray-200 px-6 py-4 flex gap-3 justify-between bg-white">
-              <Link
-                href="/address-book"
+              <button
+                onClick={() => {
+                  setShowAddressModal(false);
+                  setShowNewAddressModal(true);
+                }}
                 className="px-6 py-2.5 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium hover:bg-gray-50 transition-colors"
               >
                 Add Address
-              </Link>
+              </button>
               <div className="flex gap-3">
                 <button
                   onClick={() => {
@@ -987,6 +1007,151 @@ export default function CheckoutPage() {
                 View My Orders
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* New Address Modal */}
+      {showNewAddressModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop with blur */}
+          <div 
+            className="absolute inset-0 bg-white/70 backdrop-blur-sm"
+            onClick={() => setShowNewAddressModal(false)}
+          ></div>
+
+          {/* Modal Content */}
+          <div className="relative bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <h2 className="text-xl font-bold text-gray-900">New Address</h2>
+              <button
+                onClick={() => setShowNewAddressModal(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              // Add logic to save new address here
+              setShowNewAddressModal(false);
+              setShowAddressModal(true);
+            }} className="p-6">
+              <div className="space-y-4">
+                {/* First Name and Last Name Row */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="First Name"
+                      value={newAddressForm.firstName}
+                      onChange={(e) => setNewAddressForm({...newAddressForm, firstName: e.target.value})}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6B8784] focus:border-transparent"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Last Name"
+                      value={newAddressForm.lastName}
+                      onChange={(e) => setNewAddressForm({...newAddressForm, lastName: e.target.value})}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6B8784] focus:border-transparent"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Phone Number */}
+                <div className="flex gap-2">
+                  <Select value={newAddressForm.phoneCode} onValueChange={(value) => setNewAddressForm({...newAddressForm, phoneCode: value})}>
+                    <SelectTrigger className="w-[100px] !h-[50px] py-2.5">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="+60">+60</SelectItem>
+                      <SelectItem value="+65">+65</SelectItem>
+                      <SelectItem value="+1">+1</SelectItem>
+                      <SelectItem value="+44">+44</SelectItem>
+                      <SelectItem value="+86">+86</SelectItem>
+                      <SelectItem value="+61">+61</SelectItem>
+                      <SelectItem value="+81">+81</SelectItem>
+                      <SelectItem value="+82">+82</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <input
+                    type="tel"
+                    placeholder="Phone Number"
+                    value={newAddressForm.phone}
+                    onChange={(e) => setNewAddressForm({...newAddressForm, phone: e.target.value})}
+                    className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6B8784] focus:border-transparent"
+                    required
+                  />
+                </div>
+
+                {/* Email */}
+                <div>
+                  <input
+                    type="email"
+                    placeholder="xxx@gmail.com"
+                    value={newAddressForm.email}
+                    onChange={(e) => setNewAddressForm({...newAddressForm, email: e.target.value})}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6B8784] focus:border-transparent"
+                    required
+                  />
+                </div>
+
+                {/* Address */}
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Address"
+                    value={newAddressForm.address}
+                    onChange={(e) => setNewAddressForm({...newAddressForm, address: e.target.value})}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6B8784] focus:border-transparent"
+                    required
+                  />
+                </div>
+
+                {/* State Area Dropdown */}
+                <div>
+                  <Select value={newAddressForm.stateArea} onValueChange={(value) => setNewAddressForm({...newAddressForm, stateArea: value})}>
+                    <SelectTrigger className="w-full !h-[50px] py-2.5">
+                      <SelectValue placeholder="State Area" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Johor Bahru, Johor">Johor Bahru, Johor</SelectItem>
+                      <SelectItem value="Kuala Lumpur">Kuala Lumpur</SelectItem>
+                      <SelectItem value="Selangor">Selangor</SelectItem>
+                      <SelectItem value="Penang">Penang</SelectItem>
+                      <SelectItem value="Melaka">Melaka</SelectItem>
+                      <SelectItem value="Perak">Perak</SelectItem>
+                      <SelectItem value="Negeri Sembilan">Negeri Sembilan</SelectItem>
+                      <SelectItem value="Pahang">Pahang</SelectItem>
+                      <SelectItem value="Terengganu">Terengganu</SelectItem>
+                      <SelectItem value="Kelantan">Kelantan</SelectItem>
+                      <SelectItem value="Kedah">Kedah</SelectItem>
+                      <SelectItem value="Perlis">Perlis</SelectItem>
+                      <SelectItem value="Sabah">Sabah</SelectItem>
+                      <SelectItem value="Sarawak">Sarawak</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              {/* Confirm Button */}
+              <div className="mt-6">
+                <button
+                  type="submit"
+                  className="w-full py-3 bg-[#6B8784] hover:bg-[#5a726f] text-white font-semibold rounded-lg transition-colors"
+                >
+                  Confirm
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
