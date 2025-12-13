@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import ProductFilterSidebar from '@/components/public/ProductFilterSidebar';
 import ProductListingCard from '@/components/public/ProductListingCard';
 import { mockProducts } from '@/lib/mockData';
@@ -8,7 +8,7 @@ import { ChevronDown } from 'lucide-react';
 
 import { useSearchParams } from 'next/navigation';
 
-export default function ProductsPage() {
+function ProductsContent() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get('category');
   const subcategoryParam = searchParams.get('subcategory');
@@ -80,5 +80,13 @@ export default function ProductsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ProductsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading products...</div>}>
+      <ProductsContent />
+    </Suspense>
   );
 }
