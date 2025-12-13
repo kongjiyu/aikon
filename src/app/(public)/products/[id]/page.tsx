@@ -1,192 +1,296 @@
+
 'use client';
 
-import { useState, use } from 'react';
-import Link from 'next/link';
-import {
-  Star,
-  Heart,
-  Share2,
-  Truck,
-  ShieldCheck,
-  RotateCcw,
-  Minus,
-  Plus,
-  ShoppingCart
-} from 'lucide-react';
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import { mockProducts } from '@/lib/mockData';
+import ProductListingCard from '@/components/public/ProductListingCard';
+import { Star, Truck, ShieldCheck, ArrowRight, Minus, Plus, RefreshCw, Maximize2, X } from 'lucide-react'; // Added Icons
+import { useParams } from 'next/navigation';
+import Product3DViewer from '@/components/public/Product3DViewer';
 
-export default function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
-  const product = mockProducts.find(p => p.id === id) || mockProducts[0];
+export default function ProductDetailPage() {
+    const params = useParams();
+    const id = params.id as string;
 
-  const [selectedImage, setSelectedImage] = useState(product.images?.[0] || product.image);
-  const [selectedColor, setSelectedColor] = useState(product.colors?.[0]);
-  const [quantity, setQuantity] = useState(1);
+    const product = mockProducts.find((p) => p.id === id);
 
-  return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+    if (!product) {
+        return notFound();
+    }
 
-      {/* Breadcrumb */}
-      <div className="text-sm text-gray-500">
-        <Link href="/" className="hover:text-brand-dark">Home</Link>
-        <span className="mx-2">/</span>
-        <Link href="/products" className="hover:text-brand-dark">{product.category}</Link>
-        <span className="mx-2">/</span>
-        <span className="text-gray-900 font-medium">{product.name}</span>
-      </div>
+    const [quantity, setQuantity] = useState(1);
+    const [selectedColor, setSelectedColor] = useState(product.colors?.[0]);
+    const [selectedStorage, setSelectedStorage] = useState(product.storageOptions?.[0]);
+    const [is3DViewActive, setIs3DViewActive] = useState(false);
+    const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        {/* Gallery Section */}
-        <div className="space-y-4">
-          <div className="aspect-square bg-gray-50 rounded-2xl flex items-center justify-center p-8 border border-gray-100">
-            <img src={selectedImage} alt={product.name} className="max-w-full max-h-full object-contain mix-blend-multiply" />
-          </div>
-          <div className="grid grid-cols-5 gap-4">
-            {product.images?.map((img, i) => (
-              <button
-                key={i}
-                onClick={() => setSelectedImage(img)}
-                className={`aspect-square rounded-lg border-2 bg-gray-50 p-2 ${selectedImage === img ? 'border-brand-teal ring-2 ring-brand-teal/20' : 'border-transparent hover:border-gray-200'
-                  }`}
-              >
-                <img src={img} alt="" className="w-full h-full object-contain mix-blend-multiply" />
-              </button>
-            ))}
-          </div>
-        </div>
+    // Grid images: show ALL remaining imagesrid layout requested
+    // Ensure we have enough images, or fallback to repeating the main one
+    const productImages = product.images && product.images.length > 0 ? product.images : [product.image];
 
-        {/* Product Info Section */}
-        <div className="space-y-8">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
-            <div className="flex items-center gap-4 text-sm">
-              <div className="flex text-yellow-500">
-                <Star size={16} fill="currentColor" />
-                <Star size={16} fill="currentColor" />
-                <Star size={16} fill="currentColor" />
-                <Star size={16} fill="currentColor" />
-                <Star size={16} fill="currentColor" className="text-gray-300" />
-              </div>
-              <span className="text-gray-500">(150 Reviews)</span>
-              <span className="w-px h-4 bg-gray-300"></span>
-              <span className="text-green-600 font-medium">In Stock</span>
-            </div>
-          </div>
+    // Main image is the first one
+    const mainImage = productImages[0];
 
-          <div className="flex items-end gap-3 border-b border-gray-100 pb-8">
-            <span className="text-3xl font-bold text-gray-900">RM {product.price.toFixed(2)}</span>
-            <span className="text-gray-400 line-through mb-1">RM {(product.price * 1.2).toFixed(2)}</span>
-            <span className="bg-red-50 text-red-600 text-xs font-bold px-2 py-1 rounded mb-1">-20%</span>
-          </div>
+    // Grid images: show ALL remaining images
+    const gridImages = productImages.slice(1);
 
-          <div className="space-y-6">
-            {/* Colors */}
-            <div className="space-y-3">
-              <span className="text-sm font-medium text-gray-900">Colours:</span>
-              <div className="flex gap-3">
-                {product.colors?.map((color, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setSelectedColor(color)}
-                    className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all ${selectedColor === color ? 'border-brand-dark ring-2 ring-brand-teal/20 scale-110' : 'border-gray-200 hover:scale-105'
-                      }`}
-                    style={{ backgroundColor: color }}
-                    title={color}
-                  />
-                ))}
-              </div>
-            </div>
+    return (
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
 
-            {/* Size / Storage (Mock) */}
-            <div className="space-y-3">
-              <span className="text-sm font-medium text-gray-900">Storage:</span>
-              <div className="flex gap-3">
-                {['128GB', '256GB', '512GB', '1TB'].map((size) => (
-                  <button
-                    key={size}
-                    className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:border-brand-dark hover:text-brand-dark transition-all focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal"
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-            </div>
+                {/* Left Column: Visual Gallery */}
+                <div className="flex flex-col items-center">
 
-            {/* Actions */}
-            <div className="flex gap-4 pt-4">
-              <div className="flex items-center border border-gray-300 rounded-lg h-12">
-                <button
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="px-4 text-gray-500 hover:text-brand-dark"
-                >
-                  <Minus size={16} />
-                </button>
-                <span className="w-8 text-center font-medium text-gray-900">{quantity}</span>
-                <button
-                  onClick={() => setQuantity(quantity + 1)}
-                  className="px-4 text-gray-500 hover:text-brand-dark"
-                >
-                  <Plus size={16} />
-                </button>
-              </div>
+                    {/* 1. Main Large Image OR 3D Viewer */}
+                    <div className="relative w-full aspect-[4/5] max-w-lg mb-6 flex items-center justify-center group">
+                        {is3DViewActive && product.has3DModel && product.modelPath ? (
+                            <Product3DViewer modelPath={product.modelPath} />
+                        ) : (
+                            <div
+                                className="relative w-full h-full cursor-pointer"
+                                onClick={() => setLightboxImage(mainImage)}
+                            >
+                                <Image
+                                    src={mainImage}
+                                    alt={`${product.name} Main View`}
+                                    fill
+                                    className="object-contain" // Removed scale hover
+                                    priority
+                                />
+                                {/* Enlarge Icon Overlay */}
+                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/10">
+                                    <div className="bg-white/80 p-3 rounded-full backdrop-blur-sm shadow-lg">
+                                        <Maximize2 className="w-6 h-6 text-gray-800" />
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
 
-              <button className="flex-1 bg-brand-dark text-white font-medium rounded-lg h-12 hover:bg-gray-800 transition-colors">
-                Buy Now
-              </button>
-              <button className="px-6 border border-gray-300 rounded-lg h-12 hover:bg-gray-50 transition-colors">
-                <Heart size={20} className="text-gray-600" />
-              </button>
-            </div>
-          </div>
+                    {/* 2. 360 View Link */}
+                    {product.has3DModel && (
+                        <button
+                            onClick={() => setIs3DViewActive(!is3DViewActive)}
+                            className="flex items-center gap-2 text-blue-600 font-medium mb-12 hover:underline group"
+                        >
+                            <span>{is3DViewActive ? "Back to Image" : "Click for 360 product view"}</span>
+                            <RefreshCw className={`w-4 h-4 transition-transform duration-700 ${is3DViewActive ? 'rotate-180' : ''} group-hover:rotate-180`} />
+                        </button>
+                    )}
 
-          {/* Delivery Info */}
-          <div className="border border-gray-200 rounded-xl p-4 space-y-4">
-            <div className="flex gap-4 items-start">
-              <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 shrink-0">
-                <Truck size={20} />
-              </div>
-              <div>
-                <h4 className="font-medium text-gray-900 text-sm">Free Delivery</h4>
-                <p className="text-xs text-gray-500 underline mt-0.5 cursor-pointer">Enter your Postal code for Delivery Availability</p>
-              </div>
-            </div>
-            <div className="flex gap-4 items-start border-t border-gray-100 pt-4">
-              <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 shrink-0">
-                <RotateCcw size={20} />
-              </div>
-              <div>
-                <h4 className="font-medium text-gray-900 text-sm">Return Delivery</h4>
-                <p className="text-xs text-gray-500 mt-0.5">Free 30 Days Delivery Returns. <span className="underline cursor-pointer">Details</span></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+                    {/* 3. Grid Layout (All remaining images) */}
+                    {gridImages.length > 0 && (
+                        <div className="grid grid-cols-2 gap-x-12 gap-y-12 w-full max-w-lg">
+                            {gridImages.map((img, index) => (
+                                <div
+                                    key={index}
+                                    className="relative aspect-[3/4] w-full flex items-center justify-center group cursor-pointer"
+                                    onClick={() => setLightboxImage(img)}
+                                >
+                                    <Image
+                                        src={img}
+                                        alt={`${product.name} detail ${index + 1}`}
+                                        fill
+                                        className="object-contain transition-opacity group-hover:opacity-90"
+                                    />
+                                    {/* Enlarge Icon Overlay */}
+                                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/10">
+                                        <div className="bg-white/80 p-2 rounded-full backdrop-blur-sm shadow-lg">
+                                            <Maximize2 className="w-5 h-5 text-gray-800" />
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
 
-      {/* Related Items (Reusing format from Cart for consistency) */}
-      <div className="space-y-6 pt-12 border-t border-gray-100">
-        <div className="flex items-center gap-2">
-          <div className="w-1.5 h-6 bg-brand-dark rounded-full"></div>
-          <h2 className="text-lg font-bold text-gray-900">Related Items</h2>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {mockProducts.slice(0, 4).map((product) => (
-            <div key={product.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 group relative">
-              <span className="absolute top-4 left-4 bg-gray-500 text-white text-[10px] font-bold px-2 py-1 rounded">-30%</span>
-              <div className="aspect-square bg-gray-50 rounded-lg p-4 mb-4 flex items-center justify-center">
-                <img src={product.images?.[0] || product.image} alt={product.name} className="w-full h-full object-contain mix-blend-multiply" />
-              </div>
-              <div>
-                <h3 className="font-bold text-gray-900 text-sm mb-1 truncate">{product.name}</h3>
-                <div className="flex items-center gap-2 text-xs mb-2">
-                  <span className="text-red-500 font-bold">RM {product.price}</span>
-                  <span className="text-gray-400 line-through">RM {(product.price * 1.3).toFixed(0)}</span>
                 </div>
-              </div>
+
+                {/* Right Column: Details (Standard) */}
+                <div className="flex flex-col pt-8">
+                    {/* Breadcrumbs (Visual) */}
+                    <div className="text-sm text-gray-500 mb-4 flex items-center gap-2">
+                        <span>Products</span>
+                        <span>/</span>
+                        <span className="font-medium text-gray-900">{product.category}</span>
+                    </div>
+
+                    <h1 className="text-4xl font-bold text-gray-900 mb-2">{product.name}</h1>
+
+                    {/* Rating & reviews */}
+                    <div className="flex items-center gap-4 mb-6">
+                        <div className="flex items-center text-yellow-500">
+                            <Star className="w-5 h-5 fill-current" />
+                            <span className="ml-1 font-bold text-gray-900">{product.rating || '4.8'}</span>
+                        </div>
+                        <span className="text-gray-400">|</span>
+                        <span className="text-gray-500">{product.reviewsCount || 120} Reviews</span>
+                        <span className="text-gray-400">|</span>
+                        <span className="text-green-600 font-medium">{product.stock > 0 ? 'In Stock' : 'Out of Stock'}</span>
+                    </div>
+
+                    <div className="text-3xl font-bold text-teal-900 mb-8">
+                        RM {product.price.toLocaleString()}
+                        {product.originalPrice && (
+                            <span className="text-xl text-gray-400 line-through ml-4 font-normal">
+                                RM {product.originalPrice.toLocaleString()}
+                            </span>
+                        )}
+                    </div>
+
+                    <p className="text-gray-600 leading-relaxed mb-8">
+                        {product.description}
+                    </p>
+
+                    {/* Color Selection */}
+                    {product.colors && (
+                        <div className="mb-8">
+                            <label className="block text-sm font-bold text-gray-900 mb-3">
+                                Color: <span className="font-normal text-gray-600">{
+                                    product.colorNames
+                                        ? product.colorNames[product.colors.indexOf(selectedColor || '')]
+                                        : selectedColor
+                                }</span>
+                            </label>
+                            <div className="flex gap-3">
+                                {product.colors.map((color, index) => {
+                                    const colorName = product.colorNames?.[index] || color;
+                                    return (
+                                        <button
+                                            key={color}
+                                            onClick={() => setSelectedColor(color)}
+                                            className={`w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all ${selectedColor === color ? 'border-teal-900 ring-2 ring-offset-2 ring-teal-900' : 'border-gray-200 hover:border-gray-400'}`}
+                                            style={{ backgroundColor: color }}
+                                            title={colorName}
+                                            aria-label={`Select ${colorName}`}
+                                        />
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Storage Selection */}
+                    {product.storageOptions && (
+                        <div className="mb-8">
+                            <label className="block text-sm font-bold text-gray-900 mb-3">
+                                Storage: <span className="font-normal text-gray-600">{selectedStorage}</span>
+                            </label>
+                            <div className="flex flex-wrap gap-3">
+                                {product.storageOptions.map((storage) => (
+                                    <button
+                                        key={storage}
+                                        onClick={() => setSelectedStorage(storage)}
+                                        className={`px-4 py-2 rounded-lg border-2 text-sm font-medium transition-all ${selectedStorage === storage
+                                            ? 'border-teal-900 bg-teal-50 text-teal-900'
+                                            : 'border-gray-200 text-gray-600 hover:border-gray-400'
+                                            }`}
+                                    >
+                                        {storage}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Quantity & Add to Cart */}
+                    <div className="flex items-center gap-4 mb-10">
+                        <div className="flex items-center border border-gray-300 rounded-lg">
+                            <button
+                                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                                className="w-12 h-12 flex items-center justify-center text-gray-600 hover:bg-gray-100 rounded-l-lg"
+                            >
+                                <Minus className="w-4 h-4" />
+                            </button>
+                            <span className="w-12 text-center font-bold text-gray-900">{quantity}</span>
+                            <button
+                                onClick={() => setQuantity(quantity + 1)}
+                                className="w-12 h-12 flex items-center justify-center text-gray-600 hover:bg-gray-100 rounded-r-lg"
+                            >
+                                <Plus className="w-4 h-4" />
+                            </button>
+                        </div>
+                        <button className="flex-1 bg-teal-900 text-white font-bold h-12 rounded-lg hover:bg-teal-800 transition-colors uppercase tracking-wide">
+                            Add to Cart
+                        </button>
+                    </div>
+
+                    {/* Features / Safety */}
+                    <div className="grid grid-cols-2 gap-4 pt-8 border-t border-gray-100">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center text-teal-900">
+                                <Truck className="w-5 h-5" />
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-sm text-gray-900">Free Delivery</h4>
+                                <p className="text-xs text-gray-500">For orders over RM 500</p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-teal-50 flex items-center justify-center text-teal-900">
+                                <ShieldCheck className="w-5 h-5" />
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-sm text-gray-900">2 Year Warranty</h4>
+                                <p className="text-xs text-gray-500">Full coverage protection</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Specs Summary */}
+                    <div className="mt-12 bg-gray-50 p-6 rounded-xl">
+                        <h3 className="font-bold text-gray-900 mb-4">Key Specifications</h3>
+                        <div className="space-y-3 text-sm">
+                            {product.specifications && Object.entries(product.specifications).slice(0, 5).map(([key, value]) => (
+                                <div key={key} className="flex justify-between border-b border-gray-200 pb-2 last:border-0 last:pb-0">
+                                    <span className="text-gray-500 capitalize">{key}</span>
+                                    <span className="font-medium text-gray-900">{value}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
             </div>
-          ))}
+
+            {/* Bottom Section (Placeholder for full specs/reviews if needed later) */}
+
+            {/* Recommended Products Section */}
+            <div className="mt-20 pt-10 border-t border-gray-100">
+                <h2 className="text-2xl font-bold text-gray-900 mb-8">People Also Bought</h2>
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                    {mockProducts
+                        .filter(p => p.category === product.category && p.id !== product.id)
+                        .slice(0, 4)
+                        .map(p => (
+                            <ProductListingCard key={p.id} product={p} />
+                        ))}
+                </div>
+            </div>
+
+            {/* Lightbox Modal */}
+            {lightboxImage && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 animate-in fade-in duration-200"
+                    onClick={() => setLightboxImage(null)}
+                >
+                    <button
+                        className="absolute top-6 right-6 text-white hover:text-gray-300 transition-colors p-2"
+                        onClick={() => setLightboxImage(null)}
+                    >
+                        <X className="w-8 h-8" />
+                    </button>
+                    <div className="relative w-full max-w-5xl h-full max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
+                        <Image
+                            src={lightboxImage}
+                            alt="Full screen view"
+                            fill
+                            className="object-contain"
+                        />
+                    </div>
+                </div>
+            )}
         </div>
-      </div>
-    </div>
-  );
+    );
 }
