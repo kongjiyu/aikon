@@ -216,37 +216,6 @@ export default function FaqPage() {
 
         </div>
 
-        {/* Contact CTA */}
-        <div className="mt-24 pt-12 border-t border-gray-100 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-          <div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">INFORMATION</h3>
-            <p className="text-sm text-gray-500 leading-relaxed max-w-xs mx-auto md:mx-0">
-              At AIKON, we create smart, innovative tools that make staying connected simple and enjoyable.
-            </p>
-          </div>
-          <div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">NAVIGATION</h3>
-            <ul className="space-y-2 text-sm text-gray-500">
-              <li><button className="hover:text-gray-900">Compare</button></li>
-              <li><button className="hover:text-gray-900">AI Assistant</button></li>
-              <li><button className="hover:text-gray-900">Products</button></li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">CONTACT US</h3>
-            <div className="text-sm text-gray-500 space-y-2">
-              <p className="flex items-start justify-center md:justify-start gap-2">
-                <span className="flex-shrink-0 mt-1"><RotateCcw size={14} /></span>
-                <span>Plaza Low Yat, No 7, Jalan Bintang, Bukit Bintang Central, 55100 Kuala Lumpur</span>
-              </p>
-              <p className="flex items-center justify-center md:justify-start gap-2">
-                <Mail size={14} />
-                <span>Aikon888@gmail.com</span>
-              </p>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   );
