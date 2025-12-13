@@ -57,7 +57,7 @@ export default function AddProductWireframe() {
                                 </label>
                                 <input
                                     type="text"
-                                    placeholder="e.g., Premium Wireless Headphones"
+                                    placeholder="Lorem ipsum dolor sit"
                                     className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
                                 />
                             </div>
@@ -67,7 +67,7 @@ export default function AddProductWireframe() {
                                 </label>
                                 <textarea
                                     rows={6}
-                                    placeholder="Experience standard audio quality with our latest noise-cancelling technology..."
+                                    placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
                                     className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 resize-none focus:ring-brand-teal"
                                 />
                             </div>
@@ -119,7 +119,7 @@ export default function AddProductWireframe() {
                                 <label className="block text-sm font-medium text-gray-700 mb-2">SKU</label>
                                 <input
                                     type="text"
-                                    placeholder="PRD-WH-001"
+                                    placeholder="LOR-001"
                                     className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
                                 />
                             </div>
@@ -127,7 +127,7 @@ export default function AddProductWireframe() {
                                 <label className="block text-sm font-medium text-gray-700 mb-2">Barcode</label>
                                 <input
                                     type="text"
-                                    placeholder="9780134092669"
+                                    placeholder="12345678"
                                     className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
                                 />
                             </div>
@@ -181,12 +181,12 @@ export default function AddProductWireframe() {
                                 </label>
                                 <Select>
                                     <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Select Category" />
+                                        <SelectValue placeholder="Lorem Category" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="1">Electronics</SelectItem>
-                                        <SelectItem value="2">Fashion</SelectItem>
-                                        <SelectItem value="3">Home & Living</SelectItem>
+                                        <SelectItem value="1">Lorem Category 1</SelectItem>
+                                        <SelectItem value="2">Lorem Category 2</SelectItem>
+                                        <SelectItem value="3">Lorem Category 3</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -206,15 +206,15 @@ export default function AddProductWireframe() {
                                 <label className="block text-sm font-medium text-gray-700 mb-2">Tags</label>
                                 <input
                                     type="text"
-                                    placeholder="Summer, Sale, New"
+                                    placeholder="Lorem, Ipsum"
                                     className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
                                 />
                                 <div className="flex flex-wrap gap-2 mt-3">
                                     <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs flex items-center gap-1">
-                                        Wireless <button className="hover:text-red-500"><X size={12} /></button>
+                                        Lorem <button className="hover:text-red-500"><X size={12} /></button>
                                     </span>
                                     <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs flex items-center gap-1">
-                                        Electronics <button className="hover:text-red-500"><X size={12} /></button>
+                                        Ipsum <button className="hover:text-red-500"><X size={12} /></button>
                                     </span>
                                 </div>
                             </div>
