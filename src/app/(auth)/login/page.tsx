@@ -56,7 +56,7 @@ export default function LoginPage() {
             src="/images/loginPic.jpeg"
             alt="Login"
             fill
-            className="object-cover opacity-60"
+            className="object-cover opacity-100"
             priority
           />
         </div>

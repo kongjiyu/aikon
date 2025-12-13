@@ -1,6 +1,7 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
@@ -38,7 +39,7 @@ const menuItems = [
   {
     category: 'Admin',
     items: [
-      { name: 'Admin role', href: '/admin/roles', icon: UserCog },
+      { name: 'Admin Profile', href: '/admin/roles', icon: UserCog },
     ],
   },
 ];
@@ -55,25 +56,32 @@ export default function Sidebar({ isCollapsed, toggleSidebar }: SidebarProps) {
     <aside className={`bg-white border-r border-gray-200 flex flex-col h-screen fixed left-0 top-0 overflow-y-auto transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'} z-40`}>
       <div className={`p-6 flex items-center ${isCollapsed ? 'justify-center' : 'gap-2'} relative`}>
         {!isCollapsed && (
-          <div className="text-2xl font-bold text-gray-800 tracking-tight flex items-center gap-1 overflow-hidden whitespace-nowrap">
-            <span className="text-3xl">AIKON</span>
-            <div className="opacity-30 -rotate-90">
-              <div className="h-4 w-0.5 bg-black inline-block mx-[1px]"></div>
-              <div className="h-3 w-0.5 bg-black inline-block mx-[1px]"></div>
-              <div className="h-2 w-0.5 bg-black inline-block mx-[1px]"></div>
+          <>
+            <div className="flex items-center">
+              <Image
+                src="/images/headerPic.png"
+                alt="AIKON Logo"
+                width={120}
+                height={40}
+                className="object-contain"
+              />
             </div>
-          </div>
+            {/* Toggle Button - when expanded */}
+            <button
+              onClick={toggleSidebar}
+              className="absolute right-3 top-7 bg-white border border-gray-200 rounded-full p-1 shadow-sm text-gray-500 hover:text-gray-900 z-[60] focus:outline-none">
+              <ChevronLeft size={14} />
+            </button>
+          </>
         )}
         {isCollapsed && (
-          <div className="text-xl font-bold text-gray-800">AK</div>
+          /* Toggle Button - when collapsed, replaces logo */
+          <button
+            onClick={toggleSidebar}
+            className="bg-white border border-gray-200 rounded-full p-2 shadow-sm text-gray-500 hover:text-gray-900 focus:outline-none">
+            <ChevronRight size={18} />
+          </button>
         )}
-
-        {/* Toggle Button */}
-        <button
-          onClick={toggleSidebar}
-          className="absolute -right-3 top-7 bg-white border border-gray-200 rounded-full p-1 shadow-sm text-gray-500 hover:text-gray-900 z-50 focus:outline-none">
-          {isCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
-        </button>
       </div>
 
       <nav className="flex-1 px-4 space-y-6 mt-4">

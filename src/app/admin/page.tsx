@@ -289,7 +289,7 @@ export default function AdminDashboard() {
                   <th className="pb-3">Customer</th>
                   <th className="pb-3">Date</th>
                   <th className="pb-3">Status</th>
-                  <th className="pb-3 text-right pr-2">Amount</th>
+                  <th className="pb-3">Amount</th>
                 </tr>
               </thead>
               <tbody className="text-gray-600">
@@ -307,7 +307,7 @@ export default function AdminDashboard() {
                         }`}></div>
                       {order.status}
                     </td>
-                    <td className="py-3 text-right pr-2 font-bold text-gray-900">RM {order.total}</td>
+                    <td className="py-3 font-bold text-gray-900">RM {order.total}</td>
                   </tr>
                 ))}
               </tbody>

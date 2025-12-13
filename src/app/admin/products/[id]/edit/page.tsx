@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { ChevronRight, Save, Image as ImageIcon, Upload, Trash2, Plus, X } from 'lucide-react';
+import { ChevronRight, Save, Image as ImageIcon, Upload, Trash2, Plus, X, CheckCircle } from 'lucide-react';
 import { mockProducts } from '@/lib/mockData';
 import { useState, use, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Select,
   SelectContent,
@@ -12,14 +13,123 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+interface ValidationErrors {
+  name?: string;
+  description?: string;
+  price?: string;
+  stock?: string;
+  category?: string;
+}
+
 export default function ProductEditPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
+  const router = useRouter();
   const product = mockProducts.find(p => p.id === id) || mockProducts[0];
+
+  // Form state
+  const [formData, setFormData] = useState({
+    name: product.name,
+    description: product.description || '',
+    price: product.price.toString(),
+    discountPrice: '',
+    stock: product.stock.toString(),
+    category: product.category,
+    tags: '',
+  });
 
   const [selectedImage, setSelectedImage] = useState(product.images?.[0] || product.image);
   const [colors, setColors] = useState<string[]>(product.colors || []);
   const [selectedColor, setSelectedColor] = useState(product.colors?.[0]);
   const colorInputRef = useRef<HTMLInputElement>(null);
+
+  // Validation state
+  const [errors, setErrors] = useState<ValidationErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  // Validation functions
+  const validateField = (fieldName: string, value: string): string | undefined => {
+    switch (fieldName) {
+      case 'name':
+        if (!value.trim()) return 'Product name is required';
+        if (value.trim().length < 3) return 'Product name must be at least 3 characters';
+        if (value.trim().length > 100) return 'Product name must not exceed 100 characters';
+        break;
+      case 'description':
+        if (!value.trim()) return 'Description is required';
+        if (value.trim().length < 10) return 'Description must be at least 10 characters';
+        if (value.trim().length > 1000) return 'Description must not exceed 1000 characters';
+        break;
+      case 'price':
+        if (!value) return 'Price is required';
+        const priceNum = parseFloat(value);
+        if (isNaN(priceNum)) return 'Price must be a valid number';
+        if (priceNum <= 0) return 'Price must be greater than 0';
+        if (priceNum > 999999) return 'Price must not exceed RM 999,999';
+        break;
+      case 'stock':
+        if (!value) return 'Stock quantity is required';
+        const stockNum = parseInt(value);
+        if (isNaN(stockNum)) return 'Stock must be a valid number';
+        if (stockNum < 0) return 'Stock cannot be negative';
+        if (stockNum > 99999) return 'Stock must not exceed 99,999 units';
+        break;
+      case 'category':
+        if (!value || value === '') return 'Please select a category';
+        break;
+    }
+    return undefined;
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    
+    // Real-time validation
+    if (touched[field]) {
+      const error = validateField(field, value);
+      setErrors(prev => ({
+        ...prev,
+        [field]: error
+      }));
+    }
+  };
+
+  const handleBlur = (field: string) => {
+    setTouched(prev => ({ ...prev, [field]: true }));
+    const error = validateField(field, formData[field as keyof typeof formData]);
+    setErrors(prev => ({
+      ...prev,
+      [field]: error
+    }));
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: ValidationErrors = {};
+    
+    newErrors.name = validateField('name', formData.name);
+    newErrors.description = validateField('description', formData.description);
+    newErrors.price = validateField('price', formData.price);
+    newErrors.stock = validateField('stock', formData.stock);
+    newErrors.category = validateField('category', formData.category);
+
+    setErrors(newErrors);
+    setTouched({
+      name: true,
+      description: true,
+      price: true,
+      stock: true,
+      category: true,
+    });
+
+    return !Object.values(newErrors).some(error => error !== undefined);
+  };
+
+  const handleSave = () => {
+    if (validateForm()) {
+      // Save logic here (would normally call API)
+      setShowSuccessModal(true);
+    }
+  };
 
   const handleAddColor = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newColor = e.target.value;
@@ -45,7 +155,10 @@ export default function ProductEditPage({ params }: { params: Promise<{ id: stri
           <Link href="/admin/products" className="px-4 py-2 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 text-sm font-medium transition-colors">
             Cancel
           </Link>
-          <button className="flex items-center gap-2 bg-brand-dark text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors">
+          <button 
+            onClick={handleSave}
+            className="flex items-center gap-2 bg-brand-dark text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors"
+          >
             <Save size={16} /> Save Changes
           </button>
         </div>
@@ -58,21 +171,47 @@ export default function ProductEditPage({ params }: { params: Promise<{ id: stri
             <h3 className="font-semibold text-gray-900 border-b border-gray-100 pb-4">General Information</h3>
 
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">Product Name</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Product Name <span className="text-red-500">*</span>
+              </label>
               <input
                 type="text"
-                defaultValue={product.name}
-                className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
+                value={formData.name}
+                onChange={(e) => handleInputChange('name', e.target.value)}
+                onBlur={() => handleBlur('name')}
+                className={`w-full px-4 py-2 bg-gray-50 border rounded-lg text-sm focus:outline-none focus:ring-2 ${
+                  errors.name ? 'border-red-300 focus:ring-red-200' : 'border-gray-200 focus:ring-brand-teal'
+                }`}
+                placeholder="Enter product name"
               />
+              {errors.name && touched.name && (
+                <p className="text-xs text-red-600 mt-1 flex items-center gap-1">
+                  <span className="inline-block w-1 h-1 bg-red-600 rounded-full"></span>
+                  {errors.name}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">Description</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Description <span className="text-red-500">*</span>
+              </label>
               <textarea
                 rows={5}
-                defaultValue={product.description}
-                className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
+                value={formData.description}
+                onChange={(e) => handleInputChange('description', e.target.value)}
+                onBlur={() => handleBlur('description')}
+                className={`w-full px-4 py-2 bg-gray-50 border rounded-lg text-sm focus:outline-none focus:ring-2 ${
+                  errors.description ? 'border-red-300 focus:ring-red-200' : 'border-gray-200 focus:ring-brand-teal'
+                }`}
+                placeholder="Describe your product in detail"
               />
+              {errors.description && touched.description && (
+                <p className="text-xs text-red-600 mt-1 flex items-center gap-1">
+                  <span className="inline-block w-1 h-1 bg-red-600 rounded-full"></span>
+                  {errors.description}
+                </p>
+              )}
             </div>
           </div>
 
@@ -81,24 +220,43 @@ export default function ProductEditPage({ params }: { params: Promise<{ id: stri
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Base Price</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Base Price <span className="text-red-500">*</span>
+                </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-2 text-gray-500">$</span>
+                  <span className="absolute left-3 top-2 text-gray-500">RM</span>
                   <input
                     type="number"
-                    defaultValue={product.price}
-                    className="w-full pl-8 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
+                    value={formData.price}
+                    onChange={(e) => handleInputChange('price', e.target.value)}
+                    onBlur={() => handleBlur('price')}
+                    className={`w-full pl-12 pr-4 py-2 bg-gray-50 border rounded-lg text-sm focus:outline-none focus:ring-2 ${
+                      errors.price ? 'border-red-300 focus:ring-red-200' : 'border-gray-200 focus:ring-brand-teal'
+                    }`}
+                    placeholder="0.00"
+                    step="0.01"
+                    min="0"
                   />
                 </div>
+                {errors.price && touched.price && (
+                  <p className="text-xs text-red-600 mt-1 flex items-center gap-1">
+                    <span className="inline-block w-1 h-1 bg-red-600 rounded-full"></span>
+                    {errors.price}
+                  </p>
+                )}
               </div>
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">Discount Price</label>
                 <div className="relative">
-                  <span className="absolute left-3 top-2 text-gray-500">$</span>
+                  <span className="absolute left-3 top-2 text-gray-500">RM</span>
                   <input
                     type="number"
+                    value={formData.discountPrice}
+                    onChange={(e) => handleInputChange('discountPrice', e.target.value)}
                     placeholder="0.00"
-                    className="w-full pl-8 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
+                    className="w-full pl-12 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
+                    step="0.01"
+                    min="0"
                   />
                 </div>
               </div>
@@ -115,12 +273,26 @@ export default function ProductEditPage({ params }: { params: Promise<{ id: stri
                 />
               </div>
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Stock Quantity</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Stock Quantity <span className="text-red-500">*</span>
+                </label>
                 <input
                   type="number"
-                  defaultValue={product.stock}
-                  className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
+                  value={formData.stock}
+                  onChange={(e) => handleInputChange('stock', e.target.value)}
+                  onBlur={() => handleBlur('stock')}
+                  className={`w-full px-4 py-2 bg-gray-50 border rounded-lg text-sm focus:outline-none focus:ring-2 ${
+                    errors.stock ? 'border-red-300 focus:ring-red-200' : 'border-gray-200 focus:ring-brand-teal'
+                  }`}
+                  placeholder="0"
+                  min="0"
                 />
+                {errors.stock && touched.stock && (
+                  <p className="text-xs text-red-600 mt-1 flex items-center gap-1">
+                    <span className="inline-block w-1 h-1 bg-red-600 rounded-full"></span>
+                    {errors.stock}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -203,9 +375,19 @@ export default function ProductEditPage({ params }: { params: Promise<{ id: stri
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 space-y-6">
             <h3 className="font-semibold text-gray-900 border-b border-gray-100 pb-4">Category</h3>
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">Product Category</label>
-              <Select defaultValue={product.category.toLowerCase()}>
-                <SelectTrigger className="w-full">
+              <label className="block text-sm font-medium text-gray-700">
+                Product Category <span className="text-red-500">*</span>
+              </label>
+              <Select 
+                value={formData.category.toLowerCase()} 
+                onValueChange={(value) => {
+                  handleInputChange('category', value.charAt(0).toUpperCase() + value.slice(1));
+                  handleBlur('category');
+                }}
+              >
+                <SelectTrigger className={`w-full ${
+                  errors.category ? 'border-red-300 focus:ring-red-200' : ''
+                }`}>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -218,11 +400,19 @@ export default function ProductEditPage({ params }: { params: Promise<{ id: stri
                   <SelectItem value="gaming">Gaming</SelectItem>
                 </SelectContent>
               </Select>
+              {errors.category && touched.category && (
+                <p className="text-xs text-red-600 mt-1 flex items-center gap-1">
+                  <span className="inline-block w-1 h-1 bg-red-600 rounded-full"></span>
+                  {errors.category}
+                </p>
+              )}
             </div>
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">Product Tags</label>
               <input
                 type="text"
+                value={formData.tags}
+                onChange={(e) => handleInputChange('tags', e.target.value)}
                 placeholder="e.g. New Arrival, Best Seller"
                 className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-teal"
               />
@@ -230,6 +420,42 @@ export default function ProductEditPage({ params }: { params: Promise<{ id: stri
           </div>
         </div>
       </div>
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 bg-white/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-xl max-w-md w-full overflow-hidden">
+            <div className="p-6 space-y-4">
+              <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mx-auto">
+                <CheckCircle size={32} className="text-green-600" />
+              </div>
+              <div className="text-center">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Changes Saved Successfully! 🎉</h3>
+                <p className="text-sm text-gray-600 mb-1">
+                  Your product <span className="font-semibold text-brand-dark">{formData.name}</span> has been updated.
+                </p>
+                <p className="text-xs text-gray-500">
+                  All changes have been saved and are now live in your catalog.
+                </p>
+              </div>
+              <div className="flex gap-3 pt-2">
+                <button
+                  onClick={() => router.push('/admin/products')}
+                  className="flex-1 px-4 py-2.5 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                >
+                  Back to Products
+                </button>
+                <button
+                  onClick={() => setShowSuccessModal(false)}
+                  className="flex-1 px-4 py-2.5 bg-brand-dark text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors"
+                >
+                  Continue Editing
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

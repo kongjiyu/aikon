@@ -25,6 +25,8 @@ export default function OrderListingPage() {
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
     const [currentPage, setCurrentPage] = useState(1);
+    const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
+    const [selectAll, setSelectAll] = useState(false);
     const itemsPerPage = 5;
 
     const toggleMenu = (menu: string) => {
@@ -75,6 +77,31 @@ export default function OrderListingPage() {
     const handleTabChange = (label: string) => {
         setActiveTab(label);
         setCurrentPage(1);
+    };
+
+    // Handle Select All
+    const handleSelectAll = () => {
+        if (selectAll) {
+            setSelectedOrders([]);
+            setSelectAll(false);
+        } else {
+            setSelectedOrders(paginatedOrders.map(order => order.id));
+            setSelectAll(true);
+        }
+    };
+
+    // Handle Individual Selection
+    const handleSelectOrder = (orderId: string) => {
+        if (selectedOrders.includes(orderId)) {
+            setSelectedOrders(selectedOrders.filter(id => id !== orderId));
+            setSelectAll(false);
+        } else {
+            const newSelected = [...selectedOrders, orderId];
+            setSelectedOrders(newSelected);
+            if (newSelected.length === paginatedOrders.length) {
+                setSelectAll(true);
+            }
+        }
     };
 
     return (
@@ -244,7 +271,12 @@ export default function OrderListingPage() {
                             <thead className="text-xs text-white uppercase bg-brand-sage">
                                 <tr>
                                     <th className="p-4 w-4">
-                                        <input type="checkbox" className="rounded border-gray-300 text-brand-sage focus:ring-brand-sage" />
+                                        <input 
+                                            type="checkbox" 
+                                            checked={selectAll}
+                                            onChange={handleSelectAll}
+                                            className="rounded border-gray-300 text-brand-sage focus:ring-brand-sage" 
+                                        />
                                     </th>
                                     <th className="px-4 py-3 font-medium">No.</th>
                                     <th className="px-4 py-3 font-medium">Order ID</th>
@@ -252,7 +284,7 @@ export default function OrderListingPage() {
                                     <th className="px-4 py-3 font-medium">Date</th>
                                     <th className="px-4 py-3 font-medium">Price</th>
                                     <th className="px-4 py-3 font-medium">Payment</th>
-                                    <th className="px-4 py-3 font-medium text-center">Status</th>
+                                    <th className="px-4 py-3 font-medium">Status</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-50">
@@ -262,7 +294,12 @@ export default function OrderListingPage() {
                                     return (
                                         <tr key={i} className="hover:bg-gray-50 group cursor-pointer">
                                             <td className="p-4">
-                                                <input type="checkbox" className="rounded border-gray-300 text-brand-sage focus:ring-brand-sage" />
+                                                <input 
+                                                    type="checkbox" 
+                                                    checked={selectedOrders.includes(item.id)}
+                                                    onChange={() => handleSelectOrder(item.id)}
+                                                    className="rounded border-gray-300 text-brand-sage focus:ring-brand-sage" 
+                                                />
                                             </td>
                                             <td className="px-4 py-4 text-gray-500">{item.id}</td>
                                             <td className="px-4 py-4 font-medium text-gray-900">
@@ -293,8 +330,8 @@ export default function OrderListingPage() {
                                                     <span className={`font-medium ${item.payment === 'Paid' ? 'text-gray-900' : 'text-gray-500'}`}>{item.payment}</span>
                                                 </div>
                                             </td>
-                                            <td className="px-4 py-4 text-center">
-                                                <div className={`flex items-center justify-center gap-2 ${item.status === 'Delivered' ? 'text-green-600' :
+                                            <td className="px-4 py-4">
+                                                <div className={`flex items-center gap-2 ${item.status === 'Delivered' ? 'text-green-600' :
                                                     item.status === 'Pending' ? 'text-orange-500' :
                                                         item.status === 'Shipped' ? 'text-blue-600' :
                                                             'text-red-500'
@@ -311,8 +348,16 @@ export default function OrderListingPage() {
                                     )
                                 }) : (
                                     <tr>
-                                        <td colSpan={8} className="p-8 text-center text-gray-500">
-                                            No orders found matching your criteria.
+                                        <td colSpan={8} className="px-4 py-16 text-center">
+                                            <div className="flex flex-col items-center justify-center">
+                                                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                                                    <Package className="text-gray-400" size={32} />
+                                                </div>
+                                                <h3 className="text-lg font-semibold text-gray-900 mb-2">No Orders Found</h3>
+                                                <p className="text-sm text-gray-500 max-w-sm">
+                                                    We couldn't find any orders matching your search or filter. Please try different criteria.
+                                                </p>
+                                            </div>
                                         </td>
                                     </tr>
                                 )}

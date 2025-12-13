@@ -34,7 +34,7 @@ export default function ForgotPasswordPage() {
               src="/images/loginPic.jpeg"
               alt="Forgot Password"
               fill
-              className="object-cover opacity-60"
+              className="object-cover opacity-100"
               priority
             />
           </div>

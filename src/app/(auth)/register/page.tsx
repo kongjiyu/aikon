@@ -56,7 +56,7 @@ export default function RegisterPage() {
             src="/images/loginPic.jpeg"
             alt="Sign Up"
             fill
-            className="object-cover opacity-60"
+            className="object-cover opacity-100"
             priority
           />
         </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Search,
     Filter,
@@ -13,20 +13,30 @@ import {
     UserPlus,
     Eye,
     ArrowUpRight,
-    Calendar
+    Calendar,
+    AlertTriangle,
+    CheckCircle,
+    Package
 } from 'lucide-react';
 import Link from 'next/link';
 import CustomersBarChart from '@/components/admin/charts/CustomersBarChart';
 
+interface Customer {
+    id: string;
+    name: string;
+    phone: string;
+    orders: number;
+    spend: string;
+    status: string;
+}
+
 export default function AdminCustomersPage() {
-    const [timeRange, setTimeRange] = React.useState<'thisWeek' | 'lastWeek'>('thisWeek');
-    const [activeMenu, setActiveMenu] = React.useState<string | null>(null);
-
-    const toggleMenu = (menu: string) => {
-        setActiveMenu(activeMenu === menu ? null : menu);
-    };
-
-    const customers = [
+    const [timeRange, setTimeRange] = useState<'thisWeek' | 'lastWeek'>('thisWeek');
+    const [activeMenu, setActiveMenu] = useState<string | null>(null);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [customerToDelete, setCustomerToDelete] = useState<Customer | null>(null);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [customers, setCustomers] = useState<Customer[]>([
         { id: '#CUST001', name: 'John Doe', phone: '+1234567890', orders: 25, spend: '3,450.00', status: 'Active' },
         { id: '#CUST002', name: 'Jane Smith', phone: '+1234567890', orders: 5, spend: '250.00', status: 'Inactive' },
         { id: '#CUST003', name: 'Emily Davis', phone: '+1234567890', orders: 30, spend: '4,600.00', status: 'VIP' },
@@ -35,7 +45,25 @@ export default function AdminCustomersPage() {
         { id: '#CUST006', name: 'David Lee', phone: '+1234567890', orders: 3, spend: '150.00', status: 'Inactive' },
         { id: '#CUST007', name: 'Lisa Anderson', phone: '+1234567890', orders: 45, spend: '6,700.00', status: 'VIP' },
         { id: '#CUST008', name: 'Robert Taylor', phone: '+1234567890', orders: 18, spend: '2,100.00', status: 'Active' },
-    ];
+    ]);
+
+    const toggleMenu = (menu: string) => {
+        setActiveMenu(activeMenu === menu ? null : menu);
+    };
+
+    const handleDeleteClick = (customer: Customer) => {
+        setCustomerToDelete(customer);
+        setShowDeleteConfirm(true);
+    };
+
+    const handleDeleteConfirm = () => {
+        if (customerToDelete) {
+            setCustomers(customers.filter(c => c.id !== customerToDelete.id));
+            setShowDeleteConfirm(false);
+            setShowSuccessModal(true);
+            setCustomerToDelete(null);
+        }
+    };
 
     return (
         <div className="space-y-6" onClick={() => setActiveMenu(null)}>
@@ -151,12 +179,27 @@ export default function AdminCustomersPage() {
                                     <th className="px-4 py-3 font-medium">Phone</th>
                                     <th className="px-4 py-3 font-medium text-center">Order Count</th>
                                     <th className="px-4 py-3 font-medium text-right">Total Spend</th>
-                                    <th className="px-4 py-3 font-medium text-center">Status</th>
+                                    <th className="px-4 py-3 font-medium">Status</th>
                                     <th className="px-4 py-3 font-medium text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
-                                {customers.map((customer) => (
+                                {customers.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={7} className="px-4 py-16 text-center">
+                                            <div className="flex flex-col items-center justify-center">
+                                                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                                                    <Users className="text-gray-400" size={32} />
+                                                </div>
+                                                <h3 className="text-lg font-semibold text-gray-900 mb-2">No Customers Yet</h3>
+                                                <p className="text-sm text-gray-500 max-w-sm">
+                                                    Your customer list is empty. Start adding customers to see them here.
+                                                </p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    customers.map((customer) => (
                                     <tr key={customer.id} className="hover:bg-gray-50 transition-colors">
                                         <td className="px-4 py-4 font-medium text-gray-900">
                                             <Link href="/admin/customers/1" className="hover:text-brand-teal hover:underline">
@@ -167,7 +210,7 @@ export default function AdminCustomersPage() {
                                         <td className="px-4 py-4 text-gray-600">{customer.phone}</td>
                                         <td className="px-4 py-4 text-center text-gray-600">{customer.orders}</td>
                                         <td className="px-4 py-4 text-right text-gray-900 font-medium">RM {customer.spend}</td>
-                                        <td className="px-4 py-4 text-center">
+                                        <td className="px-4 py-4">
                                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
                                         ${customer.status === 'Active' ? 'bg-green-100 text-green-800' :
                                                     customer.status === 'VIP' ? 'bg-yellow-100 text-yellow-800' :
@@ -184,13 +227,17 @@ export default function AdminCustomersPage() {
                                                 <button className="p-1 text-gray-400 hover:text-brand-teal transition-colors">
                                                     <Mail size={16} />
                                                 </button>
-                                                <button className="p-1 text-gray-400 hover:text-red-500 transition-colors">
+                                                <button 
+                                                    onClick={() => handleDeleteClick(customer)}
+                                                    className="p-1 text-gray-400 hover:text-red-500 transition-colors"
+                                                >
                                                     <Trash2 size={16} />
                                                 </button>
                                             </div>
                                         </td>
                                     </tr>
-                                ))}
+                                ))
+                                )}
                             </tbody>
                         </table>
                     </div>
@@ -213,6 +260,73 @@ export default function AdminCustomersPage() {
                     </button>
                 </div>
             </div>
+
+            {/* Delete Confirmation Modal */}
+            {showDeleteConfirm && customerToDelete && (
+                <div className="fixed inset-0 bg-white/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-2xl shadow-xl max-w-md w-full overflow-hidden">
+                        <div className="p-6 space-y-4">
+                            <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mx-auto">
+                                <AlertTriangle size={24} className="text-red-600" />
+                            </div>
+                            <div className="text-center">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-2">Delete Customer?</h3>
+                                <p className="text-sm text-gray-500 mb-3">
+                                    Are you sure you want to remove <span className="font-semibold text-gray-900">{customerToDelete.name}</span> from your customer list?
+                                </p>
+                                <p className="text-xs text-gray-400">
+                                    This action cannot be undone. All customer data and history will be permanently deleted.
+                                </p>
+                            </div>
+                            <div className="flex gap-3 pt-2">
+                                <button
+                                    onClick={() => {
+                                        setShowDeleteConfirm(false);
+                                        setCustomerToDelete(null);
+                                    }}
+                                    className="flex-1 px-4 py-2.5 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleDeleteConfirm}
+                                    className="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors"
+                                >
+                                    Delete Customer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Success Modal */}
+            {showSuccessModal && (
+                <div className="fixed inset-0 bg-white/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-2xl shadow-xl max-w-md w-full overflow-hidden">
+                        <div className="p-6 space-y-4">
+                            <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mx-auto">
+                                <CheckCircle size={32} className="text-green-600" />
+                            </div>
+                            <div className="text-center">
+                                <h3 className="text-xl font-semibold text-gray-900 mb-2">Customer Removed Successfully! ✨</h3>
+                                <p className="text-sm text-gray-600 mb-1">
+                                    The customer has been removed from your system.
+                                </p>
+                                <p className="text-xs text-gray-500">
+                                    Your customer list has been updated and all changes are now live.
+                                </p>
+                            </div>
+                            <button
+                                onClick={() => setShowSuccessModal(false)}
+                                className="w-full px-4 py-2.5 bg-brand-dark text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors"
+                            >
+                                Got it, thanks!
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
