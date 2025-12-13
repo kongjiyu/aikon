@@ -470,18 +470,12 @@ export default function Navbar() {
                 Compare
               </Link>
 
-              <Link href="/recommendations" className="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-medium text-sm">
-                <span>AI Assistant</span>
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
+              <Link href="/recommendations" className="text-gray-700 hover:text-gray-900 font-medium text-sm">
+                AI Assistant
               </Link>
 
-              <Link href="/products" className="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-medium text-sm">
-                <span>Products</span>
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
+              <Link href="/products" className="text-gray-700 hover:text-gray-900 font-medium text-sm">
+                Products
               </Link>
 
               {/* All Categories Trigger */}

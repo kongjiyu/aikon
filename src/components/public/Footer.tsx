@@ -70,6 +70,10 @@ export default function Footer() {
                 <span className="mr-2 text-gray-400">›</span>
                 <Link href="/products" className="hover:text-gray-900">All Categories</Link>
               </li>
+              <li className="flex items-center">
+                <span className="mr-2 text-gray-400">›</span>
+                <Link href="/faq" className="hover:text-gray-900">FAQ</Link>
+              </li>
             </ul>
           </div>
 

@@ -248,13 +248,6 @@ export default function CartPage() {
             </div>
           ))}
 
-            <div className="flex items-center justify-center -ml-60">
-            <Link href="/products">
-              <button className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:bg-gray-50 hover:text-brand-dark transition-colors">
-              <ArrowRight size={20} />
-              </button>
-            </Link>
-            </div>
         </div>
       </div>
     </div>
