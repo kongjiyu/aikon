@@ -45,7 +45,7 @@ const BRAND_LOGOS: Record<string, string> = {
     'Xiaomi': '/images/brands/xiaomi.svg',
     'Asus': '/images/brands/asus.svg',
     'Lenovo': '/images/brands/lenovo.svg',
-    'Sony': '/images/brands/sony.svg',
+    'Sony': '/images/brands/1.svg',
     'HP': '/images/brands/hp.svg',
     'Dell': '/images/brands/dell.svg',
 };

@@ -199,56 +199,56 @@ export default function CartPage() {
 
               {/* Actions */}
               <div className="absolute top-4 right-4 flex flex-col gap-2 z-10">
-                <button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleWishlist(product.id);
-                  }}
-                  className="p-1.5 bg-white rounded-full shadow transition-colors"
-                >
-                  <Heart 
-                    size={16} 
-                    className={wishlist.includes(product.id) ? 'fill-red-500 text-red-500' : 'text-gray-700 hover:text-red-500'}
-                  />
-                </button>
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleWishlist(product.id);
+            }}
+            className="p-1.5 bg-white rounded-full shadow transition-colors"
+          >
+            <Heart 
+              size={16} 
+              className={wishlist.includes(product.id) ? 'fill-red-500 text-red-500' : 'text-gray-700 hover:text-red-500'}
+            />
+          </button>
               </div>
 
               {/* Clickable Product Area */}
               <Link href={`/products/${product.id}`} className="block cursor-pointer">
-                {/* Image */}
-                <div className="aspect-square bg-white rounded-lg p-4 mb-4 flex items-center justify-center">
-                  <img src={product.images?.[0] || product.image} alt={product.name} className="w-full h-full object-contain mix-blend-multiply" />
-                </div>
+          {/* Image */}
+          <div className="aspect-square bg-white rounded-lg p-4 mb-4 flex items-center justify-center">
+            <img src={product.images?.[0] || product.image} alt={product.name} className="w-full h-full object-contain mix-blend-multiply" />
+          </div>
 
-                {/* Content */}
-                <div>
-                  <h3 className="font-bold text-gray-900 text-sm mb-1 truncate">{product.name}</h3>
-                  <div className="flex items-center gap-2 text-xs mb-2">
-                    <span className="text-red-500 font-bold">RM {product.price}</span>
-                    <span className="text-gray-400 line-through">RM {(product.price * 1.3).toFixed(0)}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <div className="flex text-yellow-400 text-[10px]">
-                      {[1, 2, 3, 4, 5].map(s => <span key={s}>★</span>)}
-                    </div>
-                    <span className="text-gray-400 text-[10px]">(88)</span>
-                  </div>
-                </div>
+          {/* Content */}
+          <div>
+            <h3 className="font-bold text-gray-900 text-sm mb-1 truncate">{product.name}</h3>
+            <div className="flex items-center gap-2 text-xs mb-2">
+              <span className="text-red-500 font-bold">RM {product.price}</span>
+              <span className="text-gray-400 line-through">RM {(product.price * 1.3).toFixed(0)}</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="flex text-yellow-400 text-[10px]">
+                {[1, 2, 3, 4, 5].map(s => <span key={s}>★</span>)}
+              </div>
+              <span className="text-gray-400 text-[10px]">(88)</span>
+            </div>
+          </div>
               </Link>
 
               {/* Hover Button */}
               <button 
-                onClick={(e) => {
-                  e.preventDefault();
-                  addToCart(product.id);
-                }}
-                className="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all bg-black text-white text-xs font-medium px-4 py-2 rounded-full shadow-lg whitespace-nowrap z-10">
-                Add To Cart
+          onClick={(e) => {
+            e.preventDefault();
+            addToCart(product.id);
+          }}
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 -left-5 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all bg-black text-white text-xs font-medium px-4 py-2 rounded-full shadow-lg whitespace-nowrap z-10">
+          Add To Cart
               </button>
             </div>
           ))}
 
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center -ml-60">
             <Link href="/products">
               <button className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:bg-gray-50 hover:text-brand-dark transition-colors">
               <ArrowRight size={20} />

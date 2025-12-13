@@ -61,7 +61,7 @@ export default function RecommendationsPage() {
     {
       id: 'iphone-16-pro-max',
       name: 'iPhone 16 Pro Max',
-      image: '/images/myOrder1.png',
+      image: '/images/homePage/iphone17.png',
       price: 5499.00,
       rating: 4.9,
       reason: 'Best overall choice for your needs. Features the longest battery life (up to 33 hours video playback), largest display (6.9"), and most powerful camera system with 5x telephoto zoom. Perfect for content creation and power users who demand the best performance.',
@@ -70,7 +70,7 @@ export default function RecommendationsPage() {
     {
       id: 'iphone-16-pro',
       name: 'iPhone 16 Pro',
-      image: '/images/myOrder2.png',
+      image: '/images/homePage/iphone17promax.webp',
       price: 4899.00,
       rating: 4.8,
       reason: 'Excellent balance of features and portability. Offers the same A18 Pro chip and camera system as the Pro Max in a more compact 6.3" form factor. Ideal for users who want pro features without the larger size.',
@@ -79,7 +79,7 @@ export default function RecommendationsPage() {
     {
       id: 'iphone-16',
       name: 'iPhone 16',
-      image: '/images/myOrder1.png',
+      image: '/images/homePage/xiaomi15tpro.webp',
       price: 3899.00,
       rating: 4.7,
       reason: 'Best value option with flagship performance. The A18 chip delivers excellent speed for daily tasks and gaming. Great camera quality with 48MP main sensor. Perfect for users who want the latest features at a more accessible price point.',

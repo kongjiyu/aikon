@@ -23,9 +23,9 @@ export default function ProductListingCard({ product }: ProductListingCardProps)
 
             {/* Content */}
             <div className="space-y-1">
-                {/* Brand / Series (Mocking generic brand for now if not in data, or use category) */}
+                {/* Product Type / Category */}
                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
-                    {product.specifications?.processor || 'POP MART'}
+                    {product.tags?.[0] || product.category}
                 </p>
 
                 {/* Product Name */}

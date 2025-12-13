@@ -330,7 +330,7 @@ export const iPhoneModels: ComparisonProduct[] = [
     brand: 'Apple',
     model: 'iPhone 16 Pro Max',
     name: 'iPhone 16 Pro Max',
-    image: '/images/iphone-16-pro-max.png',
+    image: '/images/homePage/iphone17.png',
     price: 5499.00,
     colors: ['Black Titanium', 'White Titanium', 'Natural Titanium', 'Desert Titanium'],
     specifications: {
@@ -430,7 +430,7 @@ export const iPhoneModels: ComparisonProduct[] = [
     brand: 'Apple',
     model: 'iPhone 16 Pro',
     name: 'iPhone 16 Pro',
-    image: '/images/iphone-16-pro.png',
+    image: '/images/homePage/iphone17promax.webp',
     price: 4899.00,
     colors: ['Black Titanium', 'White Titanium', 'Natural Titanium', 'Desert Titanium'],
     specifications: {
@@ -530,7 +530,7 @@ export const iPhoneModels: ComparisonProduct[] = [
     brand: 'Apple',
     model: 'iPhone 16',
     name: 'iPhone 16',
-    image: '/images/iphone-16.png',
+    image: '/images/homePage/xiaomi15tpro.webp',
     price: 3899.00,
     colors: ['Black', 'White', 'Pink', 'Teal', 'Ultramarine'],
     specifications: {

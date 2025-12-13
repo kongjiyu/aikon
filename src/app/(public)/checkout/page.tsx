@@ -155,8 +155,11 @@ export default function CheckoutPage() {
 
   const protectionPrice = 125.80;
   const totalProtection = Object.values(protectionStates).filter(Boolean).length * protectionPrice;
-  const shippingPrice = 5.19;
-  const totalPayment = merchandiseSubtotal + totalProtection + shippingPrice;
+  const baseShippingPrice = 5.19;
+  // Apply free shipping if voucher is selected
+  const shippingPrice = selectedVoucher?.type === 'Free Shipping' ? 0 : baseShippingPrice;
+  const voucherDiscount = selectedVoucher?.type === 'Free Shipping' ? 0 : (selectedVoucher?.discount || 0);
+  const totalPayment = merchandiseSubtotal + totalProtection + shippingPrice - voucherDiscount;
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
