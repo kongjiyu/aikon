@@ -17,7 +17,7 @@ export default function MockReturnRefundPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Page Header */}
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Lorem Ipsum Dolor Sit</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Return & Refund Request</h1>
         </div>
 
         {/* Main Container */}
@@ -36,10 +36,10 @@ export default function MockReturnRefundPage() {
               <div className="flex-1">
                 <h2 className="text-xl font-bold text-gray-900 mb-2">Lorem Ipsum Dolor Sit Amet</h2>
                 <div className="space-y-1 text-sm text-gray-700">
-                  <p><span className="font-semibold">Lorem ID:</span> #000000</p>
-                  <p><span className="font-semibold">Dolor:</span> Lorem, Ipsum</p>
-                  <p><span className="font-semibold">Sit:</span> 0</p>
-                  <p><span className="font-semibold">Amet:</span> RM 0,000.00</p>
+                  <p><span className="font-semibold">Order ID:</span> #000000</p>
+                  <p><span className="font-semibold">Color, Storage:</span> Lorem, Ipsum</p>
+                  <p><span className="font-semibold">Quantity:</span> 0</p>
+                  <p><span className="font-semibold">Price:</span> RM 0,000.00</p>
                 </div>
               </div>
             </div>
@@ -60,7 +60,7 @@ export default function MockReturnRefundPage() {
                     value="return"
                     checked={returnType === 'return'}
                     onChange={(e) => setReturnType(e.target.value as 'return' | 'refund')}
-                    className="w-4 h-4 text-[#2C3E3C] focus:ring-[#2C3E3C]"
+                    className="w-4 h-4 text-gray-700 focus:ring-gray-700"
                   />
                   <span className="text-sm text-gray-700">Return Product</span>
                 </label>
@@ -71,7 +71,7 @@ export default function MockReturnRefundPage() {
                     value="refund"
                     checked={returnType === 'refund'}
                     onChange={(e) => setReturnType(e.target.value as 'return' | 'refund')}
-                    className="w-4 h-4 text-[#2C3E3C] focus:ring-[#2C3E3C]"
+                    className="w-4 h-4 text-gray-700 focus:ring-gray-700"
                   />
                   <span className="text-sm text-gray-700">Refund Only</span>
                 </label>
@@ -81,7 +81,7 @@ export default function MockReturnRefundPage() {
             {/* Reason Dropdown */}
             <div>
               <label className="block text-sm font-bold text-gray-900 mb-3">
-                Amet Consectetur <span className="text-gray-600">*</span>
+                Reason for Request <span className="text-gray-600">*</span>
               </label>
               <select
                 required
@@ -101,7 +101,7 @@ export default function MockReturnRefundPage() {
             {/* Method Dropdown */}
             <div>
               <label className="block text-sm font-bold text-gray-900 mb-3">
-                {returnType === 'return' ? 'Adipiscing Elit' : 'Sed Do Eiusmod'} <span className="text-gray-600">*</span>
+                {returnType === 'return' ? 'Return Method' : 'Refund Method'} <span className="text-gray-600">*</span>
               </label>
               <select
                 required
@@ -127,7 +127,7 @@ export default function MockReturnRefundPage() {
             {/* Additional Information */}
             <div>
               <label className="block text-sm font-bold text-gray-900 mb-3">
-                Tempor Incididunt (Lorem)
+                Additional Information (Optional)
               </label>
               <textarea
                 rows={4}
@@ -142,13 +142,13 @@ export default function MockReturnRefundPage() {
                 type="button"
                 className="flex-1 py-3 px-6 border-2 border-gray-400 text-gray-900 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
               >
-                Button Text
+                Cancel
               </button>
               <button
                 type="submit"
                 className="flex-1 py-3 px-6 bg-gray-800 text-white rounded-lg font-semibold hover:bg-gray-700 transition-colors"
               >
-                Button Text
+                Submit Request
               </button>
             </div>
           </form>
@@ -174,7 +174,7 @@ export default function MockReturnRefundPage() {
 
             <div className="text-center mb-6">
               <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                Lorem Ipsum!
+                Request Submitted!
               </h3>
               <p className="text-gray-700 mb-2">
                 Lorem ipsum dolor sit amet consectetur adipiscing elit.
@@ -187,15 +187,15 @@ export default function MockReturnRefundPage() {
             <div className="bg-gray-100 rounded-lg p-4 mb-6">
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-700">Lorem ID:</span>
+                  <span className="text-gray-700">Request ID:</span>
                   <span className="font-semibold text-gray-900">#000000</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-700">Dolor Sit:</span>
+                  <span className="text-gray-700">Status:</span>
                   <span className="font-semibold text-gray-900">Lorem Ipsum</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-700">Amet:</span>
+                  <span className="text-gray-700">Expected Time:</span>
                   <span className="font-semibold text-gray-900">0-0 Consectetur</span>
                 </div>
               </div>
@@ -205,7 +205,7 @@ export default function MockReturnRefundPage() {
               onClick={() => setShowSuccessDialog(false)}
               className="w-full bg-gray-800 hover:bg-gray-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors"
             >
-              Button Text
+              Close
             </button>
           </div>
         </div>

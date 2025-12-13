@@ -95,7 +95,7 @@ export default function MockProductListingPage() {
           {/* Toolbar */}
           <div className="flex justify-end mb-6">
             <button className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-gray-900">
-              Lorem: Lorem Ipsum
+              Sort By: Lorem Ipsum
               <ChevronDown className="w-3 h-3" />
             </button>
           </div>

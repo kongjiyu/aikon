@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import { Sparkles, ArrowRight, CheckCircle2 } from 'lucide-react';
 import {
   Select,
@@ -91,7 +90,7 @@ export default function MockRecommendationsPage() {
         <div className="mb-8 text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Sparkles className="w-8 h-8 text-gray-600" />
-            <h1 className="text-3xl font-bold text-gray-900">Lorem Ipsum Dolor Sit</h1>
+            <h1 className="text-3xl font-bold text-gray-900">AI Gadget Recommender</h1>
           </div>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
@@ -104,7 +103,7 @@ export default function MockRecommendationsPage() {
             {/* Category */}
             <div>
               <label className="block text-sm font-semibold text-gray-900 mb-3">
-                Lorem ipsum dolor sit amet? <span className="text-gray-500">*</span>
+                What type of gadget are you looking for? <span className="text-gray-500">*</span>
               </label>
               <Select 
                 value={formData.category} 
@@ -128,7 +127,7 @@ export default function MockRecommendationsPage() {
               {/* Budget */}
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-3">
-                  Lorem Ipsum <span className="text-gray-500">*</span>
+                  Budget Range <span className="text-gray-500">*</span>
                 </label>
                 <Select 
                   value={formData.budget} 
@@ -150,7 +149,7 @@ export default function MockRecommendationsPage() {
               {/* Battery Life */}
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-3">
-                  Dolor Sit Amet
+                  Battery Life Priority
                 </label>
                 <Select 
                   value={formData.battery} 
@@ -170,7 +169,7 @@ export default function MockRecommendationsPage() {
               {/* Storage */}
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-3">
-                  Consectetur Adipiscing
+                  Storage Requirement
                 </label>
                 <Select 
                   value={formData.storage} 
@@ -191,7 +190,7 @@ export default function MockRecommendationsPage() {
               {/* Camera Quality */}
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-3">
-                  Sed Do Eiusmod
+                  Camera Quality Importance
                 </label>
                 <Select 
                   value={formData.camera} 
@@ -211,7 +210,7 @@ export default function MockRecommendationsPage() {
               {/* Performance */}
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-3">
-                  Tempor Incididunt
+                  Performance Needs
                 </label>
                 <Select 
                   value={formData.performance} 
@@ -231,7 +230,7 @@ export default function MockRecommendationsPage() {
               {/* Use Case */}
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-3">
-                  Ut Labore
+                  Primary Use Case
                 </label>
                 <Select 
                   value={formData.useCase} 
@@ -257,7 +256,7 @@ export default function MockRecommendationsPage() {
                 className="w-full bg-gray-800 hover:bg-gray-700 text-white py-3 px-6 rounded-lg font-semibold text-base transition-colors flex items-center justify-center gap-2"
               >
                 <Sparkles className="w-5 h-5" />
-                Button Text
+                Get Recommendations
               </button>
             </div>
           </form>
@@ -297,11 +296,9 @@ export default function MockRecommendationsPage() {
                         {/* Image and Basic Info */}
                         <div className="flex flex-col items-center text-center">
                           <div className="w-40 h-40 mb-4 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
-                            <img 
-                              src={product.image} 
-                              alt={product.name}
-                              className="w-full h-full object-contain"
-                            />
+                            <svg className="w-20 h-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
                           </div>
                           <h3 className="text-xl font-bold text-gray-900 mb-2">{product.name}</h3>
                           <p className="text-2xl font-bold text-gray-800 mb-2">RM 0,000.00</p>
@@ -318,7 +315,7 @@ export default function MockRecommendationsPage() {
                           <div className="mb-4">
                             <h4 className="text-sm font-bold text-gray-900 mb-2 flex items-center gap-2">
                               <CheckCircle2 className="w-5 h-5 text-gray-700" />
-                              Lorem Ipsum Dolor Sit
+                              Why We Recommend This
                             </h4>
                             <p className="text-gray-700 leading-relaxed">
                               {product.reason}
@@ -327,7 +324,7 @@ export default function MockRecommendationsPage() {
 
                           {/* Highlights */}
                           <div className="mb-4">
-                            <h4 className="text-sm font-bold text-gray-900 mb-3">Lorem Ipsum:</h4>
+                            <h4 className="text-sm font-bold text-gray-900 mb-3">Key Highlights:</h4>
                             <div className="grid grid-cols-2 gap-2">
                               {product.highlights.map((highlight, idx) => (
                                 <div key={idx} className="flex items-center gap-2 text-sm text-gray-700">
@@ -336,16 +333,6 @@ export default function MockRecommendationsPage() {
                                 </div>
                               ))}
                             </div>
-                          </div>
-
-                          {/* Action Buttons */}
-                          <div className="flex gap-3">
-                            <button className="flex-1 bg-gray-800 hover:bg-gray-700 text-white py-2 px-4 rounded-lg font-medium text-sm transition-colors">
-                              Button Text
-                            </button>
-                            <button className="flex-1 bg-white hover:bg-gray-50 text-gray-900 py-2 px-4 rounded-lg font-medium text-sm border border-gray-300 transition-colors">
-                              Button Text
-                            </button>
                           </div>
                         </div>
                       </div>
@@ -365,7 +352,7 @@ export default function MockRecommendationsPage() {
                 onClick={handleCompare}
                 className="bg-gray-800 hover:bg-gray-700 text-white py-3 px-8 rounded-lg font-semibold transition-colors inline-flex items-center gap-2"
               >
-                Button Text
+                Compare All
                 <ArrowRight className="w-5 h-5" />
               </button>
             </div>

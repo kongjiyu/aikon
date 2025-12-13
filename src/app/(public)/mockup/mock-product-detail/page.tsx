@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Star, Truck, ShieldCheck, Minus, Plus, X } from 'lucide-react';
+import { Star, Truck, ShieldCheck, Minus, Plus } from 'lucide-react';
 
 export default function MockProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
@@ -77,7 +77,7 @@ export default function MockProductDetailPage() {
           {/* Color Selection */}
           <div className="mb-8">
             <label className="block text-sm font-bold text-gray-900 mb-3">
-              Lorem: <span className="font-normal text-gray-700">Lorem Ipsum</span>
+              Color: <span className="font-normal text-gray-700">Lorem Ipsum</span>
             </label>
             <div className="flex gap-3">
               {colors.map((color, index) => (
@@ -96,7 +96,7 @@ export default function MockProductDetailPage() {
           {/* Storage Selection */}
           <div className="mb-8">
             <label className="block text-sm font-bold text-gray-900 mb-3">
-              Dolor: <span className="font-normal text-gray-700">{storageOptions[selectedStorage]}</span>
+              Storage: <span className="font-normal text-gray-700">{storageOptions[selectedStorage]}</span>
             </label>
             <div className="flex flex-wrap gap-3">
               {storageOptions.map((storage, index) => (
@@ -133,7 +133,7 @@ export default function MockProductDetailPage() {
               </button>
             </div>
             <button className="flex-1 bg-gray-800 text-white font-bold h-12 rounded-lg hover:bg-gray-700 transition-colors uppercase tracking-wide">
-              Button Text
+              Add to Cart
             </button>
           </div>
 
@@ -161,7 +161,7 @@ export default function MockProductDetailPage() {
 
           {/* Specs Summary */}
           <div className="mt-12 bg-gray-100 p-6 rounded-xl">
-            <h3 className="font-bold text-gray-900 mb-4">Lorem Ipsum Dolor</h3>
+            <h3 className="font-bold text-gray-900 mb-4">Key Specifications</h3>
             <div className="space-y-3 text-sm">
               {[1, 2, 3, 4, 5].map((spec) => (
                 <div key={spec} className="flex justify-between border-b border-gray-300 pb-2 last:border-0 last:pb-0">
