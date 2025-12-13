@@ -371,7 +371,7 @@ export default function ProductReviewsPage() {
                                         <div className="flex items-center gap-2">
                                             {review.adminReply && editingReview !== review.id && replyingTo !== review.id && (
                                                 <button 
-                                                    onClick={() => handleEditReview(review.id, review.adminReply)}
+                                                    onClick={() => handleEditReview(review.id, review.adminReply || '')}
                                                     className="flex items-center gap-1 text-xs text-gray-600 hover:text-gray-900 font-medium transition-colors"
                                                 >
                                                     <MessageSquare size={12} /> Edit Reply

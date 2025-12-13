@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
 
     MoreVertical,
@@ -20,6 +21,7 @@ import {
 import { mockOrders, mockProducts } from '@/lib/mockData';
 
 export default function OrderListingPage() {
+    const router = useRouter();
     const [activeTab, setActiveTab] = useState('All order');
     const [searchQuery, setSearchQuery] = useState('');
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
@@ -292,8 +294,18 @@ export default function OrderListingPage() {
                                     const mainProduct = mockProducts.find(p => p.id === item.items[0].productId);
 
                                     return (
-                                        <tr key={i} className="hover:bg-gray-50 group cursor-pointer">
-                                            <td className="p-4">
+                                        <tr 
+                                            key={i} 
+                                            className="hover:bg-gray-50 group cursor-pointer"
+                                            onClick={(e) => {
+                                                // Don't navigate if clicking on checkbox or links
+                                                if ((e.target as HTMLElement).tagName !== 'INPUT' && 
+                                                    !(e.target as HTMLElement).closest('a')) {
+                                                    router.push(`/admin/orders/${item.id}`);
+                                                }
+                                            }}
+                                        >
+                                            <td className="p-4" onClick={(e) => e.stopPropagation()}>
                                                 <input 
                                                     type="checkbox" 
                                                     checked={selectedOrders.includes(item.id)}

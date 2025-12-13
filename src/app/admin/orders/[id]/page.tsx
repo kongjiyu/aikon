@@ -65,20 +65,19 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
             <div className="divide-y divide-gray-50">
               {order.items.map((item, i) => {
                 const product = mockProducts.find(p => p.id === item.productId);
-                if (!product) return null;
 
                 return (
                   <div key={i} className="p-6 flex items-center gap-4">
                     <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 overflow-hidden">
-                      {product.image ? (
+                      {product?.image ? (
                         <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
                       ) : (
                         <Package size={24} />
                       )}
                     </div>
                     <div className="flex-1">
-                      <h4 className="font-medium text-gray-900">{product.name}</h4>
-                      <p className="text-sm text-gray-500">{product.category}</p>
+                      <h4 className="font-medium text-gray-900">{product?.name || `Product ${item.productId}`}</h4>
+                      <p className="text-sm text-gray-500">{product?.category || 'Unknown Category'}</p>
                     </div>
                     <div className="text-right">
                       <p className="font-medium text-gray-900">RM {(item.price * item.qty).toLocaleString()}</p>
@@ -111,52 +110,44 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
 
           {/* Order Timeline Horizontal */}
           <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 overflow-x-auto">
-            <div className="min-w-[600px] px-4">
-              <div className="relative">
-                {/* Connecting Line */}
-                <div className="absolute left-0 top-5 w-full h-1 bg-gray-100 rounded-full -z-0"></div>
-                <div
-                  className="absolute left-0 top-5 h-1 bg-brand-teal rounded-full -z-0 transition-all duration-500"
-                  style={{ width: order.status === 'Delivered' ? '100%' : '50%' }}
-                ></div>
-
-                <div className="flex justify-between items-start relative z-10">
-                  {/* Step 1 */}
-                  <div className="flex flex-col items-center gap-2">
-                    <div className="text-sm font-medium text-gray-400 mb-2">Order Confirmed</div>
-                    <div className="w-10 h-10 rounded-full bg-brand-sage border-4 border-white shadow-sm flex items-center justify-center">
-                      <div className="w-4 h-4 rounded-full bg-white"></div>
-                    </div>
-                    <div className="text-xs text-gray-500 font-medium mt-1">2025 Mon 1st</div>
-                  </div>
-
-                  {/* Step 2 */}
-                  <div className="flex flex-col items-center gap-2">
-                    <div className="text-sm font-medium text-gray-400 mb-2">Shipped</div>
-                    <div className="w-10 h-10 rounded-full bg-brand-sage border-4 border-white shadow-sm flex items-center justify-center">
-                      <div className="w-4 h-4 rounded-full bg-white"></div>
-                    </div>
-                    <div className="text-xs text-gray-500 font-medium mt-1">2025 Wed 11th</div>
-                  </div>
-
-                  {/* Step 3 */}
-                  <div className="flex flex-col items-center gap-2">
-                    <div className="text-sm font-medium text-gray-400 mb-2">Out of Delivery</div>
-                    <div className="w-10 h-10 rounded-full bg-brand-sage border-4 border-white shadow-sm flex items-center justify-center">
-                      <div className="w-4 h-4 rounded-full bg-white"></div>
-                    </div>
-                    <div className="text-xs text-gray-500 font-medium mt-1">2025 Fri 13th</div>
-                  </div>
-
-                  {/* Step 4 (Active/Delivered) */}
-                  <div className="flex flex-col items-center gap-2">
-                    <div className={`text-sm font-medium mb-2 ${order.status === 'Delivered' ? 'text-brand-teal' : 'text-gray-400'}`}>Delivered</div>
-                    <div className={`w-10 h-10 rounded-full border-4 border-white shadow-sm flex items-center justify-center ${order.status === 'Delivered' ? 'bg-brand-teal' : 'bg-gray-200'}`}>
-                      {order.status === 'Delivered' && <CheckCircle2 size={20} className="text-white" />}
-                    </div>
-                    <div className={`text-xs font-medium mt-1 ${order.status === 'Delivered' ? 'text-brand-teal' : 'text-gray-500'}`}>2025 Mon 16th</div>
-                  </div>
+            <div className="min-w-[600px]">
+              <div className="flex items-center justify-between relative">
+                {/* Progress Line */}
+                <div className="absolute top-5 left-0 right-0 h-0.5 bg-gray-200 -z-10">
+                  <div 
+                    className="h-full bg-green-600 transition-all duration-500"
+                    style={{ width: order.status === 'Delivered' ? '100%' : '66%' }}
+                  ></div>
                 </div>
+
+                {[
+                  { label: 'Order Confirmed', date: '2025 Mon 1st', status: 'completed' },
+                  { label: 'Shipped', date: '2025 Wed 11th', status: 'completed' },
+                  { label: 'Out of Delivery', date: '2025 Fri 13th', status: 'completed' },
+                  { label: 'Delivered', date: '2025 Mon 16th', status: order.status === 'Delivered' ? 'completed' : 'pending' },
+                ].map((stage, index) => (
+                  <div key={index} className="flex flex-col items-center flex-1">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 ${
+                      stage.status === 'completed' 
+                        ? 'bg-green-600 text-white' 
+                        : 'bg-gray-200 text-gray-400'
+                    }`}>
+                      {stage.status === 'completed' ? (
+                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      ) : (
+                        <div className="w-3 h-3 rounded-full bg-current"></div>
+                      )}
+                    </div>
+                    <p className={`text-sm font-medium text-center ${
+                      stage.status === 'completed' ? 'text-green-600' : 'text-gray-400'
+                    }`}>
+                      {stage.label}
+                    </p>
+                    <p className="text-xs text-gray-400 mt-1">{stage.date}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -207,7 +198,7 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
             <h3 className="font-semibold text-gray-900 mb-6">Payment Info</h3>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-6 bg-blue-600 rounded text-white text-[10px] font-bold flex items-center justify-center">VISA</div>
+              <img src="/images/visa.svg" alt="Visa" className="w-8 h-6 object-contain" />
               <span className="text-sm text-gray-900 font-medium">**** **** **** 4242</span>
             </div>
             <p className="text-sm text-gray-500">Payment via Stripe</p>

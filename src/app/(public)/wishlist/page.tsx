@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Heart } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Heart, ShoppingBag, CheckCircle, X } from 'lucide-react';
 
 // Mock wishlist data
 const mockWishlistItems = [
@@ -14,7 +15,7 @@ const mockWishlistItems = [
     originalPrice: 318.00,
     rating: 5,
     reviews: 51,
-    image: '/images/product-placeholder.jpg'
+    image: '/images/homePage/harmanKardonSoundsticks5.png'
   },
   {
     id: 2,
@@ -24,7 +25,7 @@ const mockWishlistItems = [
     originalPrice: 5299.00,
     rating: 4,
     reviews: 88,
-    image: '/images/product-placeholder.jpg'
+    image: '/images/homePage/appleimac2023.png'
   },
   {
     id: 3,
@@ -34,7 +35,7 @@ const mockWishlistItems = [
     originalPrice: 83.88,
     rating: 5,
     reviews: 72,
-    image: '/images/product-placeholder.jpg'
+    image: '/images/homePage/iphone17promax.webp'
   },
   {
     id: 4,
@@ -44,15 +45,27 @@ const mockWishlistItems = [
     originalPrice: 329.00,
     rating: 5,
     reviews: 63,
-    image: '/images/product-placeholder.jpg'
+    image: '/images/homePage/appleAirPodsPro(2ndgen).png'
   }
 ];
 
 export default function WishlistPage() {
+  const router = useRouter();
   const [wishlistItems, setWishlistItems] = useState(mockWishlistItems);
+  const [showModal, setShowModal] = useState(false);
+  const [addedProduct, setAddedProduct] = useState<typeof mockWishlistItems[0] | null>(null);
 
   const removeFromWishlist = (id: number) => {
     setWishlistItems(items => items.filter(item => item.id !== id));
+  };
+
+  const addToCart = (item: typeof mockWishlistItems[0]) => {
+    setAddedProduct(item);
+    setShowModal(true);
+    // Auto close after 3 seconds
+    setTimeout(() => {
+      setShowModal(false);
+    }, 3000);
   };
 
   const renderStars = (rating: number) => {
@@ -100,9 +113,7 @@ export default function WishlistPage() {
                     e.currentTarget.style.display = 'none';
                   }}
                 />
-                <div className="w-full h-full flex items-center justify-center text-gray-400">
-                  <span className="text-sm">No Image</span>
-                </div>
+                
               </div>
 
               {/* Product Details */}
@@ -135,7 +146,10 @@ export default function WishlistPage() {
 
                 {/* Action Buttons */}
                 <div className="flex gap-3 pt-4">
-                  <button className="flex-1 px-4 py-2.5 bg-[#6B8784] hover:bg-[#5a726f] text-white font-medium rounded-lg transition-colors">
+                  <button 
+                    onClick={() => addToCart(item)}
+                    className="flex-1 px-4 py-2.5 bg-[#6B8784] hover:bg-[#5a726f] text-white font-medium rounded-lg transition-colors"
+                  >
                     Add to Cart
                   </button>
                   <button 
@@ -168,6 +182,88 @@ export default function WishlistPage() {
           <Heart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
           <h2 className="text-xl font-semibold text-gray-900 mb-2">Your wishlist is empty</h2>
           <p className="text-gray-600">Add items you love to your wishlist!</p>
+        </div>
+      )}
+
+      {/* Success Modal */}
+      {showModal && addedProduct && (
+        <div className="fixed inset-0 backdrop-blur-sm bg-black bg-opacity-30 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative animate-in fade-in zoom-in duration-300">
+            {/* Close Button */}
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            {/* Success Icon */}
+            <div className="flex justify-center mb-6">
+              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center">
+                <CheckCircle className="w-12 h-12 text-green-600" />
+              </div>
+            </div>
+
+            {/* Message */}
+            <div className="text-center mb-6">
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                Awesome Choice! 🎉
+              </h3>
+              <p className="text-gray-600 mb-2">
+                <span className="font-semibold text-gray-900">{addedProduct.name}</span> has been added to your cart.
+              </p>
+              <p className="text-gray-500 text-sm">
+                You're one step closer to making it yours!
+              </p>
+            </div>
+
+            {/* Product Preview */}
+            <div className="bg-gray-50 rounded-lg p-4 mb-6 flex items-center gap-4">
+              <div className="w-20 h-20 bg-white rounded-lg flex items-center justify-center overflow-hidden flex-shrink-0">
+                <Image
+                  src={addedProduct.image}
+                  alt={addedProduct.name}
+                  width={80}
+                  height={80}
+                  className="object-cover w-full h-full"
+                  onError={(e) => {
+                    const target = e.currentTarget as HTMLImageElement;
+                    target.style.display = 'none';
+                    const parent = target.parentElement;
+                    if (parent) {
+                      const fallback = document.createElement('div');
+                      fallback.className = 'w-full h-full flex items-center justify-center';
+                      fallback.innerHTML = '<svg class="w-10 h-10 text-[#6B8784]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>';
+                      parent.appendChild(fallback);
+                    }
+                  }}
+                />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-900 mb-1">{addedProduct.name}</p>
+                <p className="text-xl font-bold text-[#6B8784]">RM {addedProduct.price.toFixed(2)}</p>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={() => {
+                  setShowModal(false);
+                  router.push('/cart');
+                }}
+                className="w-full px-6 py-3 bg-[#6B8784] hover:bg-[#5a726f] text-white font-semibold rounded-lg transition-colors"
+              >
+                View My Cart
+              </button>
+              <button
+                onClick={() => setShowModal(false)}
+                className="w-full px-6 py-3 border-2 border-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                Continue Shopping
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

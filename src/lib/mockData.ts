@@ -309,7 +309,7 @@ export const mockOrders: Order[] = [
         status: 'Delivered',
         payment: 'Paid',
         items: [
-            { productId: 'PROD005', qty: 1, price: 350.00 }
+            { productId: '5', qty: 1, price: 350.00 }
         ],
         total: 350.00
     },
@@ -323,7 +323,7 @@ export const mockOrders: Order[] = [
         status: 'Pending',
         payment: 'Unpaid',
         items: [
-            { productId: 'PROD001', qty: 1, price: 1199.00 }
+            { productId: '1', qty: 1, price: 1199.00 }
         ],
         total: 1199.00
     },
@@ -337,7 +337,7 @@ export const mockOrders: Order[] = [
         status: 'Delivered',
         payment: 'Paid',
         items: [
-            { productId: 'PROD002', qty: 1, price: 1299.00 }
+            { productId: '2', qty: 1, price: 1299.00 }
         ],
         total: 1299.00
     },
@@ -351,7 +351,7 @@ export const mockOrders: Order[] = [
         status: 'Shipped',
         payment: 'Paid',
         items: [
-            { productId: 'PROD006', qty: 1, price: 799.00 }
+            { productId: '6', qty: 1, price: 799.00 }
         ],
         total: 799.00
     },
@@ -365,7 +365,7 @@ export const mockOrders: Order[] = [
         status: 'Pending',
         payment: 'Unpaid',
         items: [
-            { productId: 'PROD007', qty: 1, price: 69.00 }
+            { productId: '7', qty: 1, price: 69.00 }
         ],
         total: 69.00
     },
@@ -379,7 +379,7 @@ export const mockOrders: Order[] = [
         status: 'Cancelled',
         payment: 'Unpaid',
         items: [
-            { productId: 'PROD003', qty: 1, price: 1299.00 }
+            { productId: '3', qty: 1, price: 1299.00 }
         ],
         total: 1299.00
     },
@@ -393,7 +393,7 @@ export const mockOrders: Order[] = [
         status: 'Delivered',
         payment: 'Paid',
         items: [
-            { productId: 'PROD004', qty: 1, price: 1099.00 }
+            { productId: '4', qty: 1, price: 1099.00 }
         ],
         total: 1099.00
     },
@@ -407,7 +407,7 @@ export const mockOrders: Order[] = [
         status: 'Delivered',
         payment: 'Paid',
         items: [
-            { productId: 'PROD008', qty: 1, price: 249.00 }
+            { productId: '8', qty: 1, price: 249.00 }
         ],
         total: 249.00
     }
