@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import TrendyProductCard from '@/components/public/TrendyProductCard';
 import FeaturedProductsSection from '@/components/public/FeaturedProductsSection';
-import VoucherCard from '@/components/public/VoucherCard';
+import VoucherCarousel from '@/components/public/VoucherCarousel';
 import HeroCarousel from '@/components/public/HeroCarousel';
 
 export default function HomePage() {
@@ -191,68 +191,35 @@ export default function HomePage() {
       {/* Exclusive Vouchers */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <h2 className="text-6xl font-bold text-teal-950 mb-12 text-center tracking-tight font-sans">Exclusive Vouchers For You</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <VoucherCard
-            title="10% Discount"
-            subtitle="WELCOME VOUCHER FOR FIRST PURCHASE"
-            description={`Valid for first-time customers only.\nApplicable for a single transaction per user.\nMinimum spend of RM 888.`}
-          />
-          <VoucherCard
-            title="RM 150 Rebate"
-            subtitle="BIRTHDAY VOUCHER DURING BIRTHDAY MONTH"
-            description={`Only valid during the customer’s birthday month.\nEach customer is entitled to 1 birthday voucher per year.\nMinimum spend of RM 1000.`}
-          />
-          <VoucherCard
-            title="RM 50 Discount For Both"
-            subtitle="REFER 1 FRIEND, BENEFITS 2 PEOPLE"
-            description={`Referrer and referee both receive the voucher.\nVoucher is not valid if the referee cancels.\nEach successful referral earns 1 voucher only.`}
-          />
-          <VoucherCard
-            title="RM 10 Discount"
-            subtitle="1 review, 1 voucher"
-            description={`Customer must submit a genuine review with photo.\nOne voucher per order review only.`}
-            isActive
-          />
-          <VoucherCard
-            title="10% Discount within 24 Hour"
-            subtitle="encouragement to proceed"
-            description={`Issued only to customers who abandon their cart.\nValid for a limited time (within 24 hours).`}
-          />
-          <VoucherCard
-            title="RM 30 Extra Discount"
-            subtitle="DO NOT FORGET YOUR ACCESSORIES"
-            description={`Only applicable when purchasing selected products.\nVoucher can only be used to purchase accessories.`}
-          />
-          <VoucherCard
-            title="RM 350 Loyalty Rebate"
-            subtitle="AN APPRECIATION GIFT SPECIAL FOR YOU"
-            description={`Rewarded when total spending reaches the RM 3,500.\nOne voucher per milestone level.`}
-          />
-          <VoucherCard
-            title="Free Accessory worth RM 50"
-            subtitle="A NEW YEAR, A NEW ACCESSORY"
-            description={`Only available during festive periods.\nNot applicable for bundled items.`}
-            isActive
-          />
-          <VoucherCard
-            title="18% Discount"
-            subtitle="DISCOUNT FOR NEWLY DEBUT PRODUCT"
-            description={`Applicable for early shoppers during product launches.\nValid only within the promo period.`}
-          />
-        </div>
+        <VoucherCarousel />
       </section>
 
-      {/* Bottom Features/Blog */}
+      {/* Bottom Category Strip */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 pb-20">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="relative aspect-[3/4] md:aspect-square rounded-lg overflow-hidden group cursor-pointer border border-gray-100">
-              <Image src={`/images/homePage/blog-${i}.png`} alt="Feature" fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
-                <span className="text-white text-xs font-bold uppercase mb-1">News</span>
-                <h4 className="text-white font-semibold text-sm leading-tight">Latest Tech Insights & Reviews</h4>
+          {[
+            { name: 'LAPTOP', image: '/images/homePage/section8-img1.png', link: '/products?category=laptop' },
+            { name: 'PERSONAL COMPUTER', image: '/images/homePage/section8-img2.png', link: '/products?category=pc' },
+            { name: 'TABLET', image: '/images/homePage/section8-img3.png', link: '/products?category=tablet' },
+            { name: 'PHONE', image: '/images/homePage/section8-img4.png', link: '/products?category=phone' },
+            { name: 'ACCESSORY', image: '/images/homePage/section8.png', link: '/products?category=accessories' },
+          ].map((item) => (
+            <Link key={item.name} href={item.link} className="relative aspect-[3/4] overflow-hidden group block">
+              <Image
+                src={item.image}
+                alt={item.name}
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-x-4 bottom-8 flex justify-center">
+                <div className="bg-white px-6 py-3 flex items-center gap-2 shadow-sm group-hover:bg-slate-50 transition-colors w-full justify-center">
+                  <span className="text-xs font-bold text-gray-900 tracking-wider uppercase whitespace-nowrap">{item.name}</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

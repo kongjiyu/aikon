@@ -56,8 +56,12 @@ export interface Product {
     isSale?: boolean;
     image: string; // Primary thumbnail
     images?: string[]; // Gallery
+    has3DModel?: boolean;
+    modelPath?: string;
     colors?: string[]; // Hex codes
     colorNames?: string[]; // Color names corresponding to hex codes
+    storageOptions?: string[]; // New: Available storage capacities
+    tags?: string[]; // New: Subcategories/Tags (e.g., "Gaming Laptop", "Flagship")
     variants?: {
         color: string;
         colorHex: string;
@@ -100,276 +104,197 @@ export interface Order {
     total: number;
 }
 
+// Mock Data
 export const mockProducts: Product[] = [
     {
-        id: 'PROD001',
-        name: 'iPhone 15 Pro Max',
-        description: 'Titanium design, A17 Pro chip, 48MP Main camera, and USB-C.',
-        category: 'Smartphones',
-        price: 1199.00,
-        stock: 45,
-        image: 'https://cdn.dummyjson.com/products/images/smartphones/iPhone%20X/1.png',
-        images: [
-            'https://cdn.dummyjson.com/products/images/smartphones/iPhone%20X/1.png',
-            'https://cdn.dummyjson.com/products/images/smartphones/iPhone%20X/2.png',
-            'https://cdn.dummyjson.com/products/images/smartphones/iPhone%20X/3.png'
-        ],
-        colors: ['#3C3C3D', '#F2F1ED', '#2F4F4F', '#4A4A4A'],
-        colorNames: ['Natural Titanium', 'White Titanium', 'Blue Titanium', 'Black Titanium'],
-        variants: [
-            { color: 'Natural Titanium', colorHex: '#3C3C3D', storage: '256GB', ram: '8GB', price: 1199.00, stock: 15 },
-            { color: 'Natural Titanium', colorHex: '#3C3C3D', storage: '512GB', ram: '8GB', price: 1399.00, stock: 12 },
-            { color: 'Natural Titanium', colorHex: '#3C3C3D', storage: '1TB', ram: '8GB', price: 1599.00, stock: 8 },
-            { color: 'White Titanium', colorHex: '#F2F1ED', storage: '256GB', ram: '8GB', price: 1199.00, stock: 10 },
-        ],
+        id: '1',
+        name: 'ASUS TUF Gaming A15',
+        description: 'Powerful gaming laptop with Ryzen 7 and RTX 3050. Built for durability and high-performance gaming on the go.',
+        category: 'Laptop',
+        tags: ['Gaming Laptop', 'TUF Gaming', 'High Performance'],
+        price: 3499,
+        originalPrice: 3999,
+        stock: 50,
+        rating: 4.8,
+        reviewsCount: 120,
+        sales: 450,
+        isSale: true,
+        image: '/images/homePage/asustufgaminga15.webp',
         specifications: {
-            ram: '8GB',
-            storage: '256GB / 512GB / 1TB',
-            processor: 'A17 Pro chip',
-            display: '6.7" Super Retina XDR display with ProMotion',
-            camera: '48MP Main | 12MP Ultra Wide | 12MP 2x Telephoto | 12MP 5x Telephoto',
-            battery: 'Up to 29 hours video playback',
-            os: 'iOS 17',
-            weight: '221g',
-            dimensions: '159.9 x 76.7 x 8.25 mm'
+            processor: 'AMD Ryzen 7 6800H',
+            ram: '16GB DDR5',
+            storage: '512GB NVMe SSD',
+            display: '15.6" FHD 144Hz',
+            battery: '90Wh',
+            os: 'Windows 11 Home',
+            weight: '2.20 kg'
         },
-        icon: Smartphone,
-        sales: 577
-    },
-    {
-        id: 'PROD002',
-        name: 'MacBook Air 15" M3',
-        description: 'Supercharged by M3, the 15-inch MacBook Air makes room for more of what you love with a spacious Liquid Retina display.',
-        category: 'Laptops',
-        price: 1299.00,
-        stock: 28,
-        image: 'https://cdn.dummyjson.com/products/images/laptops/Apple%20MacBook%20Pro%2014%20Inch%20Space%20Grey/1.png',
-        images: [
-            'https://cdn.dummyjson.com/products/images/laptops/Apple%20MacBook%20Pro%2014%20Inch%20Space%20Grey/1.png',
-            'https://cdn.dummyjson.com/products/images/laptops/Apple%20MacBook%20Pro%2014%20Inch%20Space%20Grey/2.png'
-        ],
-        colors: ['#2E2E30', '#E3E4E5', '#F0E5D3', '#1A1A1A'],
-        colorNames: ['Space Gray', 'Silver', 'Starlight', 'Midnight'],
-        variants: [
-            { color: 'Space Gray', colorHex: '#2E2E30', storage: '256GB SSD', ram: '8GB', price: 1299.00, stock: 10 },
-            { color: 'Space Gray', colorHex: '#2E2E30', storage: '512GB SSD', ram: '8GB', price: 1499.00, stock: 8 },
-            { color: 'Space Gray', colorHex: '#2E2E30', storage: '512GB SSD', ram: '16GB', price: 1699.00, stock: 5 },
-            { color: 'Silver', colorHex: '#E3E4E5', storage: '256GB SSD', ram: '8GB', price: 1299.00, stock: 5 },
-        ],
-        specifications: {
-            ram: '8GB / 16GB / 24GB unified memory',
-            storage: '256GB / 512GB / 1TB / 2TB SSD',
-            processor: 'Apple M3 chip (8-core CPU, 10-core GPU)',
-            display: '15.3" Liquid Retina display (2880 x 1864)',
-            camera: '1080p FaceTime HD camera',
-            battery: 'Up to 18 hours battery life',
-            os: 'macOS Sonoma',
-            weight: '1.51 kg',
-            dimensions: '340.4 x 237.4 x 11.5 mm'
-        },
+        colors: ['#2B2B2B'],
         icon: Laptop
     },
     {
-        id: 'PROD003',
-        name: 'Samsung Galaxy S24 Ultra',
-        description: 'Unleash new ways to create, connect and play with Galaxy AI.',
-        category: 'Smartphones',
-        price: 1299.00,
-        stock: 32,
-        image: 'https://cdn.dummyjson.com/products/images/smartphones/Samsung%20Galaxy%20S10/1.png',
+        id: '2',
+        name: 'iPhone 17 Pro Max',
+        description: 'The ultimate iPhone with titanium design, A18 Pro chip, and advanced camera system.',
+        category: 'Phone',
+        tags: ['Apple', 'Flagship', 'iPhone 15 Pro', 'Smartphones'],
+        price: 6999,
+        originalPrice: 7299,
+        stock: 25,
+        rating: 4.9,
+        reviewsCount: 350,
+        sales: 1200,
+        image: '/images/iphone17promax/9265d76e-7acd-4d42-becf-4537a5be56f9.webp', // Assuming this is the main one based on size/name or just picking first
         images: [
-            'https://cdn.dummyjson.com/products/images/smartphones/Samsung%20Galaxy%20S10/1.png',
-            'https://cdn.dummyjson.com/products/images/smartphones/Samsung%20Galaxy%20S10/2.png'
-        ],
-        colors: ['#000000', '#F5F5F5', '#F4E5C2', '#800080'],
-        colorNames: ['Titanium Black', 'Titanium Gray', 'Titanium Violet', 'Titanium Yellow'],
-        variants: [
-            { color: 'Titanium Black', colorHex: '#000000', storage: '256GB', ram: '12GB', price: 1299.00, stock: 12 },
-            { color: 'Titanium Black', colorHex: '#000000', storage: '512GB', ram: '12GB', price: 1419.00, stock: 10 },
-            { color: 'Titanium Black', colorHex: '#000000', storage: '1TB', ram: '12GB', price: 1659.00, stock: 5 },
-            { color: 'Titanium Gray', colorHex: '#F5F5F5', storage: '256GB', ram: '12GB', price: 1299.00, stock: 5 },
+            '/images/iphone17promax/9265d76e-7acd-4d42-becf-4537a5be56f9.webp',
+            '/images/iphone17promax/3f2c4b0a-e4b1-4b3f-b868-d02eb476c578.webp',
+            '/images/iphone17promax/7727a4c0-b3f3-4927-9127-ca3ade840991.webp',
+            '/images/iphone17promax/affb820b-5ce6-43eb-aecf-f19e46b36e17.webp',
+            '/images/iphone17promax/8f616c17-f68d-4a29-a6cd-1e3058f09e6c.webp',
+            '/images/iphone17promax/953eba60-7c22-4db0-a5a4-eca118d3e080.webp',
+            '/images/iphone17promax/6316cc1d-f74b-4c1e-b71c-fb7033320fa7.webp',
+            '/images/iphone17promax/d9ee9184-ea8a-43f4-b328-42dca1c4fa12.webp'
         ],
         specifications: {
-            ram: '12GB',
-            storage: '256GB / 512GB / 1TB',
-            processor: 'Snapdragon 8 Gen 3 for Galaxy',
-            display: '6.8" Dynamic AMOLED 2X (3120 x 1440)',
-            camera: '200MP Wide | 12MP Ultra Wide | 10MP Telephoto (3x) | 50MP Periscope Telephoto (5x)',
-            battery: '5000mAh with 45W fast charging',
-            os: 'Android 14 with One UI 6.1',
-            weight: '232g',
-            dimensions: '162.3 x 79 x 8.6 mm'
+            processor: 'A18 Pro chip',
+            ram: '8GB',
+            storage: '256GB',
+            display: '6.7" Super Retina XDR',
+            camera: '48MP Main | Ultra Wide | Telephoto',
+            battery: '4422 mAh',
+            os: 'iOS 18',
+            weight: '221 g'
         },
-        icon: Smartphone
+        colors: ['#E87D3E', '#E2E4E1', '#1B2F4B'], // Cosmic Orange, Silver, Deep Blue
+        colorNames: ['Cosmic Orange', 'Silver', 'Deep Blue'],
+        storageOptions: ['256GB', '512GB', '1TB', '2TB'],
+        icon: Smartphone,
+        has3DModel: true,
+        modelPath: '/iphone-17-pro-max-model/source/iphne Model.glb'
     },
     {
-        id: 'PROD004',
-        name: 'iPad Pro 12.9" (M2)',
-        description: 'Astonishing performance. Incredibly advanced displays. Superfast wireless connectivity.',
+        id: '3',
+        name: 'Samsung Galaxy Tab S9',
+        description: 'Premium Android tablet with Dynamic AMOLED 2X display and S Pen included.',
         category: 'Tablets',
-        price: 1099.00,
-        stock: 15,
-        image: 'https://cdn.dummyjson.com/products/images/tablets/iPad%20Mini%202021%20Starlight/1.png',
-        images: [
-            'https://cdn.dummyjson.com/products/images/tablets/iPad%20Mini%202021%20Starlight/1.png',
-            'https://cdn.dummyjson.com/products/images/tablets/iPad%20Mini%202021%20Starlight/2.png'
-        ],
-        colors: ['#808080', '#C0C0C0'],
-        colorNames: ['Space Gray', 'Silver'],
-        variants: [
-            { color: 'Space Gray', colorHex: '#808080', storage: '128GB', ram: '8GB', price: 1099.00, stock: 8 },
-            { color: 'Space Gray', colorHex: '#808080', storage: '256GB', ram: '8GB', price: 1299.00, stock: 4 },
-            { color: 'Silver', colorHex: '#C0C0C0', storage: '128GB', ram: '8GB', price: 1099.00, stock: 3 },
-        ],
+        tags: ['Samsung', 'Android Tablets', 'High Performance'],
+        price: 3299,
+        stock: 40,
+        rating: 4.7,
+        reviewsCount: 85,
+        image: '/images/homePage/lenovoIdeaTabTB-336fu.png', // Using existing placeholder
         specifications: {
-            ram: '8GB / 16GB unified memory',
-            storage: '128GB / 256GB / 512GB / 1TB / 2TB SSD',
-            processor: 'Apple M2 chip (8-core CPU, 10-core GPU)',
-            display: '12.9" Liquid Retina XDR display (2732 x 2048)',
-            camera: '12MP Wide, 10MP Ultra Wide',
-            battery: 'Up to 10 hours of surfing the web on Wi‑Fi or watching video',
-            os: 'iPadOS',
-            weight: '682g (Wi-Fi)',
-            dimensions: '280.6 x 214.9 x 6.4 mm'
+            processor: 'Snapdragon 8 Gen 2',
+            ram: '12GB',
+            storage: '256GB',
+            display: '11" Dynamic AMOLED 2X',
+            battery: '8400 mAh',
+            os: 'Android 13'
         },
+        colors: ['#E3E3E3', '#2C2C2C'],
         icon: Tablet
     },
     {
-        id: 'PROD005',
+        id: '4',
         name: 'Sony WH-1000XM5',
-        description: 'Industry-leading noise canceling headphones with magnificent sound and call quality.',
-        category: 'Audio',
-        price: 349.00,
+        description: 'Industry-leading noise canceling headphones with exceptional sound quality.',
+        category: 'Accessories',
+        tags: ['Audio', 'Wireless Headsets', 'Noise Cancelling'],
+        price: 1399,
         stock: 60,
-        image: 'https://cdn.dummyjson.com/products/images/mobile-accessories/Apple%20Airpods%20Pro/1.png',
-        images: [
-            'https://cdn.dummyjson.com/products/images/mobile-accessories/Apple%20Airpods%20Pro/1.png'
-        ],
-        colors: ['#2C2C2C', '#E0E0E0'],
-        colorNames: ['Black', 'Silver'],
-        variants: [
-            { color: 'Black', colorHex: '#2C2C2C', price: 349.00, stock: 40 },
-            { color: 'Silver', colorHex: '#E0E0E0', price: 349.00, stock: 20 },
-        ],
+        rating: 4.8,
+        reviewsCount: 210,
+        image: '/images/homePage/harmanKardonAuraStudio4.png', // Placeholder
         specifications: {
-            battery: 'Up to 30 hours with ANC, 40 hours without ANC',
-            weight: '250g',
             connectivity: 'Bluetooth 5.2',
-            features: 'Active Noise Cancellation, Ambient Sound Mode, Speak-to-Chat'
+            battery: '30 Hours',
+            features: 'ANC, Multipoint connection',
+            weight: '250 g'
         },
+        colors: ['#000000', '#F5F5F0'],
         icon: Headphones
     },
     {
-        id: 'PROD006',
-        name: 'Apple Watch Ultra 2',
-        description: 'The most rugged and capable Apple Watch, designed for outdoor adventures and extreme workouts.',
-        category: 'Wearables',
-        price: 799.00,
-        stock: 50,
-        image: 'https://cdn.dummyjson.com/products/images/wearables/Apple%20Watch%20Ultra/1.png',
-        images: [
-            'https://cdn.dummyjson.com/products/images/wearables/Apple%20Watch%20Ultra/1.png'
-        ],
-        colors: ['#C0C0C0'],
-        colorNames: ['Titanium'],
-        variants: [
-            { color: 'Titanium', colorHex: '#C0C0C0', storage: '64GB', price: 799.00, stock: 12 },
-        ],
+        id: '5',
+        name: 'ROG Strix G16',
+        description: 'Dominating eSports dominance with i9-13980HX and RTX 4080.',
+        category: 'Laptop',
+        tags: ['Gaming Laptop', 'ROG - Republic of Gamers', 'High Performance'],
+        price: 8999,
+        stock: 15,
+        rating: 4.9,
+        reviewsCount: 45,
+        image: '/images/homePage/acerAspireGo14.png', // Placeholder
         specifications: {
-            storage: '64GB',
-            processor: 'S9 SiP with 64-bit dual-core processor',
-            display: '1.92" Retina LTPO OLED Always-On display (502 x 410)',
-            battery: 'Up to 36 hours normal use, 72 hours Low Power Mode',
-            os: 'watchOS 10',
-            weight: '61.4g (without band)',
-            dimensions: '49mm case'
+            processor: 'Intel Core i9-13980HX',
+            ram: '32GB DDR5',
+            storage: '1TB PCIe 4.0 NVMe',
+            display: '16" QHD+ 240Hz',
+            os: 'Windows 11 Pro'
         },
-        icon: Watch
+        colors: ['#0E0E0E'],
+        icon: Laptop
     },
     {
-        id: 'PROD007',
-        name: 'PS5 DualSense Controller',
-        description: 'Discover a deeper, highly immersive gaming experience that brings the action to life in the palms of your hands.',
-        category: 'Gaming',
-        price: 69.00,
-        stock: 85,
-        image: 'https://cdn.dummyjson.com/products/images/mobile-accessories/Selfie%20Lamp%20with%20iPhone/1.png',
-        images: [
-            'https://cdn.dummyjson.com/products/images/mobile-accessories/Selfie%20Lamp%20with%20iPhone/1.png'
-        ],
-        colors: ['#FFFFFF', '#000000', '#FF0000', '#0000FF', '#FF1493'],
-        colorNames: ['White', 'Midnight Black', 'Cosmic Red', 'Starlight Blue', 'Nova Pink'],
-        variants: [
-            { color: 'White', colorHex: '#FFFFFF', price: 69.00, stock: 30 },
-            { color: 'Midnight Black', colorHex: '#000000', price: 69.00, stock: 25 },
-            { color: 'Cosmic Red', colorHex: '#FF0000', price: 74.00, stock: 15 },
-            { color: 'Starlight Blue', colorHex: '#0000FF', price: 74.00, stock: 10 },
-            { color: 'Nova Pink', colorHex: '#FF1493', price: 74.00, stock: 5 },
-        ],
+        id: '6',
+        name: 'Apple iMac 24"',
+        description: 'Supercharged by M3 chip. The world’s best all-in-one computer.',
+        category: 'Personal Computer',
+        tags: ['All-in-One PCs', 'Apple Mac', 'Desktops'],
+        price: 5999,
+        stock: 30,
+        rating: 4.8,
+        reviewsCount: 90,
+        image: '/images/homePage/appleimac2023.png',
         specifications: {
-            battery: 'Built-in rechargeable battery',
-            dimensions: '160 x 66 x 106 mm',
-            weight: '280g'
+            processor: 'Apple M3',
+            ram: '8GB Unified',
+            storage: '256GB SSD',
+            display: '24" 4.5K Retina',
+            features: '1080p FaceTime HD camera'
         },
+        colors: ['#3A84C3', '#E04F47', '#EED859', '#4EAB5D'],
         icon: Gamepad2
     },
     {
-        id: 'PROD008',
-        name: 'AirPods Pro 2',
-        description: 'Reengineered sound. Next-level Active Noise Cancellation and Adaptive Transparency.',
-        category: 'Audio',
-        price: 249.00,
-        stock: 8,
-        image: 'https://cdn.dummyjson.com/products/images/mobile-accessories/Apple%20Airpods/1.png',
-        images: [
-            'https://cdn.dummyjson.com/products/images/mobile-accessories/Apple%20Airpods/1.png'
-        ],
-        colors: ['#FFFFFF'],
-        colorNames: ['White'],
-        variants: [
-            { color: 'White', colorHex: '#FFFFFF', price: 249.00, stock: 8 },
-        ],
+        id: '7',
+        name: 'Xiaomi 15T Pro',
+        description: 'Co-engineered with Leica for professional photography.',
+        category: 'Phone',
+        tags: ['Xiaomi', 'Smartphones', 'Flagship'],
+        price: 2999,
+        stock: 100,
+        rating: 4.6,
+        reviewsCount: 150,
+        sales: 500,
+        image: '/images/homePage/xiaomi15tpro.webp',
         specifications: {
-            processor: 'Apple H2 chip',
-            battery: 'Up to 6 hours listening time (ANC on), Up to 30 hours with charging case',
-            weight: '5.3g per earbud, 50.8g charging case',
-            dimensions: 'Earbuds: 30.9 x 21.8 x 24.0 mm, Case: 45.2 x 60.6 x 21.7 mm'
+            processor: 'Dimensity 9300+',
+            camera: 'Leica Summilux lens',
+            battery: '5000 mAh',
+            display: '144Hz CrystalRes AMOLED'
         },
-        icon: Headphones
+        colors: ['#000000', '#365D8B', '#A7A7A7'],
+        icon: Smartphone
     },
     {
-        id: 'PROD009',
-        name: 'iPhone 18 Pro',
-        description: 'Next-generation A19 Pro chip with advanced AI capabilities, periscope telephoto camera system, and all-day battery life.',
-        category: 'Smartphones',
-        price: 1399.00,
-        stock: 35,
-        image: '/images/myOrder1.png',
-        images: [
-            '/images/myOrder1.png',
-            '/images/myOrder1.png',
-            '/images/myOrder1.png'
-        ],
-        colors: ['#2C2C2E', '#E8E8ED', '#B8A890', '#1C3D5A'],
-        colorNames: ['Deep Space', 'Starlight', 'Desert Titanium', 'Pacific Blue'],
-        variants: [
-            { color: 'Deep Space', colorHex: '#2C2C2E', storage: '256GB', ram: '8GB', price: 1399.00, stock: 12 },
-            { color: 'Deep Space', colorHex: '#2C2C2E', storage: '512GB', ram: '8GB', price: 1599.00, stock: 10 },
-            { color: 'Deep Space', colorHex: '#2C2C2E', storage: '1TB', ram: '8GB', price: 1799.00, stock: 6 },
-            { color: 'Starlight', colorHex: '#E8E8ED', storage: '256GB', ram: '8GB', price: 1399.00, stock: 7 },
-        ],
+        id: '8',
+        name: 'Logitech MX Master 3S',
+        description: 'Performance wireless mouse with ultrafast scrolling and 8K DPI.',
+        category: 'Accessories',
+        tags: ['Mice and Mouse Pads', 'Ergonomic Mice', 'Peripherals'],
+        price: 449,
+        stock: 80,
+        rating: 4.9,
+        reviewsCount: 400,
+        image: '/images/homePage/appleIphoneFineWovenWallet.png', // Placeholder
         specifications: {
-            ram: '8GB',
-            storage: '256GB / 512GB / 1TB',
-            processor: 'A19 Pro chip with Neural Engine',
-            display: '6.3" Super Retina XDR display with ProMotion (120Hz)',
-            camera: '48MP Fusion | 12MP Ultra Wide | 12MP 3x Telephoto | 12MP 5x Periscope Telephoto',
-            battery: 'Up to 27 hours video playback',
-            os: 'iOS 18',
-            weight: '199g',
-            dimensions: '146.6 x 70.6 x 8.25 mm'
+            connectivity: 'Bluetooth + Bolt Receiver',
+            battery: '70 Days',
+            features: 'MagSpeed Wheel, Quiet Clicks'
         },
-        icon: Smartphone
+        colors: ['#1A1A1A', '#E6E6E6'],
+        icon: Gamepad2
     }
 ];
 
@@ -500,26 +425,18 @@ export interface CartItem {
 export const initialCartItems: CartItem[] = [
     {
         id: 'cart-1',
-        productId: 'PROD009',
-        variant: 'Deep Space',
+        productId: '2',
+        variant: 'Cosmic Orange',
         storage: '512GB',
         qty: 1,
-        checked: false
+        checked: true
     },
     {
         id: 'cart-2',
-        productId: 'PROD002',
-        variant: 'Space Gray',
-        storage: '8GB RAM',
-        qty: 1,
-        checked: false
-    },
-    {
-        id: 'cart-3',
-        productId: 'PROD001',
-        variant: 'Natural Titanium',
+        productId: '7',
+        variant: 'Default',
         storage: '256GB',
-        qty: 2,
-        checked: false
+        qty: 1,
+        checked: true
     }
 ];

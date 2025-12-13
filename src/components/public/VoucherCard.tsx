@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface VoucherCardProps {
+export interface VoucherCardProps {
     title: string;
     subtitle: string;
     description: string;

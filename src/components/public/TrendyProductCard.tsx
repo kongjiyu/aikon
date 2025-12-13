@@ -106,7 +106,7 @@ export default function TrendyProductCard({
 
                 {/* CTA */}
                 <div className="pt-3 mt-auto">
-                    <Link href="#" className="flex items-center justify-center gap-2 text-sm font-bold text-sky-500 border border-sky-500 rounded-full py-2.5 px-5 hover:bg-sky-500 hover:text-white transition-all w-fit">
+                    <Link href="#" className="flex items-center justify-center gap-2 text-sm font-bold text-brand-teal border border-brand-teal rounded-full py-2.5 px-5 hover:bg-brand-teal hover:text-white transition-all w-fit">
                         Learn More
                         <div className="w-2.5 h-4 relative">
                             <div className="w-2.5 h-4 bg-current" style={{ clipPath: 'polygon(0 0, 100% 50%, 0 100%)', transform: 'scale(0.4)' }} />
