@@ -103,8 +103,8 @@ export default function Sidebar({ isCollapsed, toggleSidebar }: SidebarProps) {
                     <Link
                       href={item.href}
                       className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg transition-colors group relative ${isActive
-                          ? 'bg-gray-800 text-white'
-                          : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
+                        ? 'bg-gray-800 text-white'
+                        : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'
                         } ${isCollapsed ? 'justify-center' : ''}`}
                     >
                       <item.icon size={20} className={`flex-shrink-0 ${isActive ? 'text-white' : 'text-gray-400 group-hover:text-gray-600'}`} />
