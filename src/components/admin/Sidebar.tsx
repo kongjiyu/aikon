@@ -15,7 +15,8 @@ import {
   Store,
   LogOut,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  RotateCcw
 } from 'lucide-react';
 
 const menuItems = [
@@ -26,6 +27,7 @@ const menuItems = [
       { name: 'Order Management', href: '/admin/orders', icon: ShoppingCart },
       { name: 'Customers', href: '/admin/customers', icon: Users },
       { name: 'Coupon Code', href: '/admin/vouchers', icon: Ticket },
+      { name: 'Refund List', href: '/admin/refunds', icon: RotateCcw },
     ],
   },
   {
