@@ -59,8 +59,7 @@ export default function RefundProcessPage() {
                         <div>
                             <span className="text-xs font-medium text-gray-500 uppercase tracking-wider block mb-2">Customer Comment</span>
                             <p className="text-gray-700 text-sm leading-relaxed">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                I purchased these headphones two days ago, and the left earbud has a constant static noise. Connectivity drops frequently when my phone is in my pocket. I've tried resetting them multiple times but the issue persists.
                             </p>
                         </div>
                     </div>
@@ -82,12 +81,12 @@ export default function RefundProcessPage() {
                                     <tr>
                                         <td className="px-4 py-4">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 bg-gray-100 rounded-md flex items-center justify-center">
-                                                    <span className="text-xs text-gray-400">Img</span>
+                                                <div className="w-10 h-10 bg-gray-100 rounded-md flex items-center justify-center overflow-hidden">
+                                                    <img src="/images/homePage/appleAirPodsPro(2ndgen).png" alt="Product" className="w-full h-full object-contain" />
                                                 </div>
                                                 <div>
-                                                    <p className="font-medium text-gray-900">Wireless Headphones</p>
-                                                    <p className="text-xs text-gray-500">Black / Pro</p>
+                                                    <p className="font-medium text-gray-900">Apple AirPods Pro (2nd gen)</p>
+                                                    <p className="text-xs text-gray-500">White / MagSafe Case</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -113,9 +112,12 @@ export default function RefundProcessPage() {
                             Evidence & Attachments
                         </h2>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                            {[1, 2, 3].map((i) => (
-                                <div key={i} className="aspect-square bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors relative group">
-                                    <span className="text-xs text-gray-400">Image {i}</span>
+                            {[
+                                { id: 1, src: '/images/homePage/section8-img4.png', label: 'Box Damage' },
+                                { id: 2, src: '/images/homePage/appleAirPodsPro(2ndgen).png', label: 'Item Photo' }
+                            ].map((img) => (
+                                <div key={img.id} className="aspect-square bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors relative group overflow-hidden">
+                                    <img src={img.src} alt={img.label} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
                                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-lg">
                                         <span className="text-white text-xs font-medium">View</span>
                                     </div>
@@ -162,21 +164,21 @@ export default function RefundProcessPage() {
                         <h2 className="text-lg font-bold text-gray-900 mb-4">Customer Details</h2>
                         <div className="flex items-center gap-3 mb-4 pb-4 border-b border-gray-100">
                             <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-600 font-bold">
-                                LI
+                                SW
                             </div>
                             <div>
-                                <p className="font-semibold text-gray-900">Lorem Ipsum</p>
+                                <p className="font-semibold text-gray-900">Sarah Wilson</p>
                                 <p className="text-xs text-gray-500">Customer since 2023</p>
                             </div>
                         </div>
                         <div className="space-y-3 text-sm">
                             <div>
                                 <span className="text-gray-500 block text-xs">Email</span>
-                                <span className="text-gray-900 font-medium">lorem.ipsum@example.com</span>
+                                <span className="text-gray-900 font-medium">sarah.wilson@example.com</span>
                             </div>
                             <div>
                                 <span className="text-gray-500 block text-xs">Phone</span>
-                                <span className="text-gray-900 font-medium">+1 (555) 123-4567</span>
+                                <span className="text-gray-900 font-medium">+1 (555) 987-6543</span>
                             </div>
                             <div>
                                 <span className="text-gray-500 block text-xs">Total Orders</span>
