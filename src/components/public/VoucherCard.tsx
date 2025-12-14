@@ -31,7 +31,7 @@ export default function VoucherCard({ title, subtitle, description, isActive = f
                 ))}
             </div>
 
-            <div className="mt-auto text-xs font-bold underline decoration-2 underline-offset-4 text-gray-400 group-hover:text-brand-dark">
+            <div className={`mt-auto text-xs font-bold underline decoration-2 underline-offset-4 ${isActive ? 'text-[#10B981] group-hover:text-[#059669]' : 'text-gray-400 group-hover:text-brand-dark'}`}>
                 {isActive ? 'Collect Now' : 'View Details'}
             </div>
         </div>
