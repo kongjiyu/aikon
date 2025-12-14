@@ -22,7 +22,7 @@ export default function RefundProcessPage() {
     };
 
     return (
-        <div className="space-y-6 grayscale max-w-5xl mx-auto">
+        <div className="space-y-6 max-w-5xl mx-auto">
             {/* Header & Back Navigation */}
             <div className="flex items-center gap-4 mb-8">
                 <Link
