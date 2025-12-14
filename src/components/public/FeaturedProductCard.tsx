@@ -28,7 +28,7 @@ export default function FeaturedProductCard({
             {/* Image Container */}
             <div className="relative aspect-square mb-4 bg-[#F3F4F6] rounded-lg overflow-hidden group-hover:shadow-md transition-shadow">
                 {isSale && (
-                    <span className="absolute top-3 left-3 bg-[#E5E7EB] text-slate-600 text-[10px] font-bold px-2 py-1 rounded-sm z-10 uppercase tracking-wide">
+                    <span className="absolute top-3 left-3 bg-[#FFDD55] text-black text-[10px] font-bold px-2 py-1 rounded-sm z-10 uppercase tracking-wide">
                         SALE!
                     </span>
                 )}

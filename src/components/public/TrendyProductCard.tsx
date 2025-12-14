@@ -31,7 +31,7 @@ export default function TrendyProductCard({
             {/* Image Container */}
             <div className="relative aspect-square mb-4 rounded-lg overflow-hidden bg-gray-50">
                 {isSale && (
-                    <span className="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-sm z-10 uppercase tracking-wide">
+                    <span className="absolute top-2 left-2 bg-[#FFDD55] text-black text-[10px] font-bold px-2 py-0.5 rounded-sm z-10 uppercase tracking-wide">
                         Sale
                     </span>
                 )}
