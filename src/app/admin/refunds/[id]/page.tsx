@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { ArrowLeft, CheckCircle, XCircle, AlertCircle, FileText, X } from 'lucide-react';
 import Link from 'next/link';
 
-export default function RefundProcessWireframe() {
+export default function RefundProcessPage() {
     const [showApproveModal, setShowApproveModal] = useState(false);
     const [showRejectModal, setShowRejectModal] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -26,7 +26,7 @@ export default function RefundProcessWireframe() {
             {/* Header & Back Navigation */}
             <div className="flex items-center gap-4 mb-8">
                 <Link
-                    href="/admin/refunds-wireframe"
+                    href="/admin/refunds"
                     className="p-2 hover:bg-gray-100 rounded-lg text-gray-500 hover:text-gray-900 transition-colors"
                 >
                     <ArrowLeft size={20} />
@@ -291,7 +291,7 @@ export default function RefundProcessWireframe() {
                             <p className="text-gray-600 mb-6">
                                 The customer has been notified and the order status has been updated.
                             </p>
-                            <Link href="/admin/refunds-wireframe" className="block w-full py-3 bg-gray-900 hover:bg-gray-800 text-white font-semibold rounded-lg transition-colors">
+                            <Link href="/admin/refunds" className="block w-full py-3 bg-gray-900 hover:bg-gray-800 text-white font-semibold rounded-lg transition-colors">
                                 Return to Refund List
                             </Link>
                         </div>
