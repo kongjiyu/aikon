@@ -18,7 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User, MapPin, Ticket, Heart, LogOut, RotateCw } from 'lucide-react';
+import { User, MapPin, Ticket, Heart, LogOut, RotateCw, Flame } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 // Mock Cart Data
@@ -574,6 +574,31 @@ export default function Navbar() {
                             );
                           })}
                         </div>
+
+                        {/* Trendy Section */}
+                        <div className="mt-8">
+                          <h4 className="font-bold text-[#0D3F4A] text-base mb-4">{activeContent.trendyTitle}</h4>
+                          <div className="space-y-3">
+                            <Link
+                              href={activeContent.trendyItem.url}
+                              onClick={() => setIsMegaMenuOpen(false)}
+                              className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-[#0D3F4A] transition-colors group"
+                            >
+                              <Flame className="w-4 h-4 text-[#0D3F4A] fill-[#0D3F4A]" />
+                              <span className="uppercase tracking-wide">{activeContent.trendyItem.name}</span>
+                            </Link>
+                            {activeContent.secondaryTrendyItem && (
+                              <Link
+                                href={activeContent.secondaryTrendyItem.url}
+                                onClick={() => setIsMegaMenuOpen(false)}
+                                className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-[#0D3F4A] transition-colors group"
+                              >
+                                <Flame className="w-4 h-4 text-[#0D3F4A] fill-[#0D3F4A]" />
+                                <span className="uppercase tracking-wide">{activeContent.secondaryTrendyItem.name}</span>
+                              </Link>
+                            )}
+                          </div>
+                        </div>
                       </div>
 
                       {activeSubData ? (
@@ -609,22 +634,6 @@ export default function Navbar() {
                               className="object-cover object-center z-0"
                               priority
                             />
-                            {/* Trendy Item Overlay */}
-                            <div className="absolute top-0 left-0 p-6 z-10 bg-gradient-to-b from-white/90 to-transparent w-full">
-                              <h4 className="font-bold text-[#0D3F4A] text-lg mb-1">{activeContent.trendyTitle}</h4>
-                              <div className="space-y-1">
-                                <p className="font-medium text-gray-900 text-sm flex items-center gap-1">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-brand-teal inline-block"></span>
-                                  {activeContent.trendyItem.name}
-                                </p>
-                                {activeContent.secondaryTrendyItem && (
-                                  <p className="font-medium text-gray-900 text-sm flex items-center gap-1">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-brand-teal inline-block"></span>
-                                    {activeContent.secondaryTrendyItem.name}
-                                  </p>
-                                )}
-                              </div>
-                            </div>
                           </div>
                         </>
                       ) : (
@@ -638,22 +647,6 @@ export default function Navbar() {
                             className="object-cover object-center"
                             priority
                           />
-                          {/* Trendy Item Overlay */}
-                          <div className="absolute top-0 left-0 p-8 z-10 bg-gradient-to-b from-white/90 to-transparent w-full">
-                            <h4 className="font-bold text-[#0D3F4A] text-2xl mb-2">{activeContent.trendyTitle}</h4>
-                            <div className="space-y-2">
-                              <p className="font-semibold text-gray-900 text-base flex items-center gap-2">
-                                <span className="w-2 h-2 rounded-full bg-brand-teal inline-block"></span>
-                                {activeContent.trendyItem.name}
-                              </p>
-                              {activeContent.secondaryTrendyItem && (
-                                <p className="font-semibold text-gray-900 text-base flex items-center gap-2">
-                                  <span className="w-2 h-2 rounded-full bg-brand-teal inline-block"></span>
-                                  {activeContent.secondaryTrendyItem.name}
-                                </p>
-                              )}
-                            </div>
-                          </div>
                         </div>
                       )}
                     </>
