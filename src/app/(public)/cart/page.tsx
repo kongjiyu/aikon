@@ -24,7 +24,7 @@ export default function CartPage() {
   const addToCart = (productId: string) => {
     // Check if product already exists in cart
     const existingItem = cartItems.find(item => item.productId === productId);
-    
+
     if (existingItem) {
       // Increase quantity if already in cart
       setCartItems(cartItems.map(item =>
@@ -103,53 +103,53 @@ export default function CartPage() {
 
           {/* Items */}
           <div className="divide-y divide-gray-100">
-          {cartItems.map((item) => {
-            const product = mockProducts.find(p => p.id === item.productId);
-            if (!product) return null;
+            {cartItems.map((item) => {
+              const product = mockProducts.find(p => p.id === item.productId);
+              if (!product) return null;
 
-            const lineTotal = product.price * item.qty;
+              const lineTotal = product.price * item.qty;
 
-            return (
-              <div key={item.id} className="grid grid-cols-12 gap-4 p-6 items-center text-center group">
-                <div className="col-span-5 text-left flex items-center gap-4">
-                  <input
-                    type="checkbox"
-                    checked={item.checked}
-                    onChange={() => toggleCheck(item.id)}
-                    className="w-5 h-5 rounded border-gray-300 text-brand-teal focus:ring-brand-teal"
-                  />
-                  <div className="w-16 h-16 rounded-lg p-2 flex-shrink-0">
-                    <img src={product.images?.[0] || product.image} alt={product.name} className="w-full h-full object-contain" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-gray-900 text-lg leading-tight">{product.name}</h3>
-                    <div className="text-gray-500 text-sm mt-1 flex items-center">
-                      <span className="min-w-[100px]">{item.variant}</span>
-                      {item.storage && (
-                        <>
-                          <span className="w-px h-4 bg-gray-300 mx-2"></span>
-                          <span className="min-w-[100px]">{item.storage}</span>
-                        </>
-                      )}
+              return (
+                <div key={item.id} className="grid grid-cols-12 gap-4 p-6 items-center text-center group">
+                  <div className="col-span-5 text-left flex items-center gap-4">
+                    <input
+                      type="checkbox"
+                      checked={item.checked}
+                      onChange={() => toggleCheck(item.id)}
+                      className="w-5 h-5 rounded border-gray-300 text-brand-teal focus:ring-brand-teal"
+                    />
+                    <div className="w-16 h-16 rounded-lg p-2 flex-shrink-0">
+                      <img src={product.images?.[0] || product.image} alt={product.name} className="w-full h-full object-contain" />
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-gray-900 text-lg leading-tight">{product.name}</h3>
+                      <div className="text-gray-500 text-sm mt-1 flex items-center">
+                        <span className="min-w-[100px]">{item.variant}</span>
+                        {item.storage && (
+                          <>
+                            <span className="w-px h-4 bg-gray-300 mx-2"></span>
+                            <span className="min-w-[100px]">{item.storage}</span>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-span-2">
-                  <div className="flex flex-col items-center">
-                    <span className="text-gray-400 line-through text-xs">RM {(product.price * 1.2).toFixed(2)}</span>
-                    <span className="text-gray-900 font-medium">RM {product.price.toFixed(2)}</span>
+                  <div className="col-span-2">
+                    <div className="flex flex-col items-center">
+                      <span className="text-gray-400 line-through text-xs">RM {(product.price * 1.2).toFixed(2)}</span>
+                      <span className="text-gray-900 font-medium">RM {product.price.toFixed(2)}</span>
+                    </div>
+                  </div>
+                  <div className="col-span-2 flex justify-center">
+                    <span className="font-medium text-gray-900">{item.qty}</span>
+                  </div>
+                  <div className="col-span-3 flex items-center justify-between pl-8 pr-4">
+                    <span className="font-bold text-gray-900">RM {lineTotal.toFixed(2)}</span>
+                    <button onClick={() => removeItem(item.id)} className="text-red-500 font-medium text-sm hover:underline hover:text-red-600">Delete</button>
                   </div>
                 </div>
-                <div className="col-span-2 flex justify-center">
-                  <span className="font-medium text-gray-900">{item.qty}</span>
-                </div>
-                <div className="col-span-3 flex items-center justify-between pl-8 pr-4">
-                  <span className="font-bold text-gray-900">RM {lineTotal.toFixed(2)}</span>
-                  <button onClick={() => removeItem(item.id)} className="text-red-500 font-medium text-sm hover:underline hover:text-red-600">Delete</button>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
           </div>
         </div>
 
@@ -173,7 +173,7 @@ export default function CartPage() {
               <span className="text-gray-500 text-sm mr-2">Total ({checkedCount} item):</span>
               <span className="text-2xl font-bold text-gray-900">RM {totalAmount.toFixed(0)}.00</span>
             </div>
-            <button 
+            <button
               onClick={handleCheckout}
               disabled={checkedCount === 0}
               className={`px-8 py-3 rounded text-white font-medium transition-colors ${checkedCount > 0 ? 'bg-brand-dark hover:bg-gray-800' : 'bg-gray-300 cursor-not-allowed'}`}
@@ -199,52 +199,52 @@ export default function CartPage() {
 
               {/* Actions */}
               <div className="absolute top-4 right-4 flex flex-col gap-2 z-10">
-          <button 
-            onClick={(e) => {
-              e.stopPropagation();
-              toggleWishlist(product.id);
-            }}
-            className="p-1.5 bg-white rounded-full shadow transition-colors"
-          >
-            <Heart 
-              size={16} 
-              className={wishlist.includes(product.id) ? 'fill-red-500 text-red-500' : 'text-gray-700 hover:text-red-500'}
-            />
-          </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleWishlist(product.id);
+                  }}
+                  className="p-1.5 bg-white rounded-full shadow transition-colors"
+                >
+                  <Heart
+                    size={16}
+                    className={wishlist.includes(product.id) ? 'fill-red-500 text-red-500' : 'text-gray-700 hover:text-red-500'}
+                  />
+                </button>
               </div>
 
               {/* Clickable Product Area */}
               <Link href={`/products/${product.id}`} className="block cursor-pointer">
-          {/* Image */}
-          <div className="aspect-square bg-white rounded-lg p-4 mb-4 flex items-center justify-center">
-            <img src={product.images?.[0] || product.image} alt={product.name} className="w-full h-full object-contain mix-blend-multiply" />
-          </div>
+                {/* Image */}
+                <div className="aspect-square bg-white rounded-lg p-4 mb-4 flex items-center justify-center relative group-hover:shadow-sm transition-shadow">
+                  <img src={product.images?.[0] || product.image} alt={product.name} className="w-full h-full object-contain mix-blend-multiply" />
 
-          {/* Content */}
-          <div>
-            <h3 className="font-bold text-gray-900 text-sm mb-1 truncate">{product.name}</h3>
-            <div className="flex items-center gap-2 text-xs mb-2">
-              <span className="text-red-500 font-bold">RM {product.price}</span>
-              <span className="text-gray-400 line-through">RM {(product.price * 1.3).toFixed(0)}</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <div className="flex text-yellow-400 text-[10px]">
-                {[1, 2, 3, 4, 5].map(s => <span key={s}>★</span>)}
-              </div>
-              <span className="text-gray-400 text-[10px]">(88)</span>
-            </div>
-          </div>
+                  {/* Hover Button - Moved inside image container */}
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      addToCart(product.id);
+                    }}
+                    className="absolute bottom-4 left-1/2 -translate-x-1/2 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all bg-black text-white text-xs font-medium px-4 py-2 rounded-full shadow-lg whitespace-nowrap z-20">
+                    Add To Cart
+                  </button>
+                </div>
+
+                {/* Content */}
+                <div>
+                  <h3 className="font-bold text-gray-900 text-sm mb-1 truncate">{product.name}</h3>
+                  <div className="flex items-center gap-2 text-xs mb-2">
+                    <span className="text-red-500 font-bold">RM {product.price}</span>
+                    <span className="text-gray-400 line-through">RM {(product.price * 1.3).toFixed(0)}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="flex text-yellow-400 text-[10px]">
+                      {[1, 2, 3, 4, 5].map(s => <span key={s}>★</span>)}
+                    </div>
+                    <span className="text-gray-400 text-[10px]">(88)</span>
+                  </div>
+                </div>
               </Link>
-
-              {/* Hover Button */}
-              <button 
-          onClick={(e) => {
-            e.preventDefault();
-            addToCart(product.id);
-          }}
-          className="absolute bottom-4 left-1/2 -translate-x-1/2 -left-5 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all bg-black text-white text-xs font-medium px-4 py-2 rounded-full shadow-lg whitespace-nowrap z-10">
-          Add To Cart
-              </button>
             </div>
           ))}
 
