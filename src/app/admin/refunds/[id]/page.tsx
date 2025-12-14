@@ -186,7 +186,7 @@ export default function RefundProcessPage() {
                             </div>
                         </div>
                         <div className="mt-4 pt-4 border-t border-gray-100">
-                            <Link href="/admin/customers-detail-wireframe" className="text-sm font-medium text-blue-600 hover:underline">
+                            <Link href="/admin/customers/CUST-123" className="text-sm font-medium text-blue-600 hover:underline">
                                 View Customer Profile
                             </Link>
                         </div>
@@ -198,7 +198,7 @@ export default function RefundProcessPage() {
                         <div className="space-y-3 text-sm">
                             <div className="flex justify-between">
                                 <span className="text-gray-500">Order ID</span>
-                                <Link href="/admin/orders-detail-wireframe" className="font-medium text-blue-600 hover:underline">#LO-5678</Link>
+                                <Link href="/admin/orders/LO-5678" className="font-medium text-blue-600 hover:underline">#LO-5678</Link>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-gray-500">Date</span>
