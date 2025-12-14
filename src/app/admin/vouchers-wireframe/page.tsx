@@ -58,7 +58,7 @@ export default function VouchersWireframe() {
             <p className="text-sm text-gray-600">Lorem Ipsum</p>
             <h3 className="text-3xl font-bold text-gray-900 mt-1">24</h3>
           </div>
-          <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-green-700">
+          <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-gray-700">
             <Ticket size={24} />
           </div>
         </div>
@@ -167,7 +167,7 @@ export default function VouchersWireframe() {
                       <div className="flex flex-col gap-2">
                         <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
                           <div
-                            className="h-full rounded-full bg-green-600"
+                            className="h-full rounded-full bg-gray-600"
                             style={{ width: `${(voucher.used / voucher.total) * 100}%` }}
                           ></div>
                         </div>
@@ -178,16 +178,14 @@ export default function VouchersWireframe() {
                     </td>
                     <td className="px-4 py-4">
                       <span
-                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${
-                          voucher.status === 'active'
-                            ? 'bg-green-100 text-green-700'
-                            : 'bg-gray-200 text-gray-700'
-                        }`}
+                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${voucher.status === 'active'
+                          ? 'bg-gray-100 text-gray-700'
+                          : 'bg-gray-200 text-gray-700'
+                          }`}
                       >
                         <span
-                          className={`w-1.5 h-1.5 rounded-full ${
-                            voucher.status === 'active' ? 'bg-green-600' : 'bg-gray-600'
-                          }`}
+                          className={`w-1.5 h-1.5 rounded-full ${voucher.status === 'active' ? 'bg-gray-600' : 'bg-gray-600'
+                            }`}
                         ></span>
                         {voucher.status === 'active' ? 'Lorem' : 'Ipsum'}
                       </span>
@@ -225,9 +223,8 @@ export default function VouchersWireframe() {
             {[1, 2, 3, 4, 5].map((page) => (
               <button
                 key={page}
-                className={`w-8 h-8 flex items-center justify-center rounded text-sm ${
-                  page === 1 ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-50'
-                }`}
+                className={`w-8 h-8 flex items-center justify-center rounded text-sm ${page === 1 ? 'bg-gray-900 text-white' : 'text-gray-600 hover:bg-gray-50'
+                  }`}
               >
                 {page}
               </button>
@@ -265,11 +262,10 @@ export default function VouchersWireframe() {
                   </label>
                   <input
                     type="text"
-                    className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 ${
-                      codeError
-                        ? 'border-red-300 focus:ring-red-500'
-                        : 'border-gray-300 focus:ring-gray-900'
-                    }`}
+                    className={`w-full px-4 py-2.5 border rounded-lg focus:outline-none focus:ring-2 ${codeError
+                      ? 'border-red-300 focus:ring-red-500'
+                      : 'border-gray-300 focus:ring-gray-900'
+                      }`}
                     placeholder="Lorem IPSUM2024"
                     onChange={(e) => setCodeError(e.target.value === 'DUPLICATE')}
                   />
@@ -540,8 +536,8 @@ export default function VouchersWireframe() {
             </button>
 
             <div className="p-8 text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle size={32} className="text-green-600" />
+              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle size={32} className="text-gray-600" />
               </div>
 
               <h3 className="text-xl font-bold text-gray-900 mb-2">
