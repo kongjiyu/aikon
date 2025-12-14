@@ -10,7 +10,7 @@ export default function FeaturedProductsSection() {
         {
             id: 'PROD_FP_1',
             name: 'ASUS TUF Gaming A15',
-            description: 'Running, Engineered mesh',
+            description: 'Gaming laptop',
             price: 3499.00,
             originalPrice: 4599.00,
             rating: 4.9,
@@ -21,7 +21,7 @@ export default function FeaturedProductsSection() {
         {
             id: 'PROD_FP_2',
             name: 'XIAOMI 15T PRO',
-            description: 'Running, Engineered mesh',
+            description: 'Flagship phone',
             price: 2999.00,
             originalPrice: 3399.00,
             rating: 4.9,
@@ -32,7 +32,7 @@ export default function FeaturedProductsSection() {
         {
             id: 'PROD_FP_3',
             name: 'iPhone 17 Pro Max',
-            description: 'Running, Engineered mesh',
+            description: 'Premium smartphone',
             price: 6999.00,
             originalPrice: 7599.00,
             rating: 4.9,
@@ -43,7 +43,7 @@ export default function FeaturedProductsSection() {
         {
             id: 'PROD_FP_4',
             name: 'Apple iMac 2023',
-            description: 'Running, Engineered mesh',
+            description: 'All-in-one desktop',
             price: 7299.00,
             originalPrice: 8299.00,
             rating: 4.9,
@@ -54,7 +54,7 @@ export default function FeaturedProductsSection() {
         {
             id: 'PROD_FP_5',
             name: 'Lenovo IdeaTab TB-336FU',
-            description: 'Running, Engineered mesh',
+            description: 'Android tablet',
             price: 829.00,
             originalPrice: 999.00,
             rating: 4.9,
@@ -65,7 +65,7 @@ export default function FeaturedProductsSection() {
         {
             id: 'PROD_FP_6',
             name: 'Acer Aspire Go 14',
-            description: 'Running, Engineered mesh',
+            description: 'Budget laptop',
             price: 2699.00,
             originalPrice: 3299.00,
             rating: 4.9,
@@ -76,7 +76,7 @@ export default function FeaturedProductsSection() {
         {
             id: 'PROD_FP_7',
             name: 'Apple Watch Ultra 3 GPS',
-            description: 'Running, Engineered mesh',
+            description: 'Rugged smartwatch',
             price: 3699.00,
             originalPrice: 4399.00,
             rating: 4.9,
@@ -87,7 +87,7 @@ export default function FeaturedProductsSection() {
         {
             id: 'PROD_FP_8',
             name: 'Apple AirPods Pro (2nd gen)',
-            description: 'Running, Engineered mesh',
+            description: 'Wireless earbuds',
             price: 799.00,
             originalPrice: 1099.00,
             rating: 4.9,
@@ -98,7 +98,7 @@ export default function FeaturedProductsSection() {
         {
             id: 'PROD_FP_9',
             name: 'Samsung Galaxy A36 5G',
-            description: 'Processor: 2.4GHz, 1.8GHz Weight (g): 195',
+            description: 'Midrange smartphone',
             price: 1399.00,
             originalPrice: 1599.00,
             rating: 4.9,
@@ -109,7 +109,7 @@ export default function FeaturedProductsSection() {
         {
             id: 'PROD_FP_10',
             name: 'Apple iPhone FineWoven Wallet',
-            description: 'Running, Engineered mesh',
+            description: 'MagSafe cardholder',
             price: 299.00,
             originalPrice: 319.00,
             rating: 4.9,
@@ -120,7 +120,7 @@ export default function FeaturedProductsSection() {
         {
             id: 'PROD_FP_11',
             name: 'iPhone 17',
-            description: 'Running, Engineered mesh',
+            description: 'Flagship smartphone',
             price: 6999.00,
             originalPrice: 7599.00,
             rating: 4.9,
@@ -131,7 +131,7 @@ export default function FeaturedProductsSection() {
         {
             id: 'PROD_FP_12',
             name: 'Harman Kardon Soundsticks 5',
-            description: 'Running, Engineered mesh',
+            description: 'Desktop speakers',
             price: 1899.00,
             originalPrice: 2299.00,
             rating: 4.9,
@@ -142,7 +142,7 @@ export default function FeaturedProductsSection() {
         {
             id: 'PROD_FP_13',
             name: 'HUAWEI Watch GT 5',
-            description: 'Running, Engineered mesh',
+            description: 'Fitness smartwatch',
             price: 999.00,
             originalPrice: 1000.00,
             rating: 4.9,
@@ -153,7 +153,7 @@ export default function FeaturedProductsSection() {
         {
             id: 'PROD_FP_14',
             name: 'Harman Kardon Aura Studio 4',
-            description: 'Running, Engineered mesh',
+            description: 'Bluetooth speaker',
             price: 2699.00,
             originalPrice: 3299.00,
             rating: 4.9,
@@ -164,7 +164,7 @@ export default function FeaturedProductsSection() {
         {
             id: 'PROD_FP_15',
             name: 'Samsung Galaxy Buds3',
-            description: 'Running, Engineered mesh',
+            description: 'Wireless earbuds',
             price: 599.00,
             originalPrice: 699.00,
             rating: 4.9,
@@ -175,7 +175,7 @@ export default function FeaturedProductsSection() {
         {
             id: 'PROD_FP_16',
             name: 'HONOR MagicPad 2 WiFi',
-            description: 'Running, Engineered mesh',
+            description: 'Android tablet',
             price: 2499.00,
             originalPrice: 3099.00,
             rating: 4.9,
