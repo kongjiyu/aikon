@@ -72,8 +72,11 @@ function ProductsContent() {
                 <ProductListingCard key={product.id} product={product} />
               ))
             ) : (
-              <div className="col-span-full text-center py-20 text-gray-500">
-                No products found matching your criteria.
+              <div className="col-span-full flex flex-col items-center justify-center py-20 text-gray-500 space-y-4">
+                <p>No products found matching your criteria.</p>
+                <a href="/products" className="text-brand-teal font-semibold hover:underline">
+                  View All Products
+                </a>
               </div>
             )}
           </div>
