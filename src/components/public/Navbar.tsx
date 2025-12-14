@@ -47,8 +47,8 @@ interface MegaMenuItem {
     items: string[];
     bannerImage?: string; // Optional override for subcategory specific banner
   }[];
-  trendyTitle: string;
-  trendyItem: { name: string; url: string };
+  trendyTitle?: string;
+  trendyItem?: { name: string; url: string };
   secondaryTrendyItem?: { name: string; url: string };
   bannerImage: string;
 }
@@ -149,8 +149,6 @@ const MEGA_MENU_DATA: Record<string, MegaMenuItem> = {
       { name: 'Docks Dongles and Cable', items: ['USB Hubs', 'HDMI Cables'], bannerImage: '/images/promotionSalesPoster.png' },
       { name: 'Keyboards', items: ['Wired Keyboards', 'Mechanical Keyboards', 'Membrane Keyboards'], bannerImage: '/images/promotionSalesPoster.png' }
     ],
-    trendyTitle: 'Trendy Accessories',
-    trendyItem: { name: 'Mechanical Keyboard', url: '/products/keyboard' },
     bannerImage: '/images/accessoriesPoster.png',
   }
 };
@@ -576,29 +574,31 @@ export default function Navbar() {
                         </div>
 
                         {/* Trendy Section */}
-                        <div className="mt-8">
-                          <h4 className="font-bold text-[#0D3F4A] text-base mb-4">{activeContent.trendyTitle}</h4>
-                          <div className="space-y-3">
-                            <Link
-                              href={activeContent.trendyItem.url}
-                              onClick={() => setIsMegaMenuOpen(false)}
-                              className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-[#0D3F4A] transition-colors group"
-                            >
-                              <Flame className="w-4 h-4 text-[#0D3F4A] fill-[#0D3F4A]" />
-                              <span className="uppercase tracking-wide">{activeContent.trendyItem.name}</span>
-                            </Link>
-                            {activeContent.secondaryTrendyItem && (
+                        {activeContent.trendyItem && (
+                          <div className="mt-8">
+                            <h4 className="font-bold text-[#0D3F4A] text-base mb-4">{activeContent.trendyTitle}</h4>
+                            <div className="space-y-3">
                               <Link
-                                href={activeContent.secondaryTrendyItem.url}
+                                href={activeContent.trendyItem.url}
                                 onClick={() => setIsMegaMenuOpen(false)}
                                 className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-[#0D3F4A] transition-colors group"
                               >
                                 <Flame className="w-4 h-4 text-[#0D3F4A] fill-[#0D3F4A]" />
-                                <span className="uppercase tracking-wide">{activeContent.secondaryTrendyItem.name}</span>
+                                <span className="uppercase tracking-wide">{activeContent.trendyItem.name}</span>
                               </Link>
-                            )}
+                              {activeContent.secondaryTrendyItem && (
+                                <Link
+                                  href={activeContent.secondaryTrendyItem.url}
+                                  onClick={() => setIsMegaMenuOpen(false)}
+                                  className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-[#0D3F4A] transition-colors group"
+                                >
+                                  <Flame className="w-4 h-4 text-[#0D3F4A] fill-[#0D3F4A]" />
+                                  <span className="uppercase tracking-wide">{activeContent.secondaryTrendyItem.name}</span>
+                                </Link>
+                              )}
+                            </div>
                           </div>
-                        </div>
+                        )}
                       </div>
 
                       {activeSubData ? (
