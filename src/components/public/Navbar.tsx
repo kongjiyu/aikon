@@ -79,7 +79,7 @@ const MEGA_MENU_DATA: Record<string, MegaMenuItem> = {
       }
     ],
     trendyTitle: 'Trendy Laptop',
-    trendyItem: { name: 'ASUS TUF GAMING A15', url: '/products/asus-tuf' },
+    trendyItem: { name: 'ASUS TUF GAMING A15', url: '/products/asus-tuf-gaming-a15' },
     bannerImage: '/images/laptopPoster.png',
   },
   'Personal Computer': {
@@ -107,7 +107,7 @@ const MEGA_MENU_DATA: Record<string, MegaMenuItem> = {
       }
     ],
     trendyTitle: 'Trendy PCs',
-    trendyItem: { name: 'ASUS V400 AIO (V470VA)', url: '/products/asus-v400' },
+    trendyItem: { name: 'ASUS V400 AiO (V470VA)', url: '/products/asus-v400-aio' },
     secondaryTrendyItem: { name: 'ASUS A3402', url: '/products/asus-a3402' },
     bannerImage: '/images/PCPoster.png',
   },
@@ -121,7 +121,8 @@ const MEGA_MENU_DATA: Record<string, MegaMenuItem> = {
       { name: 'Xiaomi', items: ['Xiaomi 14', 'Redmi Note 13', 'Poco F6'], bannerImage: '/images/promotionSalesPoster.png' }
     ],
     trendyTitle: 'Trendy Phone',
-    trendyItem: { name: 'Apple iPhone 17 Pro Max', url: '/products/iphone-17' },
+    trendyItem: { name: 'Apple iPhone 17 Pro Max', url: '/products/iphone-17-pro-max' },
+    secondaryTrendyItem: { name: 'XIAOMI 15T PRO', url: '/products/xiaomi-15t-pro' },
     bannerImage: '/images/phonePoster.png',
   },
   'Tablets': {
@@ -131,7 +132,8 @@ const MEGA_MENU_DATA: Record<string, MegaMenuItem> = {
       { name: 'Samsung', items: ['Galaxy Tab S9'], bannerImage: '/images/promotionSalesPoster.png' }
     ],
     trendyTitle: 'Trendy Tablets',
-    trendyItem: { name: 'iPad Air 5', url: '/products/ipad-air-5' },
+    trendyItem: { name: 'Apple iPad 9th generation', url: '/products/ipad-9th-gen' },
+    secondaryTrendyItem: { name: 'Lenovo IdeaTab TB-336FU', url: '/products/lenovo-ideatab' },
     bannerImage: '/images/tabletsPoster.png',
   },
   'Accessories': {
@@ -598,28 +600,60 @@ export default function Navbar() {
                           </div>
 
                           {/* Column 4: Banner Image Link */}
-                          <div className="col-span-4 relative bg-gray-50 group cursor-pointer hover:opacity-95 transition-opacity">
+                          <div className="col-span-4 relative bg-gray-50 group cursor-pointer hover:opacity-95 transition-opacity overflow-hidden">
                             <Link href="/products" onClick={() => setIsMegaMenuOpen(false)} className="absolute inset-0 z-20"></Link>
                             <Image
                               src={activeSubData.bannerImage || activeContent.bannerImage}
                               alt={activeContent.title}
                               fill
-                              className="object-contain object-center z-0"
+                              className="object-cover object-center z-0"
                               priority
                             />
+                            {/* Trendy Item Overlay */}
+                            <div className="absolute top-0 left-0 p-6 z-10 bg-gradient-to-b from-white/90 to-transparent w-full">
+                              <h4 className="font-bold text-[#0D3F4A] text-lg mb-1">{activeContent.trendyTitle}</h4>
+                              <div className="space-y-1">
+                                <p className="font-medium text-gray-900 text-sm flex items-center gap-1">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-brand-teal inline-block"></span>
+                                  {activeContent.trendyItem.name}
+                                </p>
+                                {activeContent.secondaryTrendyItem && (
+                                  <p className="font-medium text-gray-900 text-sm flex items-center gap-1">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-brand-teal inline-block"></span>
+                                    {activeContent.secondaryTrendyItem.name}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
                           </div>
                         </>
                       ) : (
                         /* Default/Pick Layout when no subcat selected but Category IS selected */
-                        <div className="col-span-7 relative bg-white group cursor-pointer hover:opacity-95 transition-opacity h-full min-h-[550px]">
+                        <div className="col-span-7 relative bg-white group cursor-pointer hover:opacity-95 transition-opacity h-full min-h-[550px] overflow-hidden">
                           <Link href="/products" onClick={() => setIsMegaMenuOpen(false)} className="absolute inset-0 z-20"></Link>
                           <Image
                             src={activeContent.bannerImage}
                             alt={activeContent.title}
                             fill
-                            className="object-contain object-center"
+                            className="object-cover object-center"
                             priority
                           />
+                          {/* Trendy Item Overlay */}
+                          <div className="absolute top-0 left-0 p-8 z-10 bg-gradient-to-b from-white/90 to-transparent w-full">
+                            <h4 className="font-bold text-[#0D3F4A] text-2xl mb-2">{activeContent.trendyTitle}</h4>
+                            <div className="space-y-2">
+                              <p className="font-semibold text-gray-900 text-base flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-brand-teal inline-block"></span>
+                                {activeContent.trendyItem.name}
+                              </p>
+                              {activeContent.secondaryTrendyItem && (
+                                <p className="font-semibold text-gray-900 text-base flex items-center gap-2">
+                                  <span className="w-2 h-2 rounded-full bg-brand-teal inline-block"></span>
+                                  {activeContent.secondaryTrendyItem.name}
+                                </p>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       )}
                     </>
