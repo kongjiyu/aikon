@@ -631,7 +631,7 @@ export default function Navbar() {
                               src={activeSubData.bannerImage || activeContent.bannerImage}
                               alt={activeContent.title}
                               fill
-                              className="object-cover object-center z-0"
+                              className="object-cover object-left z-0"
                               priority
                             />
                           </div>
@@ -644,7 +644,7 @@ export default function Navbar() {
                             src={activeContent.bannerImage}
                             alt={activeContent.title}
                             fill
-                            className="object-cover object-center"
+                            className="object-cover object-left"
                             priority
                           />
                         </div>
