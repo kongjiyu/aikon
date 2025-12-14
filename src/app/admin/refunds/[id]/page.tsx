@@ -90,15 +90,15 @@ export default function RefundProcessPage() {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-4 py-4 text-gray-600">$89.99</td>
+                                        <td className="px-4 py-4 text-gray-600">RM89.99</td>
                                         <td className="px-4 py-4 text-gray-600">1</td>
-                                        <td className="px-4 py-4 text-right font-medium text-gray-900">$89.99</td>
+                                        <td className="px-4 py-4 text-right font-medium text-gray-900">RM89.99</td>
                                     </tr>
                                 </tbody>
                                 <tfoot className="bg-gray-50 border-t border-gray-200">
                                     <tr>
                                         <td colSpan={3} className="px-4 py-3 text-right text-gray-600 font-medium">Refund Amount</td>
-                                        <td className="px-4 py-3 text-right font-bold text-gray-900">$89.99</td>
+                                        <td className="px-4 py-3 text-right font-bold text-gray-900">RM89.99</td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -182,7 +182,7 @@ export default function RefundProcessPage() {
                             </div>
                             <div>
                                 <span className="text-gray-500 block text-xs">Total Orders</span>
-                                <span className="text-gray-900 font-medium">12 Orders ($1,240.00 spent)</span>
+                                <span className="text-gray-900 font-medium">12 Orders (RM1,240.00 spent)</span>
                             </div>
                         </div>
                         <div className="mt-4 pt-4 border-t border-gray-100">
@@ -232,7 +232,7 @@ export default function RefundProcessPage() {
                             </div>
                             <h3 className="text-xl font-bold text-gray-900 text-center mb-2">Approve Refund?</h3>
                             <p className="text-gray-600 text-center mb-6">
-                                This will initiate a refund of <strong>$89.99</strong> to the customer's original payment method. This action cannot be undone.
+                                This will initiate a refund of <strong>RM89.99</strong> to the customer's original payment method. This action cannot be undone.
                             </p>
                             <div className="flex gap-3">
                                 <button onClick={() => setShowApproveModal(false)} className="flex-1 py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors">
