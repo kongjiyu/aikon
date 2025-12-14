@@ -211,12 +211,12 @@ export default function MockComparisonPage() {
                   {isPinned ? (
                     <>
                       <PinOff className="w-4 h-4" />
-                      Lorem Ipsum
+                      Pin
                     </>
                   ) : (
                     <>
                       <Pin className="w-4 h-4" />
-                      Lorem Ipsum
+                      Pin
                     </>
                   )}
                 </button>

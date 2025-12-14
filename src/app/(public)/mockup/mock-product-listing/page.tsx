@@ -39,7 +39,7 @@ export default function MockProductListingPage() {
 
           {/* Category Filter */}
           <div className="border-b border-gray-200 py-6">
-            <h3 className="font-bold text-sm uppercase tracking-wide text-gray-900 mb-4">Lorem Ipsum</h3>
+            <h3 className="font-bold text-sm uppercase tracking-wide text-gray-900 mb-4">Category Filter</h3>
             <div className="space-y-3">
               {['Lorem', 'Ipsum', 'Dolor', 'Sit', 'Amet'].map((cat) => (
                 <label key={cat} className="flex items-center gap-3 cursor-pointer group">
@@ -52,7 +52,7 @@ export default function MockProductListingPage() {
 
           {/* Tags Filter */}
           <div className="border-b border-gray-200 py-6">
-            <h3 className="font-bold text-sm uppercase tracking-wide text-gray-900 mb-4">Dolor Sit</h3>
+            <h3 className="font-bold text-sm uppercase tracking-wide text-gray-900 mb-4">Tags Filter</h3>
             <div className="space-y-3">
               {['Lorem Ipsum', 'Dolor Sit', 'Amet Consectetur', 'Adipiscing', 'Elit Sed'].map((tag) => (
                 <label key={tag} className="flex items-center gap-3 cursor-pointer group">
@@ -65,7 +65,7 @@ export default function MockProductListingPage() {
 
           {/* Brand Filter */}
           <div className="border-b border-gray-200 py-6">
-            <h3 className="font-bold text-sm uppercase tracking-wide text-gray-900 mb-4">Consectetur</h3>
+            <h3 className="font-bold text-sm uppercase tracking-wide text-gray-900 mb-4">Brand Filter</h3>
             <div className="grid grid-cols-2 gap-2">
               {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                 <div key={i} className="aspect-[3/2] bg-gray-200 rounded border border-gray-300 p-4 flex items-center justify-center">
@@ -77,7 +77,7 @@ export default function MockProductListingPage() {
 
           {/* Price Range */}
           <div className="border-b border-gray-200 py-6">
-            <h3 className="font-bold text-sm uppercase tracking-wide text-gray-900 mb-4">Adipiscing Elit</h3>
+            <h3 className="font-bold text-sm uppercase tracking-wide text-gray-900 mb-4">Price Range</h3>
             <p className="text-sm text-gray-600 mb-4">
               Lorem ipsum dolor (RM <span className="font-medium text-gray-900">0</span> - RM
               <span className="font-medium text-gray-900 mx-1">00000</span>).
@@ -120,7 +120,7 @@ export default function MockProductListingPage() {
 
                   {/* Product Name */}
                   <h3 className="text-sm font-bold text-gray-900 leading-tight line-clamp-2 min-h-[2.5em]">
-                    Lorem Ipsum Dolor Sit
+                    Product Name
                   </h3>
 
                   {/* Price */}
