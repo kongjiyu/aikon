@@ -135,7 +135,7 @@ export default function HomePage() {
             </div>
             {/* Tablet */}
             <div className="flex-1 relative overflow-hidden group">
-              <Image src="/images/homePage/section3-img4.jpg" alt="Tablet" fill className="object-cover transition-transform duration-500 group-hover:scale-110" />
+              <Image src="/images/homePage/section3-img4.jpg" alt="Tablet" fill className="object-cover object-top transition-transform duration-500 group-hover:scale-110" />
               <div className="absolute left-0 bottom-0 bg-[#657979]/90 w-[300px] h-[160px] p-6 flex flex-col items-center justify-center text-center transition-colors">
                 <h3 className="text-white text-2xl font-bold mb-4 font-sans">Big screen, light feel</h3>
                 <Link href="/products?category=tablet" className="text-[10px] font-bold font-sans text-white border border-white px-6 py-3 uppercase tracking-wider inline-block hover:bg-white hover:text-black transition-colors">EXPLORE TABLET</Link>
