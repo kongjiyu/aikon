@@ -98,7 +98,8 @@ export default function CartPage() {
             <div className="col-span-5 text-left pl-2">Product</div>
             <div className="col-span-2">Unit Price</div>
             <div className="col-span-2">Quantity</div>
-            <div className="col-span-3">Total Price</div>
+            <div className="col-span-2">Total Price</div>
+            <div className="col-span-1"></div>
           </div>
 
           {/* Items */}
@@ -143,8 +144,10 @@ export default function CartPage() {
                   <div className="col-span-2 flex justify-center">
                     <span className="font-medium text-gray-900">{item.qty}</span>
                   </div>
-                  <div className="col-span-3 flex items-center justify-between pl-8 pr-4">
+                  <div className="col-span-2 flex items-center justify-center">
                     <span className="font-bold text-gray-900">RM {lineTotal.toFixed(2)}</span>
+                  </div>
+                  <div className="col-span-1 flex items-center justify-end">
                     <button onClick={() => removeItem(item.id)} className="text-red-500 font-medium text-sm hover:underline hover:text-red-600">Delete</button>
                   </div>
                 </div>
