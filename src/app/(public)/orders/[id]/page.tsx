@@ -5,10 +5,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { mockOrders } from '@/data/mockData';
+import { X, MessageCircle, Phone, Mail } from 'lucide-react';
 
 export default function OrderDetailsPage() {
   const params = useParams();
   const orderId = params.id as string;
+  const [showHelpModal, setShowHelpModal] = useState(false);
+  const [helpType, setHelpType] = useState<'order' | 'delivery' | 'returns' | null>(null);
   
   // Find the order from mock data
   const order = mockOrders.find(o => o.id === orderId);
@@ -191,33 +194,51 @@ export default function OrderDetailsPage() {
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-3">Need Help</h3>
               <div className="space-y-2">
-                <Link href="#" className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#6B8784]">
+                <button 
+                  onClick={() => {
+                    setHelpType('order');
+                    setShowHelpModal(true);
+                  }}
+                  className="w-full flex items-center gap-2 text-sm text-gray-600 hover:text-[#6B8784] hover:bg-gray-50 p-2 rounded-lg transition-colors"
+                >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <span className="w-28">Order Issues</span>
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <span className="w-28 text-left">Order Issues</span>
+                  <svg className="w-3 h-3 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
-                </Link>
-                <Link href="#" className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#6B8784]">
+                </button>
+                <button 
+                  onClick={() => {
+                    setHelpType('delivery');
+                    setShowHelpModal(true);
+                  }}
+                  className="w-full flex items-center gap-2 text-sm text-gray-600 hover:text-[#6B8784] hover:bg-gray-50 p-2 rounded-lg transition-colors"
+                >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <span className="w-28">Delivery Info</span>
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <span className="w-28 text-left">Delivery Info</span>
+                  <svg className="w-3 h-3 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
-                </Link>
-                <Link href="#" className="flex items-center gap-2 text-sm text-gray-600 hover:text-[#6B8784]">
+                </button>
+                <button 
+                  onClick={() => {
+                    setHelpType('returns');
+                    setShowHelpModal(true);
+                  }}
+                  className="w-full flex items-center gap-2 text-sm text-gray-600 hover:text-[#6B8784] hover:bg-gray-50 p-2 rounded-lg transition-colors"
+                >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
                   </svg>
-                  <span className="w-28">Returns</span>
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <span className="w-28 text-left">Returns</span>
+                  <svg className="w-3 h-3 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
-                </Link>
+                </button>
               </div>
             </div>
 
@@ -246,6 +267,210 @@ export default function OrderDetailsPage() {
         </div>
         </div>
       </div>
+
+      {/* Help Modal */}
+      {showHelpModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div 
+            className="absolute inset-0 bg-black/20 backdrop-blur-sm" 
+            onClick={() => setShowHelpModal(false)}
+          ></div>
+          <div className="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full animate-in fade-in zoom-in duration-200 max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={() => setShowHelpModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            
+            <div className="p-8">
+              {/* Order Issues Help */}
+              {helpType === 'order' && (
+                <>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 bg-[#6B8784]/10 rounded-full flex items-center justify-center">
+                      <svg className="w-6 h-6 text-[#6B8784]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900">Order Issues</h3>
+                  </div>
+                  
+                  <div className="space-y-6">
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-3">Common Issues & Solutions</h4>
+                      <div className="space-y-4">
+                        <div className="bg-gray-50 p-4 rounded-lg">
+                          <p className="font-medium text-gray-900 mb-1">Wrong item received</p>
+                          <p className="text-sm text-gray-600">Contact our support team immediately with photos of the received item. We'll arrange a replacement or refund within 24 hours.</p>
+                        </div>
+                        <div className="bg-gray-50 p-4 rounded-lg">
+                          <p className="font-medium text-gray-900 mb-1">Item damaged or defective</p>
+                          <p className="text-sm text-gray-600">Please document the damage with photos and contact support. We offer free return shipping and full refunds for damaged items.</p>
+                        </div>
+                        <div className="bg-gray-50 p-4 rounded-lg">
+                          <p className="font-medium text-gray-900 mb-1">Order modification</p>
+                          <p className="text-sm text-gray-600">If your order hasn't shipped yet, you can modify the delivery address or cancel items. Contact support as soon as possible.</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-3">Contact Support</h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <a href="tel:+60123456789" className="flex items-center gap-2 p-3 bg-[#6B8784]/5 rounded-lg hover:bg-[#6B8784]/10 transition-colors">
+                          <Phone className="w-4 h-4 text-[#6B8784]" />
+                          <div>
+                            <p className="text-xs text-gray-600">Call us</p>
+                            <p className="text-sm font-medium text-gray-900">+60 12-345 6789</p>
+                          </div>
+                        </a>
+                        <a href="mailto:support@aikon.com" className="flex items-center gap-2 p-3 bg-[#6B8784]/5 rounded-lg hover:bg-[#6B8784]/10 transition-colors">
+                          <Mail className="w-4 h-4 text-[#6B8784]" />
+                          <div>
+                            <p className="text-xs text-gray-600">Email</p>
+                            <p className="text-sm font-medium text-gray-900">support@aikon.com</p>
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* Delivery Info Help */}
+              {helpType === 'delivery' && (
+                <>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 bg-[#6B8784]/10 rounded-full flex items-center justify-center">
+                      <svg className="w-6 h-6 text-[#6B8784]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900">Delivery Information</h3>
+                  </div>
+                  
+                  <div className="space-y-6">
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-3">Order #{orderId}</h4>
+                      <div className="bg-gray-50 p-4 rounded-lg space-y-3">
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Carrier</span>
+                          <span className="font-medium text-gray-900">J&T Express</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Tracking Number</span>
+                          <span className="font-medium text-gray-900">JT{orderId.substring(0, 10).toUpperCase()}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Estimated Delivery</span>
+                          <span className="font-medium text-gray-900">2025 Mon 16th</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Delivery Address</span>
+                          <span className="font-medium text-gray-900 text-right">Jalan Setapak, Genting Residence<br />67800 Kuala Ipoh</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-3">Delivery FAQs</h4>
+                      <div className="space-y-3">
+                        <div className="border-l-4 border-[#6B8784] pl-4">
+                          <p className="font-medium text-gray-900 mb-1">Can I change the delivery address?</p>
+                          <p className="text-sm text-gray-600">Yes, you can change the address before the item is shipped. Contact support immediately to update your delivery details.</p>
+                        </div>
+                        <div className="border-l-4 border-[#6B8784] pl-4">
+                          <p className="font-medium text-gray-900 mb-1">What if I'm not home during delivery?</p>
+                          <p className="text-sm text-gray-600">The courier will leave a notice and attempt redelivery. You can also arrange to pick up from the nearest collection point.</p>
+                        </div>
+                        <div className="border-l-4 border-[#6B8784] pl-4">
+                          <p className="font-medium text-gray-900 mb-1">How can I track my package?</p>
+                          <p className="text-sm text-gray-600">Use the tracking number provided above on the courier's website for real-time updates on your delivery status.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* Returns Help */}
+              {helpType === 'returns' && (
+                <>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 bg-[#6B8784]/10 rounded-full flex items-center justify-center">
+                      <svg className="w-6 h-6 text-[#6B8784]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900">Returns & Refunds</h3>
+                  </div>
+                  
+                  <div className="space-y-6">
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-3">Return Policy</h4>
+                      <div className="bg-[#6B8784]/5 p-4 rounded-lg space-y-2">
+                        <p className="text-sm text-gray-700">✓ 30-day return window from delivery date</p>
+                        <p className="text-sm text-gray-700">✓ Items must be in original condition with all packaging</p>
+                        <p className="text-sm text-gray-700">✓ Free return shipping for defective items</p>
+                        <p className="text-sm text-gray-700">✓ Full refund processed within 5-7 business days</p>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-3">How to Return</h4>
+                      <ol className="space-y-3">
+                        <li className="flex gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 bg-[#6B8784] text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
+                          <div>
+                            <p className="font-medium text-gray-900">Initiate Return</p>
+                            <p className="text-sm text-gray-600">Click the "Refund Product" button or contact support to start your return request.</p>
+                          </div>
+                        </li>
+                        <li className="flex gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 bg-[#6B8784] text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
+                          <div>
+                            <p className="font-medium text-gray-900">Pack Your Item</p>
+                            <p className="text-sm text-gray-600">Securely pack the item in its original packaging with all accessories included.</p>
+                          </div>
+                        </li>
+                        <li className="flex gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 bg-[#6B8784] text-white rounded-full flex items-center justify-center text-sm font-bold">3</span>
+                          <div>
+                            <p className="font-medium text-gray-900">Ship It Back</p>
+                            <p className="text-sm text-gray-600">Use the prepaid return label we'll email you, or arrange your own shipping.</p>
+                          </div>
+                        </li>
+                        <li className="flex gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 bg-[#6B8784] text-white rounded-full flex items-center justify-center text-sm font-bold">4</span>
+                          <div>
+                            <p className="font-medium text-gray-900">Get Your Refund</p>
+                            <p className="text-sm text-gray-600">Once we receive and inspect the item, your refund will be processed automatically.</p>
+                          </div>
+                        </li>
+                      </ol>
+                    </div>
+
+                    <div className="bg-amber-50 border border-amber-200 p-4 rounded-lg">
+                      <p className="text-sm text-amber-800">
+                        <strong>Note:</strong> Opened electronics and personalized items may not be eligible for return. Please review our full return policy for exceptions.
+                      </p>
+                    </div>
+
+                    <Link 
+                      href={`/orders/${orderId}/return-refund`}
+                      onClick={() => setShowHelpModal(false)}
+                      className="block w-full bg-[#2C3E3C] text-white py-3 px-6 rounded-lg font-medium hover:bg-[#3d5350] transition-colors text-center"
+                    >
+                      Start Return Process
+                    </Link>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
